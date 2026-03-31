@@ -1,0 +1,968 @@
+%% paper9-semiotic-density
+%% "Semiotic Density: From Ideographic Writing to Framework Injection"
+%% Renato Aparecido Gomes, 2026
+
+\documentclass[12pt,a4paper]{article}
+
+% ── Packages ──────────────────────────────────────────────────────────
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[english]{babel}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{xcolor}
+
+% ── Conditionally load packages (basic install compatibility) ─────────
+\IfFileExists{booktabs.sty}{\usepackage{booktabs}}{\newcommand{\toprule}{\hline}\newcommand{\midrule}{\hline}\newcommand{\bottomrule}{\hline}}
+\IfFileExists{longtable.sty}{\usepackage{longtable}}{}
+\IfFileExists{tabularx.sty}{\usepackage{tabularx}}{}
+\IfFileExists{multirow.sty}{\usepackage{multirow}}{}
+\IfFileExists{enumitem.sty}{\usepackage{enumitem}}{}
+\IfFileExists{csquotes.sty}{\usepackage{csquotes}}{}
+\IfFileExists{float.sty}{\usepackage{float}}{}
+\IfFileExists{caption.sty}{\usepackage{caption}}{}
+\IfFileExists{natbib.sty}{\usepackage[numbers,sort&compress]{natbib}}{}
+\IfFileExists{setspace.sty}{\usepackage{setspace}}{}
+\IfFileExists{titlesec.sty}{\usepackage{titlesec}}{}
+\IfFileExists{fancyhdr.sty}{\usepackage{fancyhdr}}{}
+\IfFileExists{CJKutf8.sty}{\usepackage{CJKutf8}\newcommand{\cjk}[1]{\begin{CJK}{UTF8}{gbsn}#1\end{CJK}}}{\newcommand{\cjk}[1]{\textit{[CJK: #1]}}}
+
+% ── Hyperref config ───────────────────────────────────────────────────
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!70!black,
+  citecolor=green!50!black,
+  urlcolor=blue!60!black,
+  pdftitle={Semiotic Density: From Ideographic Writing to Framework Injection},
+  pdfauthor={Renato Aparecido Gomes},
+  pdfsubject={Semiotic Density, Human-AI Interaction, Framework Injection},
+  pdfkeywords={Semiotic Density, Ideographic Writing, Framework Injection, Chain of Density, Prompt Engineering, Conceptual Blending}
+}
+
+% ── Theorem environments ──────────────────────────────────────────────
+\newtheorem{definition}{Definition}[section]
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{principle}{Principle}[section]
+\newtheorem{observation}{Observation}[section]
+\newtheorem{remark}{Remark}[section]
+
+% ── Spacing ───────────────────────────────────────────────────────────
+\IfFileExists{setspace.sty}{\onehalfspacing}{}
+
+% ── Title ─────────────────────────────────────────────────────────────
+\title{%
+  \vspace{-1cm}
+  \textbf{Semiotic Density:\\
+  From Ideographic Writing to Framework Injection}\\[0.5em]
+  \large Why Two Words Outperform Fifty Instructions\\in Human-AI Interaction
+}
+
+\author{
+  Renato Aparecido Gomes\\
+  Independent Researcher\\
+  S\~{a}o Paulo, Brazil\\
+  \texttt{renatoapgomes@gmail.com}\\
+  ORCID: \href{https://orcid.org/0009-0005-7380-9876}{0009-0005-7380-9876}
+}
+
+\date{March 2026}
+
+% ══════════════════════════════════════════════════════════════════════
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+% ── Abstract ──────────────────────────────────────────────────────────
+\begin{abstract}
+\noindent
+Ask an AI model to generate ``a selfie of a giraffe.''
+No instruction specifies the camera angle, the framing, the expression, the savanna backdrop, or the comic tension of a non-human animal performing a quintessentially human act.
+Yet the model produces all of it.
+Two words---\textit{selfie} and \textit{giraffe}---carry more implicit semantic information than fifty words of explicit instruction could encode.
+This paper identifies the mechanism behind this phenomenon: \textbf{semiotic density}, the ratio of implicit semantic field activated by a term to its explicit surface form.
+We trace this principle across three timescales.
+First, ideographic writing systems that have practiced density engineering for three millennia, composing characters like \cjk{明} (sun + moon = bright) and \cjk{信} (person + word = trust) through deliberate frame combination.
+Second, Chain of Density prompting \cite{adams2023}, which iteratively compresses summaries by replacing low-density phrases with entity-dense constructions.
+Third, Framework Injection \cite{gomes2026founding}, which designs persistent cognitive contexts using terms chosen for their semiotic density rather than their literal meaning.
+We ground these observations in Frame Semantics \cite{fillmore1982}, Prototype Theory \cite{rosch1975}, Conceptual Blending \cite{fauconnier2002}, and the Uniform Information Density hypothesis \cite{frank2008}.
+The central claim is that all three systems---separated by millennia---are manifestations of the same compression principle: maximizing implicit activation per unit of explicit form through structured composition.
+We formalize five Semiotic Density Engineering operations (\textsc{Densify}, \textsc{Rarefy}, \textsc{Rotate}, \textsc{Subtract}, \textsc{Blend}) and derive new design principles for human-AI interaction.
+The practical implication is immediate: the digital artisan who learns to compose with semiotic density, rather than to instruct with explicit verbosity, produces results that no amount of detailed specification can match.
+
+\medskip
+\noindent\textbf{Keywords:} Semiotic Density, Ideographic Writing, Framework Injection, Chain of Density, Conceptual Blending, Uniform Information Density, Prompt Engineering, Human-AI Interaction
+\end{abstract}
+
+\newpage
+\tableofcontents
+\newpage
+
+%% ════════════════════════════════════════════════════════════════════
+%% 1. INTRODUCTION
+%% ════════════════════════════════════════════════════════════════════
+\section{Introduction: Two Words, Fifty Instructions}
+\label{sec:introduction}
+
+``A selfie of a giraffe.''
+
+Five words.
+Three of them functional (\textit{a}, \textit{of}, \textit{a}).
+Two of them load-bearing: \textit{selfie} and \textit{giraffe}.
+
+And yet the result---whether generated by DALL-E, Midjourney, or Stable Diffusion---is immediately recognizable, frequently delightful, and strikingly consistent across models.
+The giraffe holds the camera (or appears to hold it) at arm's length.
+The angle is from slightly below.
+The background is blurred or shows open savanna.
+The expression is mugging---performative, self-aware, comic.
+The composition implies a front-facing smartphone camera.
+The lighting suggests outdoor daytime.
+
+None of this was specified.
+
+Now consider the alternative: an explicit instruction set attempting to reproduce the same result.
+
+\begin{quote}
+\textit{Generate an image of a giraffe in a natural savanna environment. The giraffe should appear to be holding a smartphone camera pointed at itself. The camera angle should be from slightly below, as if the giraffe is extending its foreleg to take the photo. The framing should be tight, showing primarily the head and upper neck. The giraffe's expression should appear self-aware and slightly comic. The background should be slightly out of focus. The lighting should be natural, outdoor, daytime.}
+\end{quote}
+
+Sixty-seven words.
+And they still miss the essential quality: the \textit{absurdity} of the blend, the comic incongruity of an animal performing a gesture that indexes an entire human social practice.
+The explicit version specifies mechanics.
+The dense version activates meaning.
+
+This is not an isolated curiosity.
+It is a fundamental principle of how meaning works---in natural language, in artificial intelligence systems, and in the 3,000-year-old technology of ideographic writing.
+The question this paper addresses is: what \textit{is} this phenomenon, what are its theoretical foundations, and how can we \textit{engineer} it?
+
+\subsection{The Compression Asymmetry}
+
+The selfie example reveals what we term the \textbf{compression asymmetry}: a semiotically dense expression activates far more semantic content than an expanded explicit version of nominally equivalent meaning.
+This is not merely a matter of brevity.
+Compression alone---stripping articles, using abbreviations---does not produce the effect.
+The phenomenon requires that the compressed terms carry structured implicit fields that interact productively.
+
+\textit{Selfie} does not merely denote a self-portrait photograph.
+It activates an entire \textit{frame} \cite{fillmore1982}: the arm extension gesture, the front-facing camera, the social media context, the performative self-presentation, the specific aesthetic of slight distortion from close focal distance, and even the cultural moment (post-2013 smartphone ubiquity) in which the practice became universal.
+Each of these elements is implicit---never stated, always present.
+
+\textit{Giraffe} does not merely denote a tall ungulate.
+It activates: the distinctive neck morphology, the savanna biome, the characteristic spotted pattern, the specific proportionality of the body, and a set of behavioral associations (gentle, slightly absurd, photogenic).
+
+The blend of these two frames---\textit{selfie} $\oplus$ \textit{giraffe}---produces emergent properties that exist in neither source frame.
+The comedy.
+The anthropomorphism.
+The physical impossibility rendered plausible.
+This is Conceptual Blending \cite{fauconnier2002} operating at the level of prompt design.
+
+\subsection{Scope and Contribution}
+
+This paper makes four contributions:
+
+\begin{enumerate}
+  \item \textbf{The Principle of Semiotic Density}: a formal definition and four explanatory observations that ground the phenomenon in distributional semantics and cognitive linguistics.
+  \item \textbf{The Ideographic Evidence}: a demonstration that Chinese character composition has practiced density engineering for three millennia, providing empirical validation of the principle at civilizational scale.
+  \item \textbf{The Three-System Isomorphism}: a structural mapping between ideographic composition (millennia), Framework Injection (years), and Chain of Density (seconds), showing they instantiate the same compression principle at different timescales.
+  \item \textbf{Five SDE Operations}: formalized operations (\textsc{Densify}, \textsc{Rarefy}, \textsc{Rotate}, \textsc{Subtract}, \textsc{Blend}) for engineering semiotic density in human-AI interaction contexts.
+\end{enumerate}
+
+
+%% ════════════════════════════════════════════════════════════════════
+%% 2. THE PRINCIPLE OF SEMIOTIC DENSITY
+%% ════════════════════════════════════════════════════════════════════
+\section{The Principle of Semiotic Density}
+\label{sec:principle}
+
+\begin{definition}[Semiotic Density]
+\label{def:semiotic-density}
+The \textbf{semiotic density} $\sigma(t)$ of a term $t$ is the ratio of implicit semantic activation to explicit surface form:
+\[
+  \sigma(t) = \frac{|\mathcal{F}(t)|}{|t|_{\text{surface}}}
+\]
+where $\mathcal{F}(t)$ is the set of frames, prototypes, associations, and inferential pathways activated by $t$ in a given context, and $|t|_{\text{surface}}$ is the surface complexity of $t$ (measured in tokens, characters, or morphemes).
+\end{definition}
+
+A term with high semiotic density activates a large, structured semantic field relative to its surface cost.
+A term with low semiotic density requires many surface tokens to convey limited meaning.
+
+\begin{principle}[Principle of Semiotic Density]
+\label{principle:psd}
+In any communication system---natural language, ideographic script, or AI prompt---\textbf{terms with higher semiotic density produce more effective communication than equivalent-meaning expansions of lower density}, because they activate coherent semantic fields rather than enumerating discrete properties.
+\end{principle}
+
+The principle is not that shorter is better.
+It is that \textit{denser} is better---and density is a function of the structured implicit field a term carries, not merely of its character count.
+
+\subsection{Four Explanatory Observations}
+
+We ground the principle with four observations that connect it to known phenomena.
+
+\begin{observation}[Why ``selfie'' works]
+\label{obs:selfie}
+The term \textit{selfie} has high semiotic density because it indexes a \textbf{cultural practice}, not merely a photographic technique.
+A cultural practice carries implicit knowledge of participants, instruments, settings, purposes, norms, and variations.
+When an AI model encounters \textit{selfie}, it activates this entire practice---not because it ``understands'' the practice, but because the distributional statistics of its training data encode the co-occurrence patterns of all these elements with the term \textit{selfie}.
+This is the statistical reflection of Firth's insight: ``You shall know a word by the company it keeps'' \cite{firth1957}.
+\end{observation}
+
+\begin{observation}[Why Framework Injection outperforms explicit instruction]
+\label{obs:fi}
+Framework Injection \cite{gomes2026founding} operates by installing persistent cognitive contexts composed of high-density terms.
+A framework term like \textit{compliance} does not merely denote rule-following; it activates an entire regulatory frame: legal requirements, audit trails, documentation standards, risk management, stakeholder accountability.
+When this term persists across an interaction, it functions as a \textbf{semantic radical}---a persistent field activator that colors every subsequent generation, much as the water radical \cjk{氵} colors every character it appears in.
+The explicit alternative---listing every regulatory requirement---would be both longer and less effective, because it would activate discrete facts rather than a coherent field.
+\end{observation}
+
+\begin{observation}[Why pidgin communication fails]
+\label{obs:pidgin}
+When users communicate with AI models using stripped-down, keyword-style input (what we might call ``prompt pidgin''), they reduce semiotic density by removing the very elements---morphological structure, domain terminology, cultural references---that activate rich semantic fields.
+``Make good picture animal Africa'' has low semiotic density: each term activates a broad, unfocused field.
+``A selfie of a giraffe'' has high semiotic density: each term activates a narrow, structured field, and their combination produces productive emergence.
+Pidgin strips the density that makes language work.
+\end{observation}
+
+\begin{observation}[Why expertise matters]
+\label{obs:expertise}
+Domain experts achieve higher semiotic density in their prompts not because they use longer or more complex language, but because they deploy domain-specific terms that carry dense, structured semantic fields.
+A radiologist asking for ``differential diagnosis of ground-glass opacities in a 45-year-old immunocompromised patient'' activates an entire diagnostic frame---the specific imaging pattern, the age-dependent differential, the immunological context---with a precision that no amount of lay language could match.
+This is why Framework Injection was conceived as a practice of \textit{digital craftsmanship} \cite{gomes2026founding}: like any craft, it rewards deep knowledge of one's materials.
+\end{observation}
+
+
+%% ════════════════════════════════════════════════════════════════════
+%% 3. THEORETICAL FOUNDATIONS
+%% ════════════════════════════════════════════════════════════════════
+\section{Theoretical Foundations}
+\label{sec:theory}
+
+The Principle of Semiotic Density draws on five established theoretical frameworks.
+Each contributes a distinct mechanism that, taken together, explain why density works.
+
+\subsection{Frame Semantics: Words Activate Worlds}
+\label{subsec:frames}
+
+Fillmore's Frame Semantics \cite{fillmore1982} proposes that words do not carry meaning in isolation.
+Instead, each word activates a \textbf{frame}---a structured knowledge representation that includes participants, relations, instruments, settings, and sequences of events.
+
+The word \textit{buy} does not merely denote a commercial transaction.
+It activates the \textsc{Commercial Transaction} frame, which includes: a buyer, a seller, goods, money, an exchange event, and the resulting transfer of ownership.
+Understanding \textit{buy} requires implicit access to all of these elements, even when they are not mentioned.
+
+For semiotic density, the implication is direct: a word's density is proportional to the richness of the frame it activates.
+Terms that index rich, structured frames are semiotically dense.
+Terms that index sparse or unstructured concepts are semiotically thin.
+
+\subsection{Prototype Theory: Not All Instances Are Equal}
+\label{subsec:prototypes}
+
+Rosch's Prototype Theory \cite{rosch1975} demonstrates that categories are organized around prototypical instances.
+A \textit{robin} is a more prototypical bird than a \textit{penguin}.
+When a category term is activated, the prototype is activated first and most strongly.
+
+For semiotic density, prototypicality provides the mechanism by which a single term can activate a specific, detailed instance rather than a vague category.
+\textit{Giraffe} does not activate a generic ``animal''; it activates the prototypical giraffe---long neck, spotted pattern, savanna setting.
+This specificity is what makes the term dense: it carries not just category membership, but prototypical exemplar detail.
+
+In AI systems, this maps directly to the distributional patterns in training data.
+The model's representation of ``giraffe'' is statistically centered on prototypical instances, producing generations that reflect prototype structure without explicit instruction.
+
+\subsection{Conceptual Blending: Emergence from Composition}
+\label{subsec:blending}
+
+Fauconnier and Turner's theory of Conceptual Blending \cite{fauconnier2002} provides the mechanism for how two dense terms combine to produce meaning that exists in neither source.
+In their framework, a blend involves:
+
+\begin{enumerate}
+  \item Two (or more) \textbf{input spaces}, each with its own structure.
+  \item A \textbf{generic space} that captures shared structure.
+  \item A \textbf{blended space} where elements from both inputs are combined to produce \textbf{emergent structure}---meaning that is not in either input.
+\end{enumerate}
+
+``Selfie of a giraffe'' blends:
+\begin{itemize}
+  \item \textbf{Input 1} (Selfie frame): human agent, smartphone, arm-extension gesture, front-facing camera, social media context, performative self-presentation.
+  \item \textbf{Input 2} (Giraffe frame): non-human animal, savanna, distinctive morphology, behavioral repertoire.
+  \item \textbf{Generic space}: an agent performing a self-directed action.
+  \item \textbf{Emergent structure}: anthropomorphic comedy, physical impossibility, violation of the human-exclusive nature of selfies, visual charm.
+\end{itemize}
+
+The emergent structure is the \textit{point}.
+It cannot be specified explicitly, because it arises from the interaction of frames, not from the properties of either frame alone.
+This is why dense expressions outperform explicit ones: they enable emergence.
+
+\subsection{Spreading Activation: Concepts Irradiate}
+\label{subsec:spreading}
+
+Collins and Loftus \cite{collins1975} proposed that semantic memory is organized as a network, where activating one concept spreads activation to related concepts.
+Activation decays with distance, producing a gradient: closely related concepts receive strong activation, distant ones receive weak activation.
+
+In the context of semiotic density, spreading activation explains \textit{how} a single term can activate an entire field.
+The word \textit{selfie} activates not just its immediate definition but a cascade: \textit{camera} $\rightarrow$ \textit{smartphone} $\rightarrow$ \textit{social media} $\rightarrow$ \textit{Instagram} $\rightarrow$ \textit{filters} $\rightarrow$ \textit{self-presentation} $\rightarrow$ \textit{narcissism} $\rightarrow$ \textit{mirror}.
+The density of a term is, in spreading activation terms, the total activation it generates across the network.
+
+For AI systems, the analog is clear: in a transformer's embedding space, a token activates a region of representation space, and related concepts are nearby in that space.
+A dense term activates a larger, more structured region than a thin one.
+
+\subsection{Uniform Information Density: The Optimization Constraint}
+\label{subsec:uid}
+
+Frank and Jaeger's Uniform Information Density (UID) hypothesis \cite{frank2008} proposes that speakers distribute information as uniformly as possible across an utterance, avoiding both spikes (too much information per unit) and valleys (too little).
+This is an optimization over a noisy channel: uniform distribution minimizes the risk of information loss.
+
+UID provides a crucial constraint on semiotic density engineering.
+It is not enough to maximize density at a single point; density must be distributed uniformly across the entire framework or prompt.
+A framework with one extremely dense term surrounded by thin ones will create information spikes that exceed the model's processing capacity at that point, while leaving other regions underutilized.
+
+This principle directly informs the design guidelines in Section~\ref{sec:design}: \textbf{distribute density evenly}, following the same optimization that natural language has evolved over millennia.
+
+
+%% ════════════════════════════════════════════════════════════════════
+%% 4. THE IDEOGRAPHIC EVIDENCE
+%% ════════════════════════════════════════════════════════════════════
+\section{The Ideographic Evidence: 3,000 Years of Density Engineering}
+\label{sec:ideographic}
+
+The Principle of Semiotic Density is not a discovery.
+It is a rediscovery.
+
+Chinese ideographic writing has practiced density engineering for over three millennia, developing a system in which complex meanings are composed from structured combinations of simpler semantic units.
+The parallels to Framework Injection are not metaphorical; they are structural.
+
+\subsection{Character Composition as Conceptual Blending}
+\label{subsec:composition}
+
+Chinese characters are not arbitrary symbols.
+Many are composed of two or more semantic or phonetic components, combined according to compositional principles that directly parallel Conceptual Blending.
+
+Consider the following examples:
+
+\begin{center}
+\begin{tabular}{lllp{7cm}}
+\toprule
+\textbf{Character} & \textbf{Components} & \textbf{Meaning} & \textbf{Blending Logic} \\
+\midrule
+\cjk{明} & \cjk{日} + \cjk{月} & bright & Sun + moon = sources of light combined \\
+\cjk{森} & \cjk{木} $\times$ 3 & forest & Tree replicated = density of trees \\
+\cjk{休} & \cjk{亻} + \cjk{木} & rest & Person + tree = resting against a tree \\
+\cjk{信} & \cjk{亻} + \cjk{言} & trust & Person + speech = standing by one's word \\
+\cjk{好} & \cjk{女} + \cjk{子} & good & Woman + child = familial goodness \\
+\cjk{安} & \cjk{宀} + \cjk{女} & peace & Roof + woman = safety of the home \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Each character is a blend.
+\cjk{休} (rest) does not merely combine the denotations of ``person'' and ``tree.''
+It activates a scene: a traveler pausing beneath shade, the relief of stopping, the sheltering function of trees.
+This is emergent structure---meaning that exists in neither component alone, arising from their structured combination.
+
+The parallel to ``selfie of a giraffe'' is exact.
+Both operate through the same cognitive mechanism.
+The difference is timescale: ideographic composition has been refined over millennia; prompt composition is being invented now.
+
+\subsection{Semantic Radicals as Persistent Field Activators}
+\label{subsec:radicals}
+
+Chinese characters employ approximately 214 \textbf{radicals}---recurring semantic components that function as categorical markers.
+The radical \cjk{氵} (three drops of water) appears in:
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+\textbf{Character} & \textbf{Meaning} \\
+\midrule
+\cjk{河} & river \\
+\cjk{湖} & lake \\
+\cjk{洗} & to wash \\
+\cjk{泪} & tears \\
+\cjk{酒} & wine/alcohol \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The radical does not ``mean'' water in isolation.
+It \textbf{activates the liquid-field}---a persistent semantic context that colors the interpretation of every character it appears in.
+Wine is not water, but the radical tells the reader: \textit{attend to the liquid dimension of this concept}.
+
+This is precisely how key terms function in Framework Injection.
+When a framework installs the term \textit{compliance}, it does not merely denote compliance.
+It activates a persistent field---the regulatory context---that colors every subsequent interaction.
+The framework term is a semantic radical: a persistent field activator that operates across the entire conversation, just as the water radical operates across the entire writing system.
+
+\subsection{Empirical Evidence: Radicals Facilitate Categorical Inference}
+
+He et al.\ \cite{he2018} demonstrated in a study published in \textit{Scientific Reports} that semantic radicals facilitate categorical inference during Chinese character recognition.
+Participants responded faster and more accurately to characters whose radical was semantically congruent with the character's meaning, indicating that radicals activate categorical knowledge \textit{before} the full character is processed.
+
+This finding has a direct implication for AI interaction design.
+If framework terms function as semantic radicals, then their placement at the beginning of an interaction---in system prompts, framework headers, or initial context---should activate the desired semantic field before specific instructions are processed, priming the model's generation toward the target domain.
+
+\subsection{Tokenization Evidence: The Whole Greater Than the Sum}
+
+Recent work from MIT \cite{cao2025} has demonstrated that fragmenting Chinese characters during tokenization degrades the semantic performance of large language models.
+When a character is split into sub-character tokens, the model loses access to the compositional semantics that make the character meaningful.
+The whole is genuinely greater than the sum of its parts.
+
+This finding validates a core claim of Semiotic Density: dense terms must be preserved as integral units.
+Fragmenting a dense term---whether through tokenization, paraphrase, or decomposition---destroys the structured field that makes it dense.
+The design implication (Section~\ref{sec:design}) is clear: \textbf{preserve the integrity of dense terms}.
+
+\subsection{Zipf's Law in Ideographic Systems}
+
+Zipf's Law---the observation that word frequency is inversely proportional to rank---operates differently in ideographic systems.
+Deng et al.\ \cite{deng2014} demonstrated that character frequency in Chinese text follows a Weibull distribution rather than the power law characteristic of alphabetic languages, reflecting a different density economy.
+
+In alphabetic systems, frequent words tend to be short (Zipf's brevity law).
+In ideographic systems, frequent characters tend to be \textit{compositionally simple}---but not necessarily visually simple.
+The compression operates at the semantic level rather than the orthographic level.
+This suggests that semiotic density optimization follows different strategies in different communication systems, but the underlying principle---frequent elements should carry maximum information per unit cost---remains invariant.
+
+For Framework Injection, the implication is: the most frequently activated terms in a framework should be the densest, carrying the most structured semantic field per token.
+Rare terms can afford to be thinner.
+
+
+%% ════════════════════════════════════════════════════════════════════
+%% 5. CHAIN OF DENSITY
+%% ════════════════════════════════════════════════════════════════════
+\section{Chain of Density: Iterative Densification}
+\label{sec:cod}
+
+Adams et al.\ \cite{adams2023} introduced Chain of Density (CoD) prompting, a technique for generating increasingly dense summaries.
+The method proceeds iteratively: starting from a sparse summary, each iteration identifies important entities missing from the summary, then rewrites it to include those entities without increasing length.
+The result is a summary that progressively replaces vague, low-density language with specific, entity-rich constructions.
+
+CoD is semiotic density engineering in its purest iterative form.
+
+\subsection{The Densification Operation}
+
+Each CoD iteration performs a recognizable operation: it identifies a region of low density and replaces it with higher-density language.
+Consider a hypothetical progression:
+
+\begin{enumerate}
+  \item \textit{``The paper discusses how words carry meaning in AI systems.''} (Low density: every term is generic.)
+  \item \textit{``The paper proposes that semiotically dense terms activate richer semantic fields in LLMs.''} (Medium density: domain terms introduced.)
+  \item \textit{``The paper formalizes semiotic density---the implicit-to-explicit activation ratio---and traces its operation from ideographic writing through Framework Injection.''} (High density: each term carries structured fields.)
+\end{enumerate}
+
+The progression is not merely from vague to specific.
+It is from \textit{thin} to \textit{dense}---from terms that activate broad, unfocused regions to terms that activate narrow, structured fields.
+
+\subsection{CoD and SDE: Post-hoc vs. A Priori}
+
+Chain of Density and Semiotic Density Engineering are duals of each other.
+
+CoD operates \textbf{post-hoc}: given existing text, it iteratively increases density through rewriting.
+The input is sparse language; the output is dense language; the method is iterative refinement.
+
+Semiotic Density Engineering operates \textbf{a priori}: before any text is generated, it designs the framework or prompt using terms selected for their density.
+The input is the target semantic field; the output is a dense framework; the method is deliberate composition.
+
+Both achieve the same goal---maximum implicit activation per unit of explicit form---but they operate at different points in the generation pipeline.
+CoD compresses after generation; SDE compresses before generation, shaping what gets generated in the first place.
+
+This duality suggests that semiotic density is a fundamental property of effective communication, accessible through multiple engineering strategies.
+
+
+%% ════════════════════════════════════════════════════════════════════
+%% 6. SEMIOTIC DENSITY ENGINEERING: FIVE OPERATIONS
+%% ════════════════════════════════════════════════════════════════════
+\section{Semiotic Density Engineering: Five Operations}
+\label{sec:operations}
+
+We formalize five operations for engineering semiotic density in human-AI interaction.
+Each operation has a direct parallel in ideographic writing, demonstrating the structural isomorphism between the two systems.
+
+\subsection{Densify: Replace Generic with Domain-Dense}
+\label{subsec:densify}
+
+\begin{definition}[Densify]
+Given a term $t_{\text{thin}}$ with low semiotic density, \textsc{Densify}$(t_{\text{thin}}) = t_{\text{dense}}$ replaces it with a term $t_{\text{dense}}$ that activates a richer, more structured semantic field while preserving or narrowing the intended meaning.
+\end{definition}
+
+\textbf{Examples:}
+\begin{itemize}
+  \item ``make it professional'' $\xrightarrow{\textsc{Densify}}$ ``apply McKinsey-style executive communication''
+  \item ``write about food'' $\xrightarrow{\textsc{Densify}}$ ``explore the terroir of Burgundy pinot noir''
+  \item ``good code'' $\xrightarrow{\textsc{Densify}}$ ``idiomatic, SOLID-compliant TypeScript''
+\end{itemize}
+
+\textbf{Ideographic parallel:}
+The evolution from pictographic \cjk{日} (sun, simple depiction) to composed \cjk{明} (sun + moon = bright) is a densification: two pictographic elements combine to produce a concept denser than either alone.
+
+\subsection{Rarefy: Neutralize When Payload Misleads}
+\label{subsec:rarefy}
+
+\begin{definition}[Rarefy]
+Given a term $t_{\text{misleading}}$ whose implicit field activates unwanted associations, \textsc{Rarefy}$(t_{\text{misleading}}) = t_{\text{neutral}}$ replaces it with a term that activates only the intended subset of the original field.
+\end{definition}
+
+\textbf{Examples:}
+\begin{itemize}
+  \item ``write an essay like a college student'' $\xrightarrow{\textsc{Rarefy}}$ ``write a 1500-word analytical essay'' (removes the implication of inexperience, procrastination, padding)
+  \item ``be creative'' $\xrightarrow{\textsc{Rarefy}}$ ``propose three structurally distinct approaches'' (removes the unstructured connotation of ``creative'')
+\end{itemize}
+
+\textbf{Ideographic parallel:}
+Simplified Chinese characters (e.g., \cjk{龙} from the traditional form) rarefy visual complexity while preserving semantic function.
+The operation strips components that no longer serve the communicative purpose.
+
+\subsection{Rotate: Navigate Between Density Fields}
+\label{subsec:rotate}
+
+\begin{definition}[Rotate]
+Given a term $t$ whose density field $\mathcal{F}(t)$ is oriented toward domain $D_1$, \textsc{Rotate}$(t, D_2)$ replaces it with a term $t'$ whose density field is oriented toward domain $D_2$ while preserving the structural role of $t$.
+\end{definition}
+
+\textbf{Examples:}
+\begin{itemize}
+  \item ``market disruption'' $\xrightarrow{\textsc{Rotate}_{\text{biology}}}$ ``ecological niche displacement'' (same structural role, different domain density)
+  \item ``system architecture'' $\xrightarrow{\textsc{Rotate}_{\text{urban}}}$ ``city planning and zoning'' (preserves structural complexity, shifts domain)
+\end{itemize}
+
+\textbf{Connection to STEER:}
+The Rotate operation maps directly to STEER's navigation operations in embedding space \cite{gomes2026steer}.
+STEER provides the quantitative infrastructure for identifying where density fields lie in the embedding manifold and computing the rotations needed to move between them.
+
+\textbf{Ideographic parallel:}
+The same phonetic component can appear with different semantic radicals, rotating the meaning across domains: \cjk{青} (blue/green) appears in \cjk{清} (clear, with water radical), \cjk{请} (please, with speech radical), \cjk{情} (emotion, with heart radical).
+Same phonetic core, different semantic fields---a rotation.
+
+\subsection{Subtract: Remove Unwanted Dimensions}
+\label{subsec:subtract}
+
+\begin{definition}[Subtract]
+Given a term $t$ whose density field contains an unwanted dimension $d$, \textsc{Subtract}$(t, d)$ produces a modified expression that preserves $\mathcal{F}(t) \setminus \{d\}$.
+\end{definition}
+
+\textbf{Examples:}
+\begin{itemize}
+  \item ``write a business plan'' $\xrightarrow{\textsc{Subtract}_{\text{financial}}}$ ``write a strategic vision document'' (removes the financial projection dimension while preserving strategic structure)
+  \item ``academic writing'' $\xrightarrow{\textsc{Subtract}_{\text{jargon}}}$ ``scholarly but accessible analysis'' (removes the density of specialized terminology while preserving rigor)
+\end{itemize}
+
+\textbf{Connection to STEER:}
+The Subtract operation maps to STEER's dimensional subtraction in embedding space, which removes specific semantic dimensions from a representation while preserving the remainder.
+
+\textbf{Ideographic parallel:}
+Variant characters (\textit{yitizi}) that share a core meaning but differ by the removal of a component, altering one dimension of meaning while preserving the rest.
+
+\subsection{Blend: Deliberate Frame Combination}
+\label{subsec:blend}
+
+\begin{definition}[Blend]
+Given terms $t_1$ and $t_2$ with density fields $\mathcal{F}(t_1)$ and $\mathcal{F}(t_2)$, \textsc{Blend}$(t_1, t_2)$ produces an expression whose density field contains emergent structure not present in either $\mathcal{F}(t_1)$ or $\mathcal{F}(t_2)$.
+\end{definition}
+
+\textbf{Examples:}
+\begin{itemize}
+  \item ``jazz'' $\oplus$ ``algorithm'' = improvisation within formal constraints, structured spontaneity, theme-and-variation in code
+  \item ``garden'' $\oplus$ ``codebase'' = organic growth, pruning, seasonal cycles of refactoring, cultivated complexity
+\end{itemize}
+
+\textbf{Ideographic parallel:}
+Every compound ideographic character is a blend.
+\cjk{信} (trust) = \cjk{亻} (person) $\oplus$ \cjk{言} (speech): the emergent meaning---standing by one's word, reliability, social contract---exists in neither component.
+
+\subsection{Operations Summary}
+
+\begin{center}
+\begin{tabular}{llll}
+\toprule
+\textbf{Operation} & \textbf{Action} & \textbf{SDE Effect} & \textbf{Ideographic Parallel} \\
+\midrule
+\textsc{Densify}  & Generic $\rightarrow$ dense & Increase $\sigma$ & Pictograph $\rightarrow$ compound \\
+\textsc{Rarefy}   & Misleading $\rightarrow$ neutral & Reduce noise & Traditional $\rightarrow$ simplified \\
+\textsc{Rotate}   & Domain $D_1 \rightarrow D_2$ & Shift field & Same phonetic, different radical \\
+\textsc{Subtract} & Remove dimension $d$ & Narrow field & Variant character subtraction \\
+\textsc{Blend}    & $t_1 \oplus t_2 \rightarrow$ emergent & Create emergence & Character composition \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+%% ════════════════════════════════════════════════════════════════════
+%% 7. THREE SYSTEMS, ONE PRINCIPLE
+%% ════════════════════════════════════════════════════════════════════
+\section{Three Systems, One Principle}
+\label{sec:isomorphism}
+
+The central claim of this paper is that three seemingly unrelated systems are manifestations of a single principle.
+They differ in timescale, medium, and cultural context.
+They are identical in mechanism.
+
+\begin{center}
+\begin{tabular}{p{3cm}p{3.5cm}p{3.5cm}p{3.5cm}}
+\toprule
+\textbf{Dimension} & \textbf{Ideographic Writing} & \textbf{Framework Injection} & \textbf{Chain of Density} \\
+\midrule
+\textbf{Timescale} & Millennia & Years & Seconds (per iteration) \\
+\textbf{Medium} & Visual characters & Natural language prompts & Natural language summaries \\
+\textbf{Agent} & Scribe / reader & Digital artisan / LLM & LLM / LLM \\
+\textbf{Composition unit} & Radicals \& components & Framework terms & Entity-dense phrases \\
+\textbf{Density mechanism} & Semantic radical + blend & Key term + persistent field & Iterative entity fusion \\
+\textbf{Persistence} & Permanent (carved/printed) & Session-length (context window) & Ephemeral (per summary) \\
+\textbf{Emergence source} & Component interaction & Frame interaction & Compression pressure \\
+\textbf{Optimization} & Zipf/Weibull economy & UID-guided distribution & Information-per-token ratio \\
+\textbf{Failure mode} & Over-composition (illegibility) & Over-density (incoherence) & Over-compression (hallucination) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The isomorphism is not surface-level.
+Each system:
+
+\begin{enumerate}
+  \item \textbf{Composes} small, semantically loaded units into larger meaningful wholes.
+  \item \textbf{Activates implicit fields} that carry more information than the explicit form.
+  \item \textbf{Produces emergence} through the interaction of composed elements.
+  \item \textbf{Fails when over-compressed}: ideograms become illegible when too many radicals are crammed together; frameworks become incoherent when too many dense terms compete; summaries hallucinate when compression exceeds the information in the source.
+  \item \textbf{Obeys an information-theoretic optimization}: distribute information uniformly across the available channel.
+\end{enumerate}
+
+The implication is profound.
+The principles that govern effective prompt design in 2026 are the \textit{same} principles that governed the design of Chinese characters three thousand years ago.
+This is not because the technologies are similar---they could hardly be more different.
+It is because the underlying cognitive and information-theoretic constraints are invariant.
+Human communication, whether mediated by brush and ink or by transformer and token, is subject to the same optimization pressures: maximize implicit activation per unit of explicit form, distribute density uniformly, and compose rather than enumerate.
+
+
+%% ════════════════════════════════════════════════════════════════════
+%% 8. NEW DESIGN PRINCIPLES FOR FRAMEWORK INJECTION
+%% ════════════════════════════════════════════════════════════════════
+\section{New Design Principles for Framework Injection}
+\label{sec:design}
+
+The theoretical analysis yields five actionable design principles for practitioners of Framework Injection.
+
+\subsection{Key Terms as Semantic Radicals}
+\label{subsec:radicals-design}
+
+\textbf{Principle:} Select framework terms that function as \textit{semantic radicals}---persistent field activators that color every subsequent generation.
+
+A framework should contain a small number (typically 3--7) of high-density terms that activate the target semantic field.
+These terms should be chosen not for their literal denotation, but for the breadth and structure of their implicit field.
+
+\textbf{Anti-pattern:} Using many low-density terms that enumerate properties rather than activate fields.
+``Be thorough, accurate, professional, clear, concise, and helpful'' contains six terms, each with low density and overlapping fields.
+``Operate as a senior McKinsey consultant preparing a board presentation'' contains one dense construction that activates all six properties---plus dozens more---through a single frame.
+
+\subsection{Uniformity of Density}
+\label{subsec:uniformity}
+
+\textbf{Principle:} Distribute density evenly across the framework, following the Uniform Information Density hypothesis.
+
+A framework with one extremely dense section and several thin sections creates processing asymmetry.
+The model will over-attend to the dense section and under-attend to the thin ones.
+Instead, aim for uniform density: every sentence in the framework should carry approximately equal semiotic load.
+
+This is the UID hypothesis \cite{frank2008} applied to framework design.
+Natural language speakers already optimize for uniform density unconsciously.
+Framework designers must do so deliberately.
+
+\subsection{Preserve Integrity of Dense Terms}
+\label{subsec:integrity}
+
+\textbf{Principle:} Do not fragment, paraphrase, or decompose high-density terms.
+
+The tokenization research \cite{cao2025} demonstrates that fragmenting dense units destroys their compositional semantics.
+The same principle applies to framework terms: if a term like ``regulatory compliance'' activates a rich, structured field, do not split it into ``regulation'' and ``compliance'' in different parts of the framework.
+Keep dense terms as integral units.
+
+\textbf{Corollary:} Be aware of how the model's tokenizer handles your key terms.
+A term that is tokenized into many sub-word units may lose density.
+Where possible, use terms that map to single or few tokens.
+
+\subsection{Design for Blending}
+\label{subsec:blending-design}
+
+\textbf{Principle:} Choose framework terms whose frames combine productively, generating emergent properties.
+
+Not all term combinations produce useful blends.
+``Legal compliance'' + ``creative writing'' may produce a productive tension (generating formal yet engaging text).
+``Quantum physics'' + ``cooking recipe'' is unlikely to produce useful emergence for most applications.
+
+The art of framework design is, in significant part, the art of selecting terms whose frames interact to produce the specific emergent properties the practitioner seeks.
+This is Conceptual Blending \cite{fauconnier2002} as engineering discipline.
+
+\subsection{Zipf Optimization}
+\label{subsec:zipf}
+
+\textbf{Principle:} The most frequently activated terms in a framework should be the densest and most compact.
+
+This follows directly from Zipf's brevity law and its ideographic analog.
+Terms that will be activated on every turn of the interaction---the ``radicals'' of the framework---should carry maximum density per token.
+Terms activated only occasionally can afford to be longer and thinner.
+
+In practice, this means: spend your design effort on the terms that will persist throughout the interaction.
+A framework's ``header''---its opening terms---should be its densest region, because those terms will be activated on every generation.
+
+
+%% ════════════════════════════════════════════════════════════════════
+%% 9. CONNECTION TO THE RESEARCH ECOSYSTEM
+%% ════════════════════════════════════════════════════════════════════
+\section{Connection to the Research Ecosystem}
+\label{sec:ecosystem}
+
+Semiotic Density does not exist in isolation.
+It connects to and is supported by three other components of the Artisanal Intelligence research program.
+
+\textbf{STEER} \cite{gomes2026steer} provides the quantitative infrastructure for semiotic density operations.
+Its 16 algebraic operations on embedding spaces---particularly \textsc{Rotate}, \textsc{Subtract}, and \textsc{Navigate}---give computational form to the \textsc{Rotate} and \textsc{Subtract} SDE operations.
+Where SDE operates at the linguistic level (choosing terms), STEER operates at the geometric level (transforming vectors).
+The two are complementary: SDE identifies \textit{what} to change; STEER identifies \textit{where} in embedding space that change lands.
+
+\textbf{IMI} \cite{gomes2026imi,gomes2026imitheory} provides the temporal infrastructure.
+A semiotically dense framework is effective within a single interaction, but what happens across interactions?
+IMI's cognitive memory system---combining graph structure, adaptive weighting, and causal reasoning---preserves semiotic density over time.
+When a dense framework term is encoded in IMI's memory graph, its semantic field is preserved through the graph's link structure, enabling retrieval that activates the same field in a future interaction.
+Without memory, density is ephemeral.
+With IMI, density persists.
+
+\textbf{Adversarial Tempering} \cite{gomes2026founding} provides the audit infrastructure.
+A framework designed for high semiotic density may activate unintended frames.
+The Adversarial Tempering Protocol systematically probes whether the activated semantic fields match the designer's intent, identifying cases where dense terms carry unwanted associations that distort generation.
+In SDE terms, Adversarial Tempering is the verification step: it confirms that \textsc{Densify} operations have activated the intended field and not an adjacent, unwanted one.
+
+\textbf{SYMBIONT} \cite{gomes2026symbiont} provides the multi-agent infrastructure.
+In systems where multiple AI agents collaborate, semiotic density must be maintained across agent boundaries.
+SYMBIONT's bio-inspired interaction patterns---mutualism, parasitism detection, symbiotic memory sharing---ensure that dense frameworks propagate correctly between agents rather than being diluted or distorted in translation.
+
+Together, these systems form a coherent research program: STEER navigates, IMI remembers, Adversarial Tempering verifies, SYMBIONT distributes, and Semiotic Density Engineering provides the design language that unifies them all.
+The founding paper \cite{gomes2026founding} provides the philosophical and methodological foundation.
+
+
+%% ════════════════════════════════════════════════════════════════════
+%% 10. LIMITATIONS
+%% ════════════════════════════════════════════════════════════════════
+\section{Limitations}
+\label{sec:limitations}
+
+Intellectual honesty requires acknowledging what this paper does not do.
+
+\textbf{The ideographic analogy has structural limits.}
+Chinese characters are fixed, visual, and culturally transmitted over millennia.
+Framework Injection terms are dynamic, linguistic, and invented in minutes.
+The parallel is structural---both compose semantic units to produce dense, emergent meaning---but it is not total.
+Ideographic characters are processed through visual pathways that have no direct analog in how LLMs process tokens.
+We claim isomorphism of \textit{principle}, not identity of \textit{mechanism}.
+
+\textbf{No controlled experiment yet.}
+This paper presents a theoretical framework grounded in established cognitive science and supported by indirect evidence from ideographic writing, Chain of Density, and Framework Injection practice.
+It does not present a controlled experiment comparing density-engineered frameworks against naive ones on a standardized benchmark.
+Such an experiment---measuring output quality, coherence, and task completion as a function of framework semiotic density---is a necessary next step, and we are designing it.
+
+\textbf{Cross-linguistic validation is needed.}
+The ideographic evidence draws primarily from Chinese.
+Japanese kanji, Korean hanja (historical), and Egyptian hieroglyphs offer additional test cases for the principle.
+The distributional semantics evidence draws primarily from English-language models.
+Validation across typologically diverse languages---particularly agglutinative languages like Turkish or polysynthetic languages like Inuktitut, which achieve density through morphological composition rather than lexical choice---would strengthen the claim of universality.
+
+\textbf{The ``selfie test'' is illustrative, not rigorous.}
+The opening example is designed to build intuition, not to serve as empirical evidence.
+A skeptic could argue that the selfie example works because of the specificity of the training data (many selfie images in training sets), not because of any general density principle.
+We acknowledge this and note that the theoretical grounding in Frame Semantics, Prototype Theory, and Conceptual Blending is independent of any particular example.
+
+\textbf{Density is context-dependent.}
+The semiotic density of a term is not an intrinsic property; it depends on the interpreter.
+``Ground-glass opacities'' is dense for a radiologist and thin for a layperson.
+This context-dependence complicates any attempt to measure density absolutely.
+Our definition (Definition~\ref{def:semiotic-density}) acknowledges this through the phrase ``in a given context,'' but a formal model of context-dependent density remains future work.
+
+\textbf{Risk of over-density.}
+If practitioners take the principle too literally---maximizing density at every point---they risk producing frameworks that are incomprehensible, self-contradictory, or so dense that the model cannot disentangle the competing frames.
+The UID constraint (Section~\ref{subsec:uid}) mitigates this, but the boundary between productive density and pathological over-compression is not yet empirically characterized.
+
+
+%% ════════════════════════════════════════════════════════════════════
+%% 11. CONCLUSION
+%% ════════════════════════════════════════════════════════════════════
+\section{Conclusion}
+\label{sec:conclusion}
+
+We began with two words and a question.
+
+\textit{Selfie} and \textit{giraffe} produce an image that no amount of explicit instruction can fully specify, because the power of the prompt lies not in what it says but in what it \textit{activates}---entire constellations of frames, prototypes, associations, and inferential pathways that the model navigates implicitly.
+
+We identified this phenomenon as \textbf{semiotic density}: the ratio of implicit semantic activation to explicit surface form.
+We grounded it in five theoretical frameworks---Frame Semantics, Prototype Theory, Conceptual Blending, Spreading Activation, and Uniform Information Density---showing that the phenomenon is well-predicted by established cognitive science.
+
+We then made a discovery that, in retrospect, should have been obvious: Chinese ideographic writing has been practicing density engineering for three thousand years.
+Characters like \cjk{信} (person + word = trust) and \cjk{明} (sun + moon = bright) are not merely historical curiosities.
+They are existence proofs of the Principle of Semiotic Density, demonstrating at civilizational scale that structured composition of semantically loaded units produces meanings richer than any explicit enumeration could achieve.
+
+We showed that Chain of Density prompting, Framework Injection, and ideographic composition are three manifestations of the same principle, operating at different timescales but subject to the same information-theoretic constraints.
+We formalized five Semiotic Density Engineering operations---\textsc{Densify}, \textsc{Rarefy}, \textsc{Rotate}, \textsc{Subtract}, \textsc{Blend}---each with direct parallels in ideographic writing.
+And we derived five design principles for Framework Injection that translate the ancient wisdom of character composition into actionable guidance for human-AI interaction.
+
+The insight is not that words carry meaning---everyone knows that.
+
+The insight is that words carry \textit{worlds}---entire constellations of frames, prototypes, and metaphors---and that the digital artisan who learns to compose these worlds intentionally produces results that no amount of explicit instruction can match.
+
+This is what ideographic scribes understood three millennia ago.
+This is what Chain of Density automates in seconds.
+This is what Framework Injection practices at the scale of an interaction.
+
+The principle is the same.
+Only the timescale has changed.
+
+And now we have a name for it.
+
+
+%% ════════════════════════════════════════════════════════════════════
+%% REFERENCES
+%% ════════════════════════════════════════════════════════════════════
+\begin{thebibliography}{30}
+
+\bibitem{adams2023}
+Adams, G., Fabbri, A., Ladhak, F., Lehman, E., \& Elhadad, N. (2023).
+From sparse to dense: GPT-4 summarization with Chain of Density prompting.
+\textit{Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing (EMNLP)}, pp.\ 68--84.
+
+\bibitem{cao2025}
+Cao, Y., Liu, Y., \& Li, L. (2025).
+Tokenization matters: Degraded semantic processing from character fragmentation in large language models.
+\textit{MIT CSAIL Technical Report}, MIT-CSAIL-TR-2025-003.
+
+\bibitem{collins1975}
+Collins, A. M., \& Loftus, E. F. (1975).
+A spreading-activation theory of semantic processing.
+\textit{Psychological Review}, 82(6), 407--428.
+
+\bibitem{deng2014}
+Deng, W., Allahverdyan, A. E., Li, B., \& Wang, Q. A. (2014).
+Rank-frequency relation for Chinese characters.
+\textit{The European Physical Journal B}, 87(3), 47.
+
+\bibitem{fauconnier2002}
+Fauconnier, G., \& Turner, M. (2002).
+\textit{The Way We Think: Conceptual Blending and the Mind's Hidden Complexities}.
+New York: Basic Books.
+
+\bibitem{fillmore1982}
+Fillmore, C. J. (1982).
+Frame Semantics.
+In \textit{Linguistics in the Morning Calm}, pp.\ 111--137.
+Seoul: Hanshin Publishing Co.
+
+\bibitem{firth1957}
+Firth, J. R. (1957).
+A synopsis of linguistic theory, 1930--1955.
+In \textit{Studies in Linguistic Analysis}, pp.\ 1--32.
+Oxford: Philological Society.
+
+\bibitem{frank2008}
+Frank, A. F., \& Jaeger, T. F. (2008).
+Speaking rationally: Uniform Information Density as an optimal strategy for language production.
+\textit{Proceedings of the 30th Annual Meeting of the Cognitive Science Society}, pp.\ 933--938.
+
+\bibitem{gomes2026founding}
+Gomes, R. A. (2026).
+From commands to cognition: Digital craftsmanship and the Framework Injection paradigm.
+\textit{Zenodo}. \href{https://doi.org/10.5281/zenodo.19344789}{DOI: 10.5281/zenodo.19344789}.
+
+\bibitem{gomes2026imi}
+Gomes, R. A. (2026).
+IMI: Cognitive memory for AI agents---graph, adaptive, and causal integration.
+\textit{Zenodo}. \href{https://doi.org/10.5281/zenodo.19325704}{DOI: 10.5281/zenodo.19325704}.
+
+\bibitem{gomes2026imitheory}
+Gomes, R. A. (2026).
+IMI theory: Formal foundations of cognitive memory for AI agents.
+\textit{SSRN Electronic Journal}. \href{https://doi.org/10.2139/ssrn.5275569}{DOI: 10.2139/ssrn.5275569}.
+
+\bibitem{gomes2026steer}
+Gomes, R. A. (2026).
+STEER: Sixteen algebraic operations for embedding-space retrieval.
+\textit{Zenodo}. \href{https://doi.org/10.5281/zenodo.19325724}{DOI: 10.5281/zenodo.19325724}.
+
+\bibitem{gomes2026symbiont}
+Gomes, R. A. (2026).
+SYMBIONT: Bio-inspired interaction patterns for multi-agent LLM systems.
+\textit{Zenodo}. \href{https://doi.org/10.5281/zenodo.19325749}{DOI: 10.5281/zenodo.19325749}.
+
+\bibitem{greenberg1963}
+Greenberg, J. H. (1963).
+Some universals of grammar with particular reference to the order of meaningful elements.
+In J. H. Greenberg (Ed.), \textit{Universals of Language}, pp.\ 73--113.
+Cambridge, MA: MIT Press.
+
+\bibitem{he2018}
+He, Y., Wang, K., \& Luo, Y. (2018).
+Semantic radicals facilitate categorical inference in Chinese character recognition.
+\textit{Scientific Reports}, 8(1), 2577.
+
+\bibitem{lakoff1980}
+Lakoff, G., \& Johnson, M. (1980).
+\textit{Metaphors We Live By}.
+Chicago: University of Chicago Press.
+
+\bibitem{peirce1931}
+Peirce, C. S. (1931--1958).
+\textit{Collected Papers of Charles Sanders Peirce} (Vols.\ 1--8).
+C. Hartshorne, P. Weiss, \& A. Burks (Eds.).
+Cambridge, MA: Harvard University Press.
+
+\bibitem{rosch1975}
+Rosch, E. (1975).
+Cognitive representations of semantic categories.
+\textit{Journal of Experimental Psychology: General}, 104(3), 192--233.
+
+\bibitem{sweller1988}
+Sweller, J. (1988).
+Cognitive load during problem solving: Effects on learning.
+\textit{Cognitive Science}, 12(2), 257--285.
+
+\bibitem{vygotsky1978}
+Vygotsky, L. S. (1978).
+\textit{Mind in Society: The Development of Higher Psychological Processes}.
+Cambridge, MA: Harvard University Press.
+
+\bibitem{zipf1949}
+Zipf, G. K. (1949).
+\textit{Human Behavior and the Principle of Least Effort}.
+Cambridge, MA: Addison-Wesley.
+
+\bibitem{mikolov2013}
+Mikolov, T., Sutskever, I., Chen, K., Corrado, G. S., \& Dean, J. (2013).
+Distributed representations of words and phrases and their compositionality.
+\textit{Advances in Neural Information Processing Systems}, 26, 3111--3119.
+
+\bibitem{vaswani2017}
+Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, {\L}., \& Polosukhin, I. (2017).
+Attention is all you need.
+\textit{Advances in Neural Information Processing Systems}, 30, 5998--6008.
+
+\bibitem{derrida1967}
+Derrida, J. (1967).
+\textit{De la Grammatologie}.
+Paris: Les \'Editions de Minuit.
+[English translation: \textit{Of Grammatology}, Johns Hopkins University Press, 1976.]
+
+\bibitem{saussure1916}
+de Saussure, F. (1916).
+\textit{Cours de Linguistique G\'en\'erale}.
+Paris: Payot.
+[English translation: \textit{Course in General Linguistics}, McGraw-Hill, 1959.]
+
+\bibitem{wittgenstein1953}
+Wittgenstein, L. (1953).
+\textit{Philosophische Untersuchungen / Philosophical Investigations}.
+Oxford: Basil Blackwell.
+
+\bibitem{shannon1948}
+Shannon, C. E. (1948).
+A mathematical theory of communication.
+\textit{The Bell System Technical Journal}, 27(3), 379--423.
+
+\bibitem{halliday1978}
+Halliday, M. A. K. (1978).
+\textit{Language as Social Semiotic: The Social Interpretation of Language and Meaning}.
+London: Edward Arnold.
+
+\end{thebibliography}
+
+\end{document}
