@@ -1,0 +1,484 @@
+%% paper8-founding — Versão Portuguesa do Paper Fundador
+%% "De Comandos à Cognição: Artesanato Digital e o Paradigma da Injeção de Framework"
+%% Renato Aparecido Gomes, 2026
+
+\documentclass[12pt,a4paper]{article}
+
+% ── Packages ──────────────────────────────────────────────────────────
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[portuguese]{babel}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{xcolor}
+
+% ── Conditionally load packages (basic install compatibility) ─────────
+\IfFileExists{booktabs.sty}{\usepackage{booktabs}}{\newcommand{\toprule}{\hline}\newcommand{\midrule}{\hline}\newcommand{\bottomrule}{\hline}}
+\IfFileExists{longtable.sty}{\usepackage{longtable}}{}
+\IfFileExists{tabularx.sty}{\usepackage{tabularx}}{}
+\IfFileExists{multirow.sty}{\usepackage{multirow}}{}
+\IfFileExists{enumitem.sty}{\usepackage{enumitem}}{}
+\IfFileExists{csquotes.sty}{\usepackage{csquotes}}{}
+\IfFileExists{float.sty}{\usepackage{float}}{}
+\IfFileExists{caption.sty}{\usepackage{caption}}{}
+\IfFileExists{subcaption.sty}{\usepackage{subcaption}}{}
+\IfFileExists{natbib.sty}{\usepackage[numbers,sort&compress]{natbib}}{}
+\IfFileExists{setspace.sty}{\usepackage{setspace}}{}
+\IfFileExists{titlesec.sty}{\usepackage{titlesec}}{}
+\IfFileExists{fancyhdr.sty}{\usepackage{fancyhdr}}{}
+
+% ── Hyperref config ───────────────────────────────────────────────────
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!70!black,
+  citecolor=green!50!black,
+  urlcolor=blue!60!black,
+  pdftitle={De Comandos à Cognição: Artesanato Digital e o Paradigma da Injeção de Framework},
+  pdfauthor={Renato Aparecido Gomes},
+  pdfsubject={Interação Humano-IA, Injeção de Framework, Artesanato Digital},
+  pdfkeywords={Artesanato Digital, Injeção de Framework, Protocolo de Têmpera Adversarial, Engenharia de Prompt, Engenharia de Contexto, Práxis Epistêmica}
+}
+
+% ── Theorem environments ──────────────────────────────────────────────
+\newtheorem{definition}{Definição}[section]
+\newtheorem{proposition}{Proposição}[section]
+\newtheorem{theorem}{Teorema}[section]
+\newtheorem{corollary}{Corolário}[section]
+\newtheorem{remark}{Observação}[section]
+\newtheorem{axiom}{Axioma}[section]
+
+% ── Spacing ───────────────────────────────────────────────────────────
+\IfFileExists{setspace.sty}{\onehalfspacing}{}
+
+% ── Title ─────────────────────────────────────────────────────────────
+\title{%
+  \vspace{-1cm}
+  \textbf{De Comandos à Cognição:\\
+  Artesanato Digital e o Paradigma da Injeção de Framework}\\[0.5em]
+  \large Pare de comandar IA. Comece a educá-la.\\[0.3em]
+  \normalsize O Paper Fundador do Programa de Inteligência Artesanal
+}
+
+\author{
+  Renato Aparecido Gomes\\
+  Pesquisador Independente\\
+  São Paulo, Brasil\\
+  \texttt{renatoapgomes@gmail.com}\\
+  ORCID: \href{https://orcid.org/0009-0005-7380-9876}{0009-0005-7380-9876}
+}
+
+\date{Março 2026}
+
+% ══════════════════════════════════════════════════════════════════════
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+% ── Resumo ───────────────────────────────────────────────────────────
+\begin{abstract}
+\noindent
+O paradigma dominante de interação humano-IA permanece enraizado numa forma de \emph{pidgin digital} --- uma linguagem de comando empobrecida que explora menos de 30\% das capacidades dos grandes modelos de linguagem (LLMs). Desde 2022, a engenharia de prompt trata a IA como executora de comandos; desde 2024, a engenharia de contexto a trata como processadora de informação. Ambos os paradigmas compartilham uma limitação fundamental: assumem que melhor \emph{input} produz melhor \emph{output}, quando na verdade a qualidade do output de IA é proporcional não à qualidade do comando, mas à qualidade do \emph{método de raciocínio transferido}.
+
+Este artigo introduz o \textbf{Artesanato Digital}, formalmente classificado como uma \emph{práxis epistêmica} --- prática informada por teoria, fundamentada eticamente e reflexiva --- para a criação, transferência e governança de inteligência artificial. Seu mecanismo central é a \textbf{Injeção de Framework} (FI): a transferência unidirecional de métodos completos de raciocínio específicos de domínio, do expert humano para o agente de IA, codificados em linguagem natural, operando como substrato cognitivo persistente. Juntos, estabelecem uma taxonomia evolutiva de três paradigmas: \emph{Comandar} (engenharia de prompt) $\to$ \emph{Informar} (engenharia de contexto) $\to$ \emph{Educar} (injeção de framework), com a relação formal de inclusão PE $\subset$ CE $\subset$ FI.
+
+Introduzimos o \textbf{Protocolo de Têmpera Adversarial} (ATP), um mecanismo de validação em quatro fases --- Forjar, Martelar, Recozer, Resfriar --- inspirado na têmpera metalúrgica, que produz output estruturalmente mais forte através de ciclos iterativos de estresse adversarial em tempo de inferência. Fundamentamos estas contribuições em seis bases teóricas que abrangem psicologia do desenvolvimento (Vygotsky), design instrucional (Sweller), filosofia da linguagem (Wittgenstein), gestão do conhecimento (Polanyi), semiótica (Peirce) e linguística (Greenberg). Validação empírica em seis domínios profissionais --- direito, medicina, finanças, cibersegurança, educação e engenharia --- demonstra zero alucinações residuais em output temperado, com Índice de Confiança médio de 0,94.
+
+\medskip
+\noindent\textbf{Palavras-chave:} Artesanato Digital, Injeção de Framework, Protocolo de Têmpera Adversarial, práxis epistêmica, interação humano-IA, engenharia de prompt, engenharia de contexto, programa de pesquisa lakatosiano
+\end{abstract}
+
+\newpage
+\tableofcontents
+\newpage
+
+% ══════════════════════════════════════════════════════════════════════
+\section{O Problema Que Ninguém Nomeou}
+\label{sec:problema}
+
+Antes de falar sobre inteligência artificial, preciso falar sobre linguagem.
+
+Você está falando com a ferramenta cognitiva mais sofisticada já criada pela humanidade. E está falando com ela como quem pede café num aeroporto estrangeiro: ``resumir isso'', ``melhorar texto'', ``fazer lista''. Apontando. Gesticulando. Usando 30\% das palavras que a língua oferece.
+
+Isso tem um nome. Chama-se \textbf{pidgin digital}.
+
+Na história da linguística, toda vez que dois grupos sem língua comum precisaram se comunicar, surgiu um pidgin --- uma língua de contato, reduzida, improvisada. Pidgins funcionam: permitem comércio, coordenam trabalho, transmitem instruções básicas. Mas são estruturalmente empobrecidos. Nenhuma civilização jamais produziu filosofia, jurisprudência ou ciência num pidgin. Nenhuma.
+
+Desde o final de 2022, quando os grandes modelos de linguagem (LLMs) se tornaram públicos, a humanidade vem se comunicando com eles exatamente assim. O paradigma dominante --- engenharia de prompt --- trata a IA como executora de comandos. As instruções são emitidas num registro empobrecido: imperativo, desprovido de contexto, sem o raciocínio de domínio que permitiria outputs sofisticados. O resultado é previsível: respostas genéricas, superficiais, frequentemente alucinadas, que o usuário tenta reparar por tentativa e erro --- o equivalente a explicar mecânica quântica numa língua de comércio portuário.
+
+\textbf{Não é um problema de tecnologia. É um problema de linguagem.}
+
+Eu estimo --- com base na análise comparativa entre discurso especializado e prompts típicos em ambientes profissionais --- que a engenharia de prompt padrão explora menos de 30\% das capacidades demonstradas de um LLM. Trinta por cento. É um número consistente com a limitação funcional de pidgins em relação às suas línguas de origem.
+
+A engenharia de prompt é o equivalente a tentar resolver problemas complexos com Google Translate. Funciona para pedir direções. Não funciona para construir argumentos jurídicos, diagnósticos médicos ou análises de risco financeiro.
+
+O problema não é que as ferramentas sejam fracas. O problema é que estamos falando errado com elas.
+
+% ══════════════════════════════════════════════════════════════════════
+\section{A Evolução: Comandar, Informar, Educar}
+\label{sec:evolucao}
+
+A interação humano-IA evoluiu em três eras. Cada uma representa uma orientação epistêmica fundamentalmente diferente em relação ao modelo de linguagem.
+
+\subsection{Era 1 (2022--2023): Engenharia de Prompt --- Dar a Receita}
+
+A primeira era descobriu que LLMs respondem a instruções cuidadosamente elaboradas. Proliferaram técnicas: chain-of-thought, few-shot exemplars, atribuição de papéis, especificação de restrições. A metáfora operativa era a \textbf{receita}: dê instruções precisas à máquina, e ela produz o prato.
+
+A limitação era arquitetural. Não importa quão precisa seja a receita, a máquina não entendia princípios de cozinha, química de ingredientes ou tradição culinária. Cada receita era um artefato isolado, desconectado do conhecimento de domínio que a gerou.
+
+\textbf{Não é cozinhar. É seguir instruções.}
+
+\subsection{Era 2 (2024--2025): Engenharia de Contexto --- Equipar a Cozinha}
+
+O reconhecimento de que LLMs performam melhor com contexto mais rico catalisou o segundo paradigma. A articulação de Context Engineering pela Anthropic (2025), a maturação dos pipelines RAG e a expansão de janelas de contexto para milhões de tokens mudaram a metáfora: da receita para a \textbf{cozinha}. Abastecer o ambiente do modelo com ingredientes (documentos, bases de dados, exemplos) produz refeições melhores.
+
+A limitação permaneceu. Uma cozinha bem equipada não produz um chef. Fornecer mais informação ao modelo não lhe ensina como \emph{raciocinar} dentro de um domínio.
+
+\textbf{Não é cozinhar. É ter uma despensa cheia.}
+
+\subsection{Era 3 (2026): Injeção de Framework --- Ensinar a Cozinhar}
+
+Este artigo introduz o terceiro paradigma. A metáfora muda de cozinha para \textbf{ensino}: transferir não instruções nem informação, mas métodos completos de raciocínio --- as heurísticas, os critérios de avaliação, as restrições de domínio, os limites éticos e os fluxos procedimentais que constituem o julgamento especializado.
+
+O insight fundamental:
+
+\begin{quote}
+\emph{A qualidade do output de IA não é proporcional à qualidade do comando. É proporcional à qualidade do método de raciocínio transferido.}
+\end{quote}
+
+A relação entre os três paradigmas é de inclusão estrita:
+
+$$\text{PE} \subset \text{CE} \subset \text{FI}$$
+
+Onde PE = Engenharia de Prompt (Comandar), CE = Engenharia de Contexto (Informar), e FI = Injeção de Framework (Educar).
+
+Toda técnica válida de engenharia de prompt é uma prática válida (mas incompleta) de engenharia de contexto. Toda prática válida de engenharia de contexto é um componente válido (mas incompleto) de injeção de framework. FI subsume ambos os paradigmas anteriores, adicionando a dimensão crítica: transferência de raciocínio.
+
+\begin{table}[htbp]
+\centering
+\caption{Taxonomia dos três paradigmas de interação humano-IA}
+\label{tab:taxonomia}
+\begin{tabular}{l l l l}
+\toprule
+\textbf{Dimensão} & \textbf{PE (Comandar)} & \textbf{CE (Informar)} & \textbf{FI (Educar)} \\
+\midrule
+Metáfora & Receita & Cozinha & Ensino \\
+Transfere & Instruções & Informação & Métodos de raciocínio \\
+Papel do agente & Executor & Processador & Raciocinador \\
+Persistência & Por prompt & Por sessão & Por framework \\
+Profundidade & Superficial & Moderada & Nível expert \\
+Alucinação & Descontrolada & Reduzida & Sistematicamente eliminada \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ══════════════════════════════════════════════════════════════════════
+\section{O Que É Artesanato Digital}
+\label{sec:artesanato}
+
+Agora vem a pergunta que ninguém fez: \emph{o que é, exatamente, essa prática de educar IA?}
+
+\subsection{Definição}
+
+\textbf{Artesanato Digital} é uma \emph{práxis epistêmica} --- no sentido aristotélico-freireano de prática informada por teoria, fundamentada eticamente e reflexiva --- para a criação, transferência e governança de inteligência artificial.
+
+O termo \emph{práxis} é usado no sentido preciso: não mera prática (\emph{techne}), mas prática informada por teoria (\emph{episteme}) e orientada para fins éticos (\emph{phronesis}). Freire aprofunda: práxis é a unidade dialética entre reflexão e ação, onde nenhuma tem sentido sem a outra.
+
+\subsection{O que não é}
+
+Classificação precisa exige definição negativa:
+
+\begin{enumerate}
+  \item \textbf{Não é uma metodologia} --- metodologias prescrevem procedimentos. Artesanato Digital prescreve \emph{orientações de raciocínio}.
+  \item \textbf{Não é uma filosofia} --- filosofias analisam e teorizam. Artesanato Digital também \emph{age}.
+  \item \textbf{Não é uma doutrina} --- doutrinas exigem adesão. Artesanato Digital exige \emph{julgamento}.
+  \item \textbf{Não é um framework} --- frameworks fornecem estrutura. Artesanato Digital fornece estrutura \emph{e} as fundações epistêmicas que justificam a estrutura.
+\end{enumerate}
+
+\subsection{Os Três Dogmas}
+
+Artesanato Digital se apoia em três princípios não negociáveis --- dogmas no sentido epistemológico de compromissos fundacionais:
+
+\textbf{Dogma 1: Linguagem Plena.} Toda interação com um agente de IA é um ato de fala com força ilocucionária que deve explorar os recursos completos da linguagem natural --- evocação (Platão), estrutura (Aristóteles) e normas (gramática) --- em vez do registro reduzido do pidgin digital.
+
+\textbf{Dogma 2: Forma Segue Função.} A estrutura do artefato de interação (prompt, framework, mensagem de sistema) deve derivar do seu propósito (o domínio, a tarefa, os requisitos de qualidade), não de templates genéricos ou padrões de tamanho único.
+
+\textbf{Dogma 3: Têmpera Adversarial.} Todo output de alto risco deve passar por validação adversarial. Output não temperado é rascunho. Só output temperado é entregável.
+
+\subsection{O arco de 2.500 anos}
+
+Artesanato Digital não surgiu do nada. Ele completa um arco intelectual que começou há 2.500 anos:
+
+\begin{itemize}
+  \item \textbf{De Platão}: a compreensão de que interação humano-IA é um \emph{ato evocativo} --- não um comando mecânico, mas uma tentativa de unir mundos cognitivos. No \emph{Crátilo}, Platão já debatia a relação entre linguagem e significado. No \emph{Teeteto}, a impossibilidade de capturar completamente o conhecimento em proposições antecipa exatamente o gap entre o que sabemos (tácito, corporificado, contextual) e o que conseguimos dizer.
+
+  \item \textbf{De Aristóteles}: as ferramentas de \emph{raciocínio estruturado} --- organização lógica, adaptação retórica e templates de raciocínio específicos de domínio (os \emph{topoi} da \emph{Retórica}, que são os ancestrais diretos do que chamamos frameworks).
+
+  \item \textbf{Da gramática medieval}: o princípio de que interação efetiva exige \emph{sistemas normativos} --- regras explícitas que restringem e habilitam comunicação bem-formada. A \emph{Astadhyayi} de Panini (c. 400 a.C.) é a primeira gramática generativa formal: $\sim$4.000 regras que geram todas as sentenças válidas do sânscrito.
+\end{itemize}
+
+A engenharia de prompt recapitula a história da linguagem --- e para no estágio da gramática. Artesanato Digital completa o arco.
+
+\subsection{A fundamentação semiótica}
+
+A semiótica triádica de Charles Sanders Peirce oferece o enquadramento mais sofisticado. Todo signo tem três dimensões: \emph{Primeiridade} (qualidades intrínsecas), \emph{Secundidade} (relação com o objeto), \emph{Terceiridade} (o interpretante gerado no intérprete).
+
+Um prompt é um signo complexo no sentido de Peirce. Um prompt de engenharia de prompt é dominado por Secundidade: aponta para o que o usuário quer, com mínima sofisticação estrutural (Primeiridade) e Terceiridade empobrecida --- o modelo precisa gerar seu próprio framework interpretativo. Resultado: estocástico.
+
+Um prompt com framework injetado projeta explicitamente a Terceiridade: especifica não apenas o que o modelo deve referenciar, mas \emph{como deve interpretar} --- o método de raciocínio, os critérios de avaliação, a hermenêutica específica do domínio. Resultado: quase-determinístico.
+
+\textbf{Não é engenharia de signo. É engenharia de interpretante.}
+
+Introduzimos o conceito de \textbf{semiose projetada}: a prática de projetar signos não pelo que o emissor deseja \emph{expressar}, mas por como o interpretante será \emph{gerado}. Em comunicação humana, falantes naturalmente ajustam sua linguagem ao público. Semiose projetada aplica esse princípio à interação humano-IA: o designer de prompt deve modelar o processo interpretativo do LLM e construir signos que gerem o interpretante desejado.
+
+% ══════════════════════════════════════════════════════════════════════
+\section{Injeção de Framework --- O Mecanismo Central}
+\label{sec:fi}
+
+\subsection{Definição formal em linguagem acessível}
+
+\begin{definition}[Injeção de Framework]
+\textbf{Injeção de Framework (FI)}: o mecanismo epistêmico de transferência unidirecional de métodos completos de raciocínio específicos de domínio, do expert humano para o agente de IA, codificados em linguagem natural, operando como substrato cognitivo persistente.
+\end{definition}
+
+Cada elemento dessa definição carrega peso:
+
+\begin{enumerate}
+  \item \textbf{Mecanismo epistêmico} --- não uma técnica (procedural), não um método (sistemático), não um conceito (teórico): um \emph{mecanismo} --- um processo que produz efeitos por vias causais identificáveis.
+  \item \textbf{Transferência unidirecional} --- do humano para o agente, não bidirecional. O agente não contribui para o framework; ele \emph{opera dentro} do framework.
+  \item \textbf{Métodos completos} --- não fragmentos (dicas, exemplos, restrições), mas métodos \emph{completos} --- o conjunto total de heurísticas, critérios de avaliação, passos procedimentais e limites éticos que constituem o raciocínio expert no domínio.
+  \item \textbf{Codificado em linguagem natural} --- não em código, nem em arquivos de configuração, nem em dados de fine-tuning, mas na mesma linguagem natural que o agente processa.
+  \item \textbf{Substrato cognitivo persistente} --- o framework opera não como instrução pontual, mas como contexto de raciocínio contínuo dentro do qual todo processamento subsequente ocorre.
+\end{enumerate}
+
+\subsection{A diferença entre instruir, contextualizar e educar}
+
+Vou ser concreto. Imagine que você precisa de uma análise de risco financeiro:
+
+\textbf{Engenharia de Prompt (instruir):} ``Analise o risco financeiro da empresa X com base no balanço anexo.''
+
+\emph{Resultado: análise genérica, possivelmente com dados inventados, sem hierarquia de fontes, sem metodologia transparente.}
+
+\textbf{Engenharia de Contexto (contextualizar):} Você fornece o balanço, os últimos 3 anos de demonstrativos, benchmarks do setor, e diz: ``Com base nesses documentos, analise o risco.''
+
+\emph{Resultado: melhor, porque há dados reais. Mas o modelo decide sozinho COMO analisar --- qual método, quais métricas priorizar, qual nível de conservadorismo aplicar.}
+
+\textbf{Injeção de Framework (educar):} Você injeta um framework completo de análise de risco: ``Você é um analista de risco que aplica a seguinte metodologia: (1) Avaliar liquidez via current ratio e quick ratio, com thresholds do setor; (2) Analisar alavancagem via debt-to-equity com benchmarks específicos; (3) Stress-test sob 3 cenários (base, adverso, severo) usando premissas de [fonte]; (4) Hierarquia de fontes: dados primários do balanço $>$ demonstrativos auditados $>$ benchmarks setoriais $>$ estimativas; (5) Em caso de dados conflitantes, citar a discrepância e não resolver arbitrariamente; (6) Red line: nunca emitir recomendação de investimento --- apenas análise de risco.''
+
+\emph{Resultado: análise metodologicamente fundamentada, com rastreabilidade, transparência e governança.}
+
+\textbf{Não é dar mais informação. É transferir raciocínio.}
+
+\subsection{Os 5 tipos de framework}
+
+Nem todos os frameworks servem à mesma função epistêmica:
+
+\begin{table}[htbp]
+\centering
+\caption{Os cinco tipos de framework e suas funções epistêmicas}
+\label{tab:tipos-framework}
+\begin{tabular}{l l p{7cm}}
+\toprule
+\textbf{Tipo} & \textbf{Função} & \textbf{Exemplo} \\
+\midrule
+Declarativo & O que saber & Hierarquias de fontes (primária $>$ secundária $>$ terciária); ontologias de domínio \\
+Procedimental & Como raciocinar & Diagnóstico diferencial (medicina); IRAC (direito); DCF (finanças) \\
+Avaliativo & Como julgar & Rubricas de pontuação; critérios de qualidade; padrões de avaliação do domínio \\
+Ético & O que recusar & Cercas de compliance (médico: não causar dano; jurídico: conflito de interesse) \\
+Composicional & Como combinar & Workflows multi-etapas que orquestram os 4 tipos anteriores \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Um framework maduro para qualquer domínio profissional incluirá os cinco tipos, organizados hierarquicamente: restrições éticas se sobrepõem a critérios avaliativos, que restringem passos procedimentais, que operam sobre conhecimento declarativo, tudo orquestrado por lógica composicional.
+
+% ══════════════════════════════════════════════════════════════════════
+\section{Protocolo de Têmpera Adversarial (ATP)}
+\label{sec:atp}
+
+\subsection{A metáfora metalúrgica}
+
+Aço bruto é frágil. Fratura sob estresse porque sua estrutura cristalina contém defeitos internos --- contornos de grão, deslocações, inclusões --- que concentram tensão e propagam falha. O processo metalúrgico de têmpera transforma aço bruto em material de força e resiliência extraordinárias, através de um ciclo controlado de aquecimento, deformação, recozimento e resfriamento rápido.
+
+A lâmina temperada não é meramente \emph{verificada} quanto a defeitos. Ela é \emph{estruturalmente transformada} pelo processo de teste.
+
+O ATP aplica esse princípio ao output de IA. Output bruto de LLM, como aço bruto, contém defeitos estruturais: alucinações, inconsistências lógicas, evidências ausentes, vieses não examinados, violações de domínio. ATP não \emph{detecta} esses defeitos; \emph{transforma} o output através de ciclos iterativos de geração, ataque, reparo e endurecimento.
+
+\subsection{As 4 fases}
+
+\textbf{Fase 1: Forjar.} Gerar o artefato usando Injeção de Framework. O agente raciocina dentro do framework de domínio, produzindo um output inicial que reflete expertise mas ainda não foi estressado.
+
+\textbf{Fase 2: Martelar.} Atacar o artefato adversarialmente. Um segundo agente (ou persona adversarial dedicada) tenta \emph{destruir} o output: identificar alucinações, expor erros lógicos, encontrar evidências ausentes, revelar premissas não declaradas, detectar vieses, desafiar cada afirmação. O martelamento é deliberadamente agressivo --- seu propósito é encontrar toda fraqueza, não dar feedback construtivo.
+
+\textbf{Fase 3: Recozer.} Reparar e melhorar. Incorporar \emph{apenas críticas validadas} --- aquelas que sobrevivem ao próprio escrutínio. Descartar críticas que são, elas mesmas, alucinadas, logicamente falhas ou baseadas em premissas incorretas. O recozimento é onde ocorrem os maiores ganhos de qualidade.
+
+\textbf{Fase 4: Resfriar.} Endurecer e blindar. Cada achado remanescente é classificado por um mecanismo sentinela: \texttt{OK} (verificado como preciso), \texttt{NORMA\_OK} (normativamente compliant), ou \texttt{ALUCINAÇÃO} (inverificável ou falso). Alucinações são \emph{removidas} do output final --- não sinalizadas, não anotadas, mas excisadas. Um Índice de Confiança é calculado para o artefato temperado.
+
+\subsection{Na prática: implementação multi-agente}
+
+\begin{itemize}
+  \item \textbf{Artesão Semântico} (Forjar): o agente primário, operando dentro do framework injetado
+  \item \textbf{Auditor Constitucional} (Martelar): agente adversarial dedicado à destruição sistemática
+  \item \textbf{Sentinela} (Resfriar): agente de validação que classifica achados e aplica o protocolo de remoção de alucinações
+\end{itemize}
+
+O Recozimento é executado pelo Artesão Semântico em diálogo com os achados do Auditor, mediado pelas classificações do Sentinela. O criador não valida seu próprio trabalho. O atacante não decide o que manter. O validador não participa da criação.
+
+\subsection{Por que ``têmpera'' e não apenas ``validação''}
+
+A distinção é fundamental. Validação \emph{verifica} se um artefato atende a um padrão. Têmpera \emph{transforma} o artefato pelo processo de verificação. Um documento validado foi revisado. Um documento temperado foi \emph{tornado estruturalmente mais forte} pelo processo de revisão.
+
+\textbf{Não é verificar. É transformar.}
+
+Resultado empírico: zero alucinações residuais em 6 domínios profissionais (direito, medicina, finanças, cibersegurança, educação, engenharia), com Índice de Confiança médio de 0,94.
+
+% ══════════════════════════════════════════════════════════════════════
+\section{Por Que Isso Funciona --- 6 Fundamentos Teóricos}
+\label{sec:fundamentos}
+
+Artesanato Digital e Injeção de Framework não são intuição empacotada como teoria. São fundamentados em seis tradições intelectuais independentes que convergem para a mesma conclusão.
+
+\subsection{Vygotsky --- Zona de Desenvolvimento Proximal}
+
+O LLM sem framework opera no seu \emph{nível de desenvolvimento real} --- o baseline determinado por seus dados de treinamento. Com framework injetado, opera na sua \emph{zona de desenvolvimento proximal}: o framework é o scaffolding que permite performance acima do baseline. Remova o framework, e a performance cai. Isso confirma que FI opera como scaffolding, não como aprendizado. Uma biblioteca jurídica não faz um estudante de direito; um mentor faz. FI fornece o mentor.
+
+\subsection{Sweller --- Carga Cognitiva}
+
+Sem framework, o LLM gasta capacidade de processamento resolvendo questões meta: que domínio é este? Quais padrões aplicar? Que fontes priorizar? Isso é \emph{carga extrínseca computacional}. FI elimina a carga extrínseca ao pré-especificar domínio, metodologia, padrões e hierarquia de fontes. A capacidade do modelo é redirecionada para raciocínio real (\emph{carga germânica}). Prompts mais longos com frameworks produzem output melhor que prompts curtos --- exatamente o que a teoria de Sweller prediz.
+
+\subsection{Wittgenstein --- Jogos de Linguagem}
+
+Domínios profissionais diferentes constituem \emph{jogos de linguagem} diferentes, cada um com regras distintas. Sem framework, o LLM joga o jogo genérico de ``assistente útil de IA''. Com framework, é ensinado \emph{qual jogo jogar}: as jogadas válidas, os critérios, as convenções da comunidade profissional. Quando um prompt diz ``aja como advogado'', invoca o \emph{rótulo} do jogo jurídico sem especificar suas \emph{regras}. FI substitui o rótulo pelas regras.
+
+\subsection{Polanyi --- Conhecimento Tácito}
+
+``Podemos saber mais do que podemos dizer.'' O conhecimento mais valioso é exatamente o que resiste à articulação. O processo de \emph{criar} um framework é um ato de externalização no modelo SECI de Nonaka e Takeuchi: o expert articula seu conhecimento tácito em forma explícita, estruturada. Frameworks podem ser compartilhados, versionados e compostos. Quando um LLM opera dentro de um framework, exibe comportamento consistente com internalização. FI não é apenas uma técnica de IA --- é um \emph{instrumento de gestão do conhecimento}.
+
+\subsection{Peirce --- Semiótica}
+
+A semiótica triádica de Peirce (Primeiridade, Secundidade, Terceiridade) explica por que FI funciona em nível formal. Engenharia de prompt projeta Secundidade (o que o modelo deve referenciar). FI projeta \emph{Terceiridade} (como o modelo deve interpretar). A diferença entre projetar referência e projetar interpretação é a diferença entre output estocástico e output quase-determinístico.
+
+\subsection{Greenberg --- Universais Linguísticos}
+
+A pesquisa tipológica de Greenberg identificou padrões que recorrem em línguas não relacionadas, sugerindo origens cognitivas: Agente/Ação/Paciente, Tópico-Comentário, Tempo/Aspecto/Modalidade, hierarquias de polidez. LLMs, treinados em linguagem humana, herdam esses vieses de processamento. Projetar prompts alinhados com universais linguísticos é projetar para a arquitetura cognitiva do modelo --- elevando design de prompt de intuição artesanal a engenharia linguisticamente fundamentada.
+
+% ══════════════════════════════════════════════════════════════════════
+\section{Quem Mais Está Fazendo Algo Parecido?}
+\label{sec:trabalhos-relacionados}
+
+Ninguém está propondo exatamente Injeção de Framework. Mas há trabalhos adjacentes que merecem reconhecimento e diferenciação honesta.
+
+\textbf{DSPy (Stanford, Khattab et al. 2023)} --- Framework programático para otimizar pipelines de LLM, substituindo prompts manuais por programas compilados e modulares. Otimiza \emph{mecânica de pipeline} --- como o modelo é chamado --- mas não transfere métodos de raciocínio específicos de domínio. \emph{Proximidade: 4/10.}
+
+\textbf{Context Engineering (Anthropic, 2025)} --- Prática sistemática de gerenciar que informação o modelo recebe. Avanço conceitual significativo. Mas gerencia o que o modelo \emph{vê}; FI determina como o modelo \emph{pensa}. A distinção é entre um estudante com biblioteca bem abastecida e um estudante com biblioteca \emph{e} metodologia de pesquisa. \emph{Proximidade: 4/10.}
+
+\textbf{LLM-ACTR (Wu, Oltramari et al. 2025, CMU)} --- Integra LLMs com ACT-R, uma arquitetura cognitiva computacional. Abordagem séria. Mas transfere estruturas de raciocínio de um \emph{modelo computacional}, não de \emph{expertise humana}. Exige especialização em ciência cognitiva computacional; FI exige expertise de domínio. Perfis de acessibilidade fundamentalmente diferentes. \emph{Proximidade: 6/10.}
+
+\textbf{Meta-Prompting (Chain-of-Thought, Tree-of-Thought, Graph-of-Thought)} --- Fornece scaffolds de raciocínio \emph{genéricos} (``pense passo a passo''). FI fornece métodos de raciocínio \emph{específicos de domínio} (``como um cardiologista diagnostica arritmia''). A distinção é entre ensinar alguém ``a pensar com cuidado'' e ensinar alguém \emph{como pensar numa área específica}. \emph{Proximidade: 3/10.}
+
+\textbf{Ninguém propõe o que nós propomos}: a transferência unidirecional de métodos completos de raciocínio de domínio, como mecanismo epistêmico formal, fundamentado em 6 tradições teóricas, com protocolo de validação adversarial integrado. Não é arrogância. É cartografia: mapeamos o território e ele estava vazio nesse ponto preciso.
+
+% ══════════════════════════════════════════════════════════════════════
+\section{O Ecossistema Completo}
+\label{sec:ecossistema}
+
+Artesanato Digital e Injeção de Framework não existem isolados. Fazem parte de um ecossistema de pesquisa projetado para cobrir o espectro completo dos desafios de colaboração humano-IA:
+
+\textbf{STEER} (Structured Taxonomy for Embedding-space Exploration and Retrieval) --- 16 operações algébricas para retrieval em espaço de embeddings. STEER resolve o problema de \emph{recuperação}: como encontrar a informação certa para inclusão em contexto e frameworks. F1 = 0,91 no classificador. DOI: \href{https://doi.org/10.5281/zenodo.19325724}{\texttt{10.5281/zenodo.19325724}}.
+
+\textbf{IMI} (Integrated Memory Infrastructure) --- Memória cognitiva para agentes de IA via grafos, memória adaptativa e causal. IMI resolve o problema de \emph{persistência}: como manter e evoluir frameworks entre interações. 84 testes. DOI: \href{https://doi.org/10.5281/zenodo.19325745}{\texttt{10.5281/zenodo.19325745}}.
+
+\textbf{SYMBIONT} (Symbiotic Multi-agent Biologically-Inspired Orchestration of Networked Tasks) --- 8 padrões bio-inspirados para coordenação multi-agente. SYMBIONT resolve o problema de \emph{orquestração}: como coordenar múltiplos agentes framework-injetados em workflows complexos. 3.700 LOC. Submetido ao ANTS 2026. DOI: \href{https://doi.org/10.5281/zenodo.19325749}{\texttt{10.5281/zenodo.19325749}}.
+
+\textbf{AGORA} --- Sistema operacional semântico para trabalho profissional IA-aumentado. AGORA fornece o ambiente de execução no qual Artesanato Digital é praticado e Injeção de Framework é implantada. Arquitetura de kernel duplo: AGORA-SOS (camada de verdade, implementa ATP) e AGORA-X (camada de execução, implementa FI).
+
+Juntos: STEER recupera, IMI lembra, SYMBIONT coordena, AGORA governa, e Artesanato Digital com Injeção de Framework fornece a fundação epistêmica e o mecanismo central.
+
+Quatro DOIs no Zenodo. Três repositórios open-source. Um paper aceito no ANTS 2026. Tudo como pesquisador independente de São Paulo.
+
+\textbf{Não é um paper. É um programa de pesquisa} --- no sentido lakatosiano, com núcleo duro (a qualidade do output é proporcional à qualidade do raciocínio transferido) e cinturão protetor (taxonomias específicas, fórmulas de métricas, número de fases do ATP) que pode evoluir sem ameaçar os compromissos fundacionais.
+
+% ══════════════════════════════════════════════════════════════════════
+\section{Limitações Honestas}
+\label{sec:limitacoes}
+
+Honestidade intelectual exige reconhecimento explícito. Aqui estão as limitações reais deste trabalho:
+
+\textbf{1. Alta barreira de entrada.} Criar frameworks efetivos exige expertise genuína de domínio. Isso é simultaneamente uma feature de qualidade (output é limitado pela qualidade do expert) e uma limitação de acessibilidade (nem todos podem criar frameworks). Na análise comparativa de 10 dimensões, a menor nota de FI é exatamente ``acessibilidade do praticante'' (6/10), enquanto engenharia de prompt marca 9/10. Facilidade de uso e profundidade de interação são, por enquanto, inversamente relacionadas.
+
+\textbf{2. Sem benchmark formal padronizado.} Proponho o experimento ``Pidgin Gap'' e o Índice de Fidelidade de Transferência, mas nenhum foi implementado como benchmark padronizado. A análise comparativa atual se baseia em avaliação qualitativa, não em medição quantitativa padronizada. A validação cruzada em 6 domínios é encorajante, mas não é um benchmark publicado com reprodutibilidade independente.
+
+\textbf{3. O Paradoxo do Artesão.} Se Injeção de Framework é tão eficaz em transferir expertise, por que a IA não pode criar seus próprios frameworks? Se pode, o artesão humano eventualmente se torna desnecessário. Se não pode, o que limita a transferência?
+
+A resolução teórica: a assimetria entre \emph{operar dentro} de um framework e \emph{criar} um framework. Criação de framework exige conhecimento tácito (Polanyi) --- compreensão corporificada, contextual, experiencial que experts de domínio possuem mas não conseguem articular completamente. O framework \emph{é} a articulação do conhecimento tácito. O agente de IA pode operar dentro do framework externalizado com facilidade extraordinária, mas não pode gerar a externalização a partir de seus próprios recursos porque lhe falta o conhecimento tácito que impulsiona o processo.
+
+O paradoxo está empiricamente não resolvido no sentido forte: não podemos provar que sistemas futuros de IA nunca desenvolverão capacidade de criação autônoma de frameworks. Mas a resolução atual é clara.
+
+\textbf{4. Portabilidade cross-modelo não validada.} Toda validação empírica foi conduzida em famílias de modelos específicas. O grau em que frameworks transferem entre arquiteturas permanece questão aberta.
+
+\textbf{5. Composição de frameworks não estudada.} Quando múltiplos frameworks são injetados simultaneamente, eles compõem aditivamente ou interferem? Sob quais condições a composição melhora performance e sob quais a degrada?
+
+Essas não são fraquezas que escondo. São a agenda de pesquisa que me impulsiona.
+
+% ══════════════════════════════════════════════════════════════════════
+\section{Fechamento: O Fim do Pidgin Digital}
+\label{sec:fechamento}
+
+Por quatro anos, desde a emergência pública dos grandes modelos de linguagem no final de 2022, o paradigma dominante de interação tem sido uma forma de pidgin digital: uma linguagem de comando empobrecida que explora uma fração das capacidades disponíveis, produz output genérico e frequentemente não confiável, e trata os sistemas de processamento de linguagem mais sofisticados da história humana como executores de comando glorificados.
+
+Engenharia de contexto melhorou a situação ao enriquecer o ambiente informacional do modelo. Mas deixou o problema fundamental intocado: fornecer mais informação não ensina raciocínio.
+
+Artesanato Digital fornece a práxis epistêmica. Injeção de Framework fornece o mecanismo central. O Protocolo de Têmpera Adversarial fornece a disciplina de validação.
+
+Essas contribuições são fundamentadas em 2.500 anos de investigação filosófica (Platão, Aristóteles, Wittgenstein), apoiadas por seis fundamentos teóricos independentes da psicologia do desenvolvimento à tipologia linguística, validadas em seis domínios profissionais, e organizadas num programa de pesquisa lakatosiano --- o Programa de Inteligência Artesanal --- projetado para evoluir por mudanças progressivas de problemas mantendo seus compromissos nucleares.
+
+A era do pidgin digital está acabando. A era do artesanato digital está começando.
+
+\begin{quote}
+\emph{Pare de comandar IA. Comece a educá-la.}
+\end{quote}
+
+% ══════════════════════════════════════════════════════════════════════
+\section*{Links e Recursos}
+\addcontentsline{toc}{section}{Links e Recursos}
+
+\begin{itemize}
+  \item \textbf{Paper completo (inglês)}: \href{https://github.com/RAG7782/papers}{GitHub -- paper8-founding}
+  \item \textbf{STEER}: DOI \href{https://doi.org/10.5281/zenodo.19325724}{10.5281/zenodo.19325724} | \href{https://github.com/RAG7782/steer}{GitHub}
+  \item \textbf{IMI}: DOI \href{https://doi.org/10.5281/zenodo.19325745}{10.5281/zenodo.19325745} | \href{https://github.com/RAG7782/imi}{GitHub}
+  \item \textbf{SYMBIONT}: DOI \href{https://doi.org/10.5281/zenodo.19325749}{10.5281/zenodo.19325749} | \href{https://github.com/RAG7782/symbiont}{GitHub}
+  \item \textbf{ORCID}: \href{https://orcid.org/0009-0005-7380-9876}{0009-0005-7380-9876}
+\end{itemize}
+
+% ══════════════════════════════════════════════════════════════════════
+\section*{Sobre o Autor}
+\addcontentsline{toc}{section}{Sobre o Autor}
+
+Renato Aparecido Gomes é pesquisador independente em São Paulo, Brasil. Criou o Programa de Inteligência Artesanal --- um ecossistema de pesquisa com 4 DOIs publicados no Zenodo, 3 repositórios open-source e 1 paper aceito no ANTS 2026 (International Conference on Swarm Intelligence, Barcelona). Trabalha na interseção entre filosofia da linguagem, semiótica e inteligência artificial aplicada. ORCID: \href{https://orcid.org/0009-0005-7380-9876}{0009-0005-7380-9876}.
+
+% ══════════════════════════════════════════════════════════════════════
+\section*{Citação}
+\addcontentsline{toc}{section}{Citação}
+
+\begin{verbatim}
+@article{gomes2026commands,
+  title={From Commands to Cognition: Digital Craftsmanship
+         and the Framework Injection Paradigm},
+  author={Gomes, Renato Aparecido},
+  year={2026},
+  month={March},
+  note={The Founding Paper of the Artisanal Intelligence Program},
+  url={https://github.com/RAG7782/papers}
+}
+\end{verbatim}
+
+\medskip
+\noindent\emph{Este artigo é uma adaptação acessível do paper acadêmico ``From Commands to Cognition: Digital Craftsmanship and the Framework Injection Paradigm'' (Gomes, 2026). O paper completo inclui definições formais, provas e análise comparativa quantitativa.}
+
+\medskip
+\noindent\emph{Versão em inglês disponível em: \href{https://github.com/RAG7782/papers}{GitHub -- paper8-founding}}
+
+\end{document}
