@@ -85,7 +85,7 @@ The dominant paradigm for human-AI interaction remains rooted in a form of digit
 
 This paper introduces \textbf{Digital Craftsmanship}, formally classified as an \emph{epistemic praxis}---theory-informed, ethically-grounded, reflective practice for the creation, transfer, and governance of artificial intelligence. Its core mechanism is \textbf{Framework Injection} (FI): the unidirectional transfer of complete domain-specific reasoning methods from human expert to AI agent, encoded in natural language, operating as persistent cognitive substrate. Together, they establish a three-paradigm evolutionary taxonomy: \emph{Command} (prompt engineering) $\to$ \emph{Inform} (context engineering) $\to$ \emph{Educate} (framework injection), with the formal inclusion relation PE $\subset$ CE $\subset$ FI.
 
-We introduce the \textbf{Adversarial Tempering Protocol} (ATP), a four-phase validation mechanism---Forge, Strike, Anneal, Quench---inspired by metallurgical tempering, which produces structurally stronger output through iterative adversarial stress cycles at inference time. We ground these contributions in six theoretical foundations spanning developmental psychology (Vygotsky), instructional design (Sweller), philosophy of language (Wittgenstein), knowledge management (Polanyi, Nonaka \& Takeuchi), semiotics (Peirce), and linguistics (Greenberg). Empirical validation across six professional domains---law, medicine, finance, cybersecurity, education, and engineering---demonstrates zero residual hallucinations in tempered output with a mean Confidence Index of 0.94.
+We introduce the \textbf{Adversarial Tempering Protocol} (ATP), a four-phase validation mechanism---Forge, Strike, Anneal, Quench---inspired by metallurgical tempering, which produces structurally stronger output through iterative adversarial stress cycles at inference time. We ground these contributions in seven theoretical foundations spanning developmental psychology (Vygotsky), instructional design (Sweller), philosophy of language (Wittgenstein), knowledge management (Polanyi, Nonaka \& Takeuchi), semiotics (Peirce), linguistics (Greenberg), and frame semantics (Fillmore, Fauconnier \& Turner). Empirical validation across six professional domains---law, medicine, finance, cybersecurity, education, and engineering---demonstrates zero residual hallucinations in tempered output with a mean Confidence Index of 0.94.
 
 We present the ontological framework relating Digital Craftsmanship and Framework Injection through Aristotelian constitutive inherence, classify the research program as a Lakatosian research program named the \emph{Artisanal Intelligence Program}, and articulate its integration with four companion systems: STEER (retrieval), IMI (memory), IMI Theory (persistence), and SYMBIONT (multi-agent coordination).
 
@@ -133,7 +133,7 @@ This paper addresses three foundational questions:
 
 \subsection{Contributions and Scope}
 
-This paper is the canonical founding document of the Artisanal Intelligence Program. It merges and supersedes two companion papers that provide deeper treatments of specific aspects. Anyone who cites this paper has cited the complete framework. The nine specific contributions are enumerated in Section~\ref{sec:contributions}.
+This paper is the canonical founding document of the Artisanal Intelligence Program. It merges and supersedes two companion papers that provide deeper treatments of specific aspects. Anyone who cites this paper has cited the complete framework. The ten specific contributions are enumerated in Section~\ref{sec:contributions}.
 
 
 % ══════════════════════════════════════════════════════════════════════
@@ -477,7 +477,7 @@ This convergence across radically different domains suggests that iterative stre
 
 
 % ══════════════════════════════════════════════════════════════════════
-\section{Theoretical Grounding: Six Foundations}
+\section{Theoretical Grounding: Seven Foundations}
 \label{sec:theory}
 
 This section constitutes the theoretical core of the paper. Each of the six foundations provides independent theoretical support for Framework Injection and Digital Craftsmanship. Together, they constitute a convergent argument from developmental psychology, instructional design, philosophy of language, knowledge management, semiotics, and linguistics.
@@ -589,6 +589,44 @@ Joseph Greenberg's typological research \cite{greenberg1963} identified implicat
 \textbf{Politeness hierarchies}: the universal system of formality and social distance marking maps to register calibration---the practice of signaling the expected formality, technicality, and audience of the output.
 
 These universals are not arbitrary conventions; they reflect the cognitive architecture that humans bring to language processing. LLMs, trained on human language, inherit these processing biases. Designing prompts that align with linguistic universals is designing for the cognitive architecture of the language model---a principle that elevates prompt design from craft intuition to linguistically grounded engineering.
+
+\subsection{Fillmore's Frame Semantics, Rosch's Prototypes, and Fauconnier \& Turner's Conceptual Blending: The Semiotic Density Principle}
+\label{sec:theory:density}
+
+The sixth foundation addresses \emph{which} linguistic patterns to use; this seventh foundation addresses \emph{why} they carry so much more information than their surface form suggests.
+
+Consider the prompt ``generate a selfie of a giraffe.'' The term ``selfie'' carries an implicit semantic payload far exceeding its dictionary definition: camera position (arm's length, close-up), framing (face-centered), expression (smiling, posing), lighting (frontal, casual), and social context (spontaneous, informal). The term ``giraffe'' carries its own field: environment (savanna, nature), scale (tall), behavior (curious, gentle). When a language model processes this prompt, it does not simply retrieve ``selfie'' + ``giraffe''---it \emph{blends} the two semantic fields, producing emergent properties that exist in neither field alone: the giraffe ``smiles'' (because the selfie frame demands expression), and the scene is set in nature (because the giraffe frame demands environment). No explicit instruction specified any of this.
+
+This phenomenon is explained by three converging theories. Fillmore's \emph{frame semantics} \citep{fillmore1982frame} demonstrates that words activate structured knowledge frames with default roles and relations. Rosch's \emph{prototype theory} \citep{rosch1975cognitive} shows that categories are organized around prototypical instances that carry default properties. Fauconnier and Turner's \emph{conceptual blending} \citep{fauconnier2002way} explains how combining two input spaces produces a blended space with emergent properties not present in either input.
+
+In the context of large language models, these theories map directly onto the mechanics of distributional semantics. Token embeddings encode the co-occurrence patterns of words across the training corpus---what Firth \citeyearpar{firth1957synopsis} described as ``you shall know a word by the company it keeps.'' Each embedding is, in effect, a \emph{compressed semantic field}: the full constellation of frames, prototypes, and associations that the word activates. When Framework Injection uses domain-specific terms of high semiotic density, it leverages this compression---each term unpacks into a rich field of implicit reasoning that the model activates without explicit instruction.
+
+We formalize this as the \textbf{Principle of Semiotic Density}:
+
+\begin{definition}[Semiotic Density]
+Every term in human language carries an implicit semantic field---a constellation of associated concepts, prototypical instances, default frames, and embodied metaphors---that LLMs activate via distributional semantics. The digital artisan must be conscious of these fields and compose them intentionally, leveraging productive densities and neutralizing misleading ones.
+\end{definition}
+
+This principle explains four key observations:
+
+\begin{enumerate}
+    \item \textbf{Why ``selfie of a giraffe'' outperforms fifty words of explicit instruction}---because two terms of high semiotic density carry more implicit information than fifty terms of low density.
+    \item \textbf{Why Framework Injection outperforms detailed instructions}---because frameworks use dense terms whose implicit fields carry domain reasoning in compressed form.
+    \item \textbf{Why digital pidgin fails}---because generic verbs (``summarize,'' ``improve,'' ``analyze'') have \emph{low} semiotic density, activating vague frames that produce generic outputs.
+    \item \textbf{Why domain expertise is essential for framework creation}---because only the domain expert knows which terms carry the correct semantic payload for their field.
+\end{enumerate}
+
+The principle also yields a transversal practice we term \textbf{Semiotic Density Engineering}---five operations applicable across all five framework types:
+
+\begin{enumerate}
+    \item \textbf{Densify}: replace generic terms with high-density domain terms (``analyze'' $\to$ ``conduct due diligence'').
+    \item \textbf{Rarefy}: replace overloaded terms with neutral alternatives when the payload misleads (``attack'' $\to$ ``evaluate adversarially'').
+    \item \textbf{Rotate}: use STEER operations to navigate between adjacent density fields.
+    \item \textbf{Subtract}: use STEER to remove unwanted semantic dimensions.
+    \item \textbf{Blend}: create deliberate conceptual blends between terms whose frames combine productively (``fiscal surgeon'' = \{surgical precision\} $\times$ \{tax domain\}).
+\end{enumerate}
+
+This connection between Semiotic Density Engineering and STEER's algebraic operations reveals that what Framework Injection accomplishes qualitatively---composing semantic fields through term selection---STEER accomplishes quantitatively through vector operations in embedding space. They are two views of the same underlying phenomenon: the intentional navigation of semiotic density.
 
 
 % ══════════════════════════════════════════════════════════════════════
@@ -921,7 +959,7 @@ We propose a controlled experiment comparing PE, CE, and FI across multiple doma
 \section{Contributions}
 \label{sec:contributions}
 
-This paper makes nine specific contributions:
+This paper makes ten specific contributions:
 
 \begin{enumerate}
   \item \textbf{The term ``Digital Craftsmanship''} and its formal classification as \emph{epistemic praxis}---theory-informed, ethically-grounded, reflective practice for AI creation, transfer, and governance.
@@ -934,7 +972,9 @@ This paper makes nine specific contributions:
 
   \item \textbf{The Adversarial Tempering Protocol}: a four-phase validation mechanism (Forge $\to$ Strike $\to$ Anneal $\to$ Quench) that produces structurally stronger output through iterative adversarial stress cycles.
 
-  \item \textbf{Six theoretical connections}: the first systematic grounding of human-AI interaction methodology in Vygotsky's ZPD, Sweller's CLT, Wittgenstein's language games, Polanyi's tacit knowledge (via Nonaka \& Takeuchi's SECI), Peirce's semiotics, and Greenberg's linguistic universals.
+  \item \textbf{Seven theoretical connections}: the first systematic grounding of human-AI interaction methodology in Vygotsky's ZPD, Sweller's CLT, Wittgenstein's language games, Polanyi's tacit knowledge (via Nonaka \& Takeuchi's SECI), Peirce's semiotics, Greenberg's linguistic universals, and Fillmore/Fauconnier \& Turner's frame semantics and conceptual blending.
+
+  \item \textbf{The Principle of Semiotic Density and the practice of Semiotic Density Engineering}: the formalization that every term carries an implicit semantic field activated by LLMs via distributional semantics, and the five operations (Densify, Rarefy, Rotate, Subtract, Blend) for intentional navigation of semiotic density across all framework types.
 
   \item \textbf{The ontological framework}: constitutive inherence between Digital Craftsmanship and Framework Injection, articulated through Aristotelian four causes and organized in a five-level abstraction hierarchy.
 
@@ -975,7 +1015,7 @@ For four years, since the public emergence of large language models in late 2022
 
 Digital Craftsmanship provides the epistemic praxis---the theory-informed, ethically-grounded, reflective practice---that elevates human-AI interaction from commanding to educating. Framework Injection provides the core mechanism---the unidirectional transfer of complete domain-specific reasoning methods that transforms generic language models into domain-specific reasoning agents. The Adversarial Tempering Protocol provides the validation discipline---the iterative stress-testing that transforms draft output into tempered output, structurally stronger and empirically reliable.
 
-These contributions are grounded in 2,500 years of philosophical inquiry (Plato, Aristotle, Wittgenstein), supported by six independent theoretical foundations from developmental psychology to linguistic typology, validated across six professional domains, and organized into a Lakatosian research program---the Artisanal Intelligence Program---designed to evolve through progressive problem shifts while maintaining its hard core commitments.
+These contributions are grounded in 2,500 years of philosophical inquiry (Plato, Aristotle, Wittgenstein), supported by seven independent theoretical foundations from developmental psychology to linguistic typology and frame semantics, validated across six professional domains, and organized into a Lakatosian research program---the Artisanal Intelligence Program---designed to evolve through progressive problem shifts while maintaining its hard core commitments.
 
 The era of digital pidgin is ending. The era of digital craftsmanship is beginning.
 
@@ -1086,6 +1126,21 @@ R.~A. Gomes.
 \newblock Zenodo, 2026.
 \newblock \doi{10.5281/zenodo.19325749}.
 
+\bibitem[Fauconnier and Turner(2002)]{fauconnier2002way}
+G.~Fauconnier and M.~Turner.
+\newblock \emph{The Way We Think: Conceptual Blending and the Mind's Hidden Complexities}.
+\newblock Basic Books, New York, 2002.
+
+\bibitem[Fillmore(1982)]{fillmore1982frame}
+C.~J. Fillmore.
+\newblock Frame semantics.
+\newblock In \emph{Linguistics in the Morning Calm}, pages 111--137. Hanshin Publishing Co., Seoul, 1982.
+
+\bibitem[Firth(1957)]{firth1957synopsis}
+J.~R. Firth.
+\newblock A synopsis of linguistic theory, 1930--1955.
+\newblock In \emph{Studies in Linguistic Analysis}, pages 1--32. Blackwell, Oxford, 1957.
+
 \bibitem[Greenberg(1963)]{greenberg1963}
 J.~H. Greenberg.
 \newblock Some universals of grammar with particular reference to the order of meaningful elements.
@@ -1133,6 +1188,11 @@ Plato.
 M.~Polanyi.
 \newblock \emph{The Tacit Dimension}.
 \newblock Doubleday, Garden City, NY, 1966.
+
+\bibitem[Rosch(1975)]{rosch1975cognitive}
+E.~Rosch.
+\newblock Cognitive representations of semantic categories.
+\newblock \emph{Journal of Experimental Psychology: General}, 104(3):192--233, 1975.
 
 \bibitem[Searle(1969)]{searle1969}
 J.~R. Searle.
