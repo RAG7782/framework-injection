@@ -13,8 +13,14 @@
 \usepackage{graphicx}
 \usepackage{array}
 \usepackage{hyperref}
-\usepackage[margin=2.5cm]{geometry}
+\usepackage[margin=2.2cm,top=2.4cm,bottom=2.4cm]{geometry}
 \usepackage{xcolor}
+
+% ── Typography and spacing improvements ─────────────────────────────
+\IfFileExists{microtype.sty}{\usepackage[activate={true,nocompatibility},final,tracking=true,kerning=true,spacing=true]{microtype}}{}
+\widowpenalty=10000
+\clubpenalty=10000
+\raggedbottom
 
 % ── Conditionally load packages (basic install compatibility) ─────────
 \IfFileExists{booktabs.sty}{\usepackage{booktabs}}{\newcommand{\toprule}{\hline}\newcommand{\midrule}{\hline}\newcommand{\bottomrule}{\hline}}
@@ -52,7 +58,15 @@
 \newtheorem{axiom}{Axioma}[section]
 
 % ── Spacing ───────────────────────────────────────────────────────────
-\IfFileExists{setspace.sty}{\onehalfspacing}{}
+\IfFileExists{setspace.sty}{\setstretch{1.25}}{}
+\setlength{\parskip}{0.4em}
+\setlength{\parindent}{1.5em}
+
+% ── Section spacing ──────────────────────────────────────────────────
+\IfFileExists{titlesec.sty}{%
+  \titlespacing*{\section}{0pt}{1.5em}{0.8em}
+  \titlespacing*{\subsection}{0pt}{1.2em}{0.5em}
+}{}
 
 % ── Title ─────────────────────────────────────────────────────────────
 \title{%
@@ -91,7 +105,7 @@ Introduzimos o \textbf{Protocolo de Têmpera Adversarial} (ATP), um mecanismo de
 \noindent\textbf{Palavras-chave:} Artesanato Digital, Injeção de Framework, Protocolo de Têmpera Adversarial, práxis epistêmica, interação humano-IA, engenharia de prompt, engenharia de contexto, programa de pesquisa lakatosiano
 \end{abstract}
 
-\newpage
+\vfill
 \tableofcontents
 \newpage
 
@@ -159,6 +173,7 @@ Toda técnica válida de engenharia de prompt é uma prática válida (mas incom
 
 \begin{table}[htbp]
 \centering
+\small
 \caption{Taxonomia dos três paradigmas de interação humano-IA}
 \label{tab:taxonomia}
 \begin{tabular}{l l l l}
@@ -278,9 +293,10 @@ Nem todos os frameworks servem à mesma função epistêmica:
 
 \begin{table}[htbp]
 \centering
+\small
 \caption{Os cinco tipos de framework e suas funções epistêmicas}
 \label{tab:tipos-framework}
-\begin{tabular}{l l p{7cm}}
+\begin{tabular}{l l p{7.5cm}}
 \toprule
 \textbf{Tipo} & \textbf{Função} & \textbf{Exemplo} \\
 \midrule
@@ -446,7 +462,8 @@ A era do pidgin digital está acabando. A era do artesanato digital está começ
 \addcontentsline{toc}{section}{Links e Recursos}
 
 \begin{itemize}
-  \item \textbf{Paper completo (inglês)}: \href{https://github.com/RAG7782/papers}{GitHub -- paper8-founding}
+  \item \textbf{Paper fundador (DOI)}: \href{https://doi.org/10.5281/zenodo.19344789}{10.5281/zenodo.19344789}
+  \item \textbf{Código}: \href{https://github.com/RAG7782/framework-injection}{GitHub -- framework-injection}
   \item \textbf{STEER}: DOI \href{https://doi.org/10.5281/zenodo.19325724}{10.5281/zenodo.19325724} | \href{https://github.com/RAG7782/steer}{GitHub}
   \item \textbf{IMI}: DOI \href{https://doi.org/10.5281/zenodo.19325745}{10.5281/zenodo.19325745} | \href{https://github.com/RAG7782/imi}{GitHub}
   \item \textbf{SYMBIONT}: DOI \href{https://doi.org/10.5281/zenodo.19325749}{10.5281/zenodo.19325749} | \href{https://github.com/RAG7782/symbiont}{GitHub}
@@ -470,8 +487,9 @@ Renato Aparecido Gomes é pesquisador independente em São Paulo, Brasil. Criou 
   author={Gomes, Renato Aparecido},
   year={2026},
   month={March},
+  doi={10.5281/zenodo.19344789},
   note={The Founding Paper of the Artisanal Intelligence Program},
-  url={https://github.com/RAG7782/papers}
+  url={https://doi.org/10.5281/zenodo.19344789}
 }
 \end{verbatim}
 
