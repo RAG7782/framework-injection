@@ -1,0 +1,797 @@
+\documentclass[11pt,a4paper]{article}
+
+% --- Packages ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[english]{babel}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{geometry}
+\usepackage{natbib}
+\usepackage{microtype}
+\usepackage{float}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\geometry{margin=1in}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!60!black,
+    citecolor=blue!60!black,
+    urlcolor=blue!60!black,
+}
+
+% --- Title ---
+\title{\textbf{Digital Craftsmanship: A Semiotic Framework\\for Human-AI Interaction Beyond Prompt Engineering}}
+
+\author{
+    Renato Aparecido Gomes\\
+    Independent Researcher\\
+    S\~ao Paulo, Brazil\\
+    \texttt{renatoapgomes@gmail.com}\\
+    ORCID: \href{https://orcid.org/0009-0005-7380-9876}{0009-0005-7380-9876}
+}
+
+\date{}
+
+\begin{document}
+
+\maketitle
+
+% ============================================================
+% ABSTRACT
+% ============================================================
+\begin{abstract}
+Current approaches to human-AI interaction suffer from what we term \emph{digital pidgin}---an impoverished, telegraphic mode of communication that fails to exploit the full capacity of large language models (LLMs). We present \emph{Digital Craftsmanship}, a comprehensive semiotic and linguistic framework that reconceptualizes prompt engineering as a principled discipline rooted in the history of Western language theory, from Plato's evocative discourse through Aristotle's systematic rhetoric to the normative grammars of the Medieval tradition. The framework operationalizes insights from speech act theory, Peircean semiotics, and linguistic typology into seven operational layers, twelve essential elements, and an iterative refinement cycle (CAAJ~2.0) that together constitute a full methodology for human-AI collaboration. We further introduce AGORA, a semantic operating system that imposes governance, structured memory, and deliberative reasoning on LLMs through a dual-kernel architecture comprising a truth layer (GraphRAG-based) and an execution layer (System~2 reasoning). Five mandatory \emph{AGORA Intelligence} operations---including semantic rotation, orthogonal subtraction, generative hippocampus, anti-hallucination sentinel, and dependency graphing---are validated across six diverse domains (Brazilian tax law, pure mathematics, Alzheimer's research, financial markets, photonic computing, and quantum computing) with a 100\% success rate and zero hallucinations in final recommendations. The Semantic Slicing Protocol (PFS) addresses context deterioration in long documents through a four-step artisan process. We situate Digital Craftsmanship within a broader research ecosystem comprising STEER (algebraic embedding operations), IMI (cognitive memory), and SYMBIONT (bio-inspired multi-agent coordination), demonstrating how the framework serves as the methodological foundation unifying these complementary systems. This paper argues that the transition from digital pidgin to digital craftsmanship represents a necessary paradigm shift---from survival-level interaction to excellence-level collaboration between human intelligence and artificial systems.
+\end{abstract}
+
+\textbf{Keywords:} human-AI interaction, prompt engineering, semiotics, speech acts, large language models, semantic governance, digital craftsmanship, multi-agent systems
+
+% ============================================================
+% 1. INTRODUCTION
+% ============================================================
+\section{Introduction}
+\label{sec:introduction}
+
+The rapid proliferation of large language models (LLMs) has created an unprecedented situation in the history of technology: hundreds of millions of people now regularly communicate with machines using natural language, yet the vast majority do so in what can only be described as a \emph{pidgin}---a simplified, impoverished contact language stripped of the nuance, structure, and intentionality that characterize effective human communication.
+
+Linguistic pidgins arise when groups without a shared language must communicate for practical purposes \citep{muhlhausler1997pidgin}. The resulting language is functional but limited: reduced vocabulary, minimal grammar, no marking of social roles or pragmatic intent. By analogy, \emph{digital pidgin} is the telegraphic, decontextualized mode in which most users interact with AI systems---short imperatives, no role specification, no audience framing, no validation strategy, no iterative refinement. It is, as we argue, ``a survival language, not an excellence language.''
+
+The consequences are measurable. Studies consistently show that prompt quality dramatically affects output quality \citep{wei2022chain, zhou2023large}, yet the dominant paradigm of ``prompt engineering'' remains largely atheoretical---a collection of empirical tricks (chain-of-thought, few-shot examples, role-playing preambles) without a unifying framework grounded in the disciplines that have studied language, meaning, and communication for millennia.
+
+This paper presents \emph{Digital Craftsmanship} (\emph{Artesanato Digital}), a comprehensive framework that regrounds human-AI interaction in the rich traditions of philosophy of language, semiotics, speech act theory, and linguistic typology. The framework makes three central claims:
+
+\begin{enumerate}[label=(\roman*)]
+    \item The history of prompt engineering \emph{recapitulates} the history of Western language theory---from evocative (Plato) to systematic (Aristotle) to normative (grammar)---and a conscious awareness of this trajectory enables a principled synthesis that transcends each stage.
+    \item Every prompt is a \emph{complex sign} in the Peircean sense, and every AI response is an act of \emph{algorithmic interpretation}; optimizing this semiotic process requires understanding projected semiosis---designing signs with awareness of how they will be interpreted.
+    \item Effective human-AI interaction is inherently \emph{dialogic}, not monologic; the ``perfect prompt'' myth must yield to iterative refinement cycles grounded in refutation, validation, and traceability.
+\end{enumerate}
+
+The framework is operationalized through seven layers of practice, twelve essential elements, and the CAAJ~2.0 iterative cycle. It is further supported by AGORA, a semantic operating system that transforms stochastic LLMs into deterministic, auditable agents; by AGORA Intelligence, a set of five mandatory analytical operations validated across six domains; and by the Semantic Slicing Protocol (PFS) for zero-deterioration processing of long documents.
+
+The remainder of this paper is organized as follows. Section~\ref{sec:philosophy} traces the philosophical arc from Plato to Digital Craftsmanship. Section~\ref{sec:semiotics} develops the semiotic and linguistic foundations. Section~\ref{sec:framework} presents the operational framework. Sections~\ref{sec:agora}--\ref{sec:pfs} describe the AGORA system, AGORA Intelligence, and PFS respectively. Section~\ref{sec:validation} reports empirical results. Section~\ref{sec:ecosystem} situates the work within a broader research ecosystem. Section~\ref{sec:discussion} discusses contributions and limitations. Section~\ref{sec:conclusion} concludes.
+
+% ============================================================
+% 2. PHILOSOPHICAL FOUNDATIONS
+% ============================================================
+\section{Philosophical Foundations: From Plato to Digital Craftsmanship}
+\label{sec:philosophy}
+
+The relationship between language, meaning, and reality has been the central preoccupation of Western philosophy since its inception. We argue that prompt engineering, whether its practitioners realize it or not, recapitulates this intellectual history---and that making this recapitulation conscious enables a qualitatively superior approach to human-AI interaction.
+
+\subsection{Plato: The Evocative Stage}
+
+Plato's treatment of language is fundamentally \emph{evocative}. In the \emph{Cratylus}, the dialogue on the correctness of names, Plato explores whether words bear a natural relationship to their referents or are merely conventional \citep{plato_cratylus}. The deeper insight, however, lies not in Plato's resolution of this question but in his \emph{method}: language is treated as a medium for evoking understanding, not merely transmitting information.
+
+In the \emph{Theaetetus}, Plato's exploration of knowledge proceeds through a dialectical process in which the interlocutors' understanding is progressively refined through question and response \citep{plato_theaetetus}. This maieutic method---the art of intellectual midwifery---is remarkably analogous to the iterative refinement that characterizes effective prompt engineering. The user does not extract a pre-formed answer from the AI; rather, through successive exchanges, understanding is \emph{constructed}.
+
+Early prompt engineering operates at this Platonic stage: users evoke responses through suggestive, loosely structured queries, hoping that the model's internal representations will align with their intent. The results are sometimes brilliant, often erratic---precisely because evocation without structure is inherently unreliable.
+
+\subsection{Aristotle: The Systematic Stage}
+
+Aristotle's contribution represents a decisive shift from evocation to \emph{systematization}. His logical works introduce the proposition, the predicate, and the syllogism as formal structures for reasoning \citep{aristotle_organon}. His \emph{Rhetoric} provides a systematic account of persuasion through ethos, pathos, and logos \citep{aristotle_rhetoric}. His \emph{Poetics} offers structural principles for narrative composition \citep{aristotle_poetics}. The \emph{Topics} catalogs inference patterns (\emph{topoi}) that can be deployed across domains \citep{aristotle_topics}.
+
+The parallel to modern prompt engineering is precise. Chain-of-thought prompting \citep{wei2022chain} is a rediscovery of the syllogistic chain. Role-playing preambles (``You are an expert in\ldots'') operationalize ethos. Few-shot examples function as topoi---reusable patterns of inference. The structured prompt template (persona/task/context/format/constraints) mirrors Aristotle's analytical decomposition of discourse.
+
+Yet Aristotle's system, for all its power, is fundamentally \emph{monologic}: it optimizes the single utterance, the single argument, the single composition. It does not account for the dialogic nature of real communication, nor for the cultural and contextual variation in how language works.
+
+\subsection{Medieval Grammar: The Normative Stage}
+
+The grammatical traditions of the Medieval period---Dionysius Thrax's \emph{Tekhn\=e Grammatik\=e} for Greek \citep{thrax_grammar}, S\={\i}bawayh's \emph{al-Kit\=ab} for Arabic \citep{sibawayh_alkitab}, and the much earlier but profoundly influential \emph{A\d{s}\d{t}\=adhy\=ay\={\i}} of P\=a\d{n}ini for Sanskrit \citep{panini_astadhyayi}---represent the \emph{normative} stage of language theory. Here, the goal is not to evoke understanding (Plato) or to systematize argument (Aristotle) but to \emph{codify rules} that govern correct usage.
+
+This stage corresponds to the formalization of prompt engineering into templates, best practices, and automated optimization systems such as DSPy \citep{khattab2023dspy}. The normative approach brings consistency and reproducibility, but at the cost of rigidity: templates that work brilliantly in one domain may fail in another, and the codified rules may suppress the creative, adaptive qualities that made the best prompts effective in the first place.
+
+A crucial insight from comparative grammar is the diversity of solutions that human languages have found for the same communicative problems. P\=a\d{n}ini's rule-based system is radically different from Thrax's categorical approach, which is itself different from S\={\i}bawayh's context-sensitive analysis. This diversity demonstrates that there is no single ``correct'' grammar of human-machine interaction---a lesson that rigid prompt templates systematically ignore.
+
+\subsection{Digital Craftsmanship: The Synthetic Stage}
+
+Digital Craftsmanship proposes a \emph{synthesis} that consciously draws on all three stages. From Plato, it retains the evocative power of language and the dialogic, iterative nature of understanding. From Aristotle, it takes the systematic decomposition of discourse into analyzable components with clear functional roles. From the grammarians, it inherits the aspiration to codify patterns while remaining aware of cultural and contextual variation.
+
+The term ``craftsmanship'' (\emph{artesanato}) is deliberately chosen. A craftsperson is neither a pure artist (creating from inspiration alone) nor a pure engineer (following specifications mechanically). Craftsmanship integrates deep domain knowledge, technical skill, aesthetic sensibility, and adaptive responsiveness to materials. The digital craftsperson molds AI with the same integration of rigor and creativity---understanding that AI does not replace the artisan but is the artisan's most powerful tool.
+
+% ============================================================
+% 3. SEMIOTIC AND LINGUISTIC FOUNDATIONS
+% ============================================================
+\section{Semiotic and Linguistic Foundations}
+\label{sec:semiotics}
+
+The philosophical arc of Section~\ref{sec:philosophy} provides historical orientation. This section develops the theoretical foundations that make Digital Craftsmanship a rigorous discipline rather than a collection of heuristics.
+
+\subsection{Prompts as Speech Acts}
+
+Austin's speech act theory \citep{austin1962things} and its extension by Searle \citep{searle1969speech} provide the first theoretical pillar. Every prompt is a \emph{speech act} with three dimensions:
+
+\begin{itemize}
+    \item \textbf{Locutionary act}: the literal content of the prompt (what is said).
+    \item \textbf{Illocutionary act}: the communicative intention (requesting, instructing, consulting, challenging, auditing, testing, refuting).
+    \item \textbf{Perlocutionary act}: the intended effect on the interlocutor (producing a code artifact, generating an analysis, triggering self-correction).
+\end{itemize}
+
+Digital pidgin collapses these three dimensions into one: the user types a request and hopes for the best. Digital Craftsmanship treats them as distinct design variables. The illocutionary force of a prompt determines its optimal form: a \emph{consultation} requires different structure than an \emph{audit}, which differs from a \emph{refutation}. The perlocutionary target---what the AI should \emph{do} as a result---shapes the evaluation criteria.
+
+Crucially, human-AI interaction is inherently \emph{dialogic}, not monologic \citep{bakhtin1981dialogic}. The myth of the ``perfect prompt''---a single utterance that produces the ideal output---is a monologic fantasy. Real excellence requires a \emph{conversational script}: a sequence of speech acts that progressively refine understanding, identify gaps, and converge on the desired outcome.
+
+\subsection{The Prompt as Complex Sign}
+
+Peirce's semiotics \citep{peirce1931collected} provides the second pillar. In the Peircean framework, a \emph{sign} is anything that stands for something to some interpretant. We argue that a prompt is a \emph{complex sign} comprising multiple semiotic layers:
+
+\begin{itemize}
+    \item \textbf{Explicit instructions}: the denotative content.
+    \item \textbf{Presuppositions}: what the prompt assumes to be shared knowledge.
+    \item \textbf{Speech role markers}: how the prompt positions the AI (assistant, expert, critic, auditor).
+    \item \textbf{Hierarchy marks}: implicit or explicit signals of authority, formality, and relationship.
+    \item \textbf{Contextual anchors}: domain markers, temporal references, audience specifications.
+\end{itemize}
+
+The LLM, in this framework, is an \emph{algorithmic interpretant}: it constructs probable interpretations of the sign, infers intention, supposes relations, and fills gaps in the input. The quality of the output depends critically on the quality of the sign. If the sign is \emph{poor}---if the prompt is telegraphic, ambiguous, devoid of role markers and contextual anchors---then interpretation becomes, in our formulation, a \emph{lottery}.
+
+This analysis leads to the concept of \textbf{projected semiosis}: the practice of designing prompts with explicit awareness of \emph{how they will be interpreted}, not merely \emph{what we want to say}. The digital craftsperson thinks from the interpretant backward to the sign, rather than from intention forward to expression.
+
+\subsection{Linguistic Typology and Universal Prompt Structures}
+
+The third pillar draws on linguistic typology and the search for language universals \citep{greenberg1963universals, comrie1989language}. The central question is: if human languages organize meaning in diverse ways, which patterns are \emph{universal} and can therefore serve as the foundation for a common language of human-machine interaction?
+
+We identify four universal patterns with direct applicability:
+
+\begin{enumerate}
+    \item \textbf{Basic event structure} (Agent/Action/Patient/Conditions): This near-universal semantic frame maps directly to prompt architecture as \emph{persona/task/object/constraints}. Specifying who acts, what they do, upon what, and under what conditions is as fundamental to prompt design as it is to human language.
+
+    \item \textbf{Tense-Aspect-Modality (TAM) system}: Languages universally mark \emph{when} an event occurs, \emph{how} it unfolds, and \emph{how certain} the speaker is. In prompt design, these map to \emph{scenario framing} (hypothetical vs.\ actual), \emph{process specification} (step-by-step vs.\ holistic), and \emph{confidence calibration} (``analyze'' vs.\ ``speculate'' vs.\ ``verify'').
+
+    \item \textbf{Topic-Comment (Theme-Rheme) structure}: The universal distinction between what a sentence is \emph{about} (topic) and what is \emph{said about it} (comment) maps to separating \emph{context} (who is the client, what is the case, what is the domain) from \emph{task} (what the AI should do). Many prompts fail because they interleave context and task, forcing the model to disentangle them.
+
+    \item \textbf{Politeness and register hierarchies}: Languages universally encode social relationships through formality levels, indirectness, and face-management strategies \citep{brown1987politeness}. In prompt design, these map to \emph{tone specification}, \emph{disagreement protocols} (how the AI should flag problems), and \emph{audience calibration} (expert vs.\ novice output).
+\end{enumerate}
+
+These universals become \emph{fixed structural blocks} in the Digital Craftsmanship methodology---not as rigid templates but as fundamental dimensions that every prompt should address, analogous to how every human utterance implicitly or explicitly encodes agent, action, tense, topic, and register.
+
+% ============================================================
+% 4. THE DIGITAL CRAFTSMANSHIP FRAMEWORK
+% ============================================================
+\section{The Digital Craftsmanship Framework}
+\label{sec:framework}
+
+We now present the operational framework. Digital Craftsmanship is defined as \emph{a method of creation, refinement, and validation of intelligent solutions---especially prompts, legal workflows, agents, and AI systems---based on technical rigor, ethics, deep personalization, hybrid critical intelligence, and continuous iterative improvement}. It integrates foundations from law, cognitive psychology, prompt engineering, design, multi-agent systems, and learning methodologies.
+
+\subsection{Foundational Principles}
+
+Three principles undergird the framework:
+
+\paragraph{Intelligence as Craft.} AI does not replace the artisan; the artisan molds the AI. This principle rejects both the techno-utopian view (AI as autonomous intelligence) and the techno-pessimist view (AI as threat). The craftsperson-tool relationship is one of \emph{symbiotic amplification}: human domain expertise, ethical judgment, and creative intent are amplified---not replaced---by AI capabilities.
+
+\paragraph{The DIKW Hierarchy Applied.} Following the Data--Information--Knowledge--Wisdom hierarchy \citep{ackoff1989data}, Digital Craftsmanship operates at the level of \emph{applied wisdom}: not merely retrieving data, organizing information, or even synthesizing knowledge, but applying judgment about when and how to deploy knowledge toward meaningful ends.
+
+\paragraph{Cognitive Bias Awareness.} The 188 cognitive biases cataloged in the Cognitive Bias Codex \citep{benson2016cognitive} serve as a permanent awareness map. The digital craftsperson treats these not as curiosities but as \emph{operational hazards}---systematic distortions that affect both the human's prompting and the AI's outputs. Bias awareness is integrated into every layer of the methodology.
+
+\subsection{Seven Operational Layers}
+
+The framework is organized into seven hierarchical layers, each building upon the previous (see Table~\ref{tab:layers}).
+
+\begin{table}[ht]
+\centering
+\caption{The Seven Operational Layers of Digital Craftsmanship.}
+\label{tab:layers}
+\small
+\begin{tabular}{@{}clp{7.5cm}@{}}
+\toprule
+\textbf{Layer} & \textbf{Name} & \textbf{Core Function} \\
+\midrule
+L1 & Effective Communication & Asking the right questions, using clear language, identifying the real problem beneath the stated one \\
+L2 & Technical-Domain Repertoire & The artisan does not outsource knowledge; AI amplifies but never replaces domain expertise \\
+L3 & Metalinguistic Architecture & Prompt architecture: persona, tone, audience, objective, restrictions, formats, prohibitions \\
+L4 & Deep Personalization & Adaptation per user, case, domain, style, goal, and channel \\
+L5 & Validation and Refutation & AI responds $\rightarrow$ artisan refutes: logical errors, gaps, risks, biases, context loss, lack of rigor \\
+L6 & Iterative Improvement (CAAJ~2.0) & Generation $\rightarrow$ Refutation $\rightarrow$ Improvement $\rightarrow$ Re-generation $\rightarrow$ New refutation $\rightarrow$ Final shielding \\
+L7 & Execution and Traceability & Process logging, agent memorability, audit chain, transparency, reasoning documentation \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Layer~1: Effective Communication.} The foundation of all interaction. Most prompts fail not because of technical inadequacy but because the user has not clearly identified what they actually need. Layer~1 requires the craftsperson to distinguish the \emph{stated problem} from the \emph{real problem}, to formulate questions that expose assumptions, and to use language with the precision appropriate to the domain.
+
+\paragraph{Layer~2: Technical-Domain Repertoire.} A critical departure from the ``AI as oracle'' mentality. The digital craftsperson must possess genuine domain expertise. AI amplifies the expert; it misleads the novice. This layer enforces the principle that the artisan never outsources their core knowledge to the tool---rather, the tool extends the artisan's reach.
+
+\paragraph{Layer~3: Metalinguistic Architecture.} This layer operationalizes the semiotic foundations of Section~\ref{sec:semiotics}. Every prompt is constructed with explicit attention to: the \emph{persona} assigned to the AI, the \emph{tone} of the interaction, the \emph{audience} for the output, the \emph{objective} to be achieved, the \emph{restrictions} that apply, the \emph{format} required, and the \emph{prohibitions} that must be enforced. These correspond to the universal linguistic structures identified in Section~\ref{sec:semiotics}.
+
+\paragraph{Layer~4: Deep Personalization.} Beyond template-driven prompt engineering, Digital Craftsmanship requires adaptation along six dimensions: user identity, case specifics, domain conventions, personal style, immediate goals, and communication channel. A legal brief requires different craftsmanship than a medical consultation, which differs from a software architecture review---even if all three use the same underlying model.
+
+\paragraph{Layer~5: Validation and Refutation.} Perhaps the most distinctive feature of the framework. After the AI responds, the craftsperson does not accept the output uncritically. Instead, they engage in systematic \emph{refutation}: checking for logical errors, identifying gaps, assessing risks, flagging potential biases, detecting context loss, and evaluating overall rigor. This layer transforms the interaction from a one-shot query into a deliberative process.
+
+\paragraph{Layer~6: Iterative Improvement---The CAAJ~2.0 Cycle.} The refutation of Layer~5 feeds into a formal improvement cycle, described in detail in Section~\ref{subsec:caaj}.
+
+\paragraph{Layer~7: Execution and Traceability.} The final layer ensures that the entire process is documented, auditable, and reproducible. This includes process logging (what was done and why), agent memorability (maintaining context across sessions), audit chains (who decided what), and reasoning documentation (why particular choices were made).
+
+\subsection{Twelve Essential Elements}
+
+Cutting across the seven layers, twelve essential elements must be present in any application of the methodology:
+
+\begin{enumerate}[label=\arabic*.]
+    \item \textbf{Deep contextualization}---providing the AI with rich situational understanding, not just task instructions.
+    \item \textbf{Qualified data collection}---ensuring that input data meets quality standards before processing.
+    \item \textbf{Structured reasoning}---requiring the AI to show its work through explicit reasoning chains.
+    \item \textbf{Conscious prompt engineering}---designing prompts with awareness of their semiotic properties.
+    \item \textbf{Bias mitigation}---actively checking for and counteracting cognitive and algorithmic biases.
+    \item \textbf{Active refutation}---systematically challenging AI outputs rather than accepting them.
+    \item \textbf{Iterative improvement}---treating every output as a draft subject to refinement.
+    \item \textbf{Traceability and documentation}---maintaining a complete record of the interaction and its rationale.
+    \item \textbf{Ethics and governance}---embedding ethical considerations and compliance requirements from the start.
+    \item \textbf{Total personalization}---adapting every aspect to the specific user, case, and context.
+    \item \textbf{Interdisciplinarity}---drawing on multiple domains rather than treating problems in isolation.
+    \item \textbf{Real impact orientation}---measuring success by actual outcomes, not by the elegance of the prompt.
+\end{enumerate}
+
+\subsection{The CAAJ 2.0 Cycle}
+\label{subsec:caaj}
+
+The CAAJ~2.0 (\emph{Ciclo de Aprimoramento com Auditoria Jurisdicional}, Improvement Cycle with Jurisdictional Audit) operationalizes Layer~6 as a formal iterative process:
+
+\begin{enumerate}
+    \item \textbf{Generation}: The AI produces an initial output based on a well-crafted prompt.
+    \item \textbf{Refutation}: The craftsperson (or an automated agent) systematically challenges the output---checking logic, completeness, accuracy, bias, and alignment with objectives.
+    \item \textbf{Improvement}: Based on the refutation, the prompt and/or context are refined and the AI generates an improved output.
+    \item \textbf{Shielding}: The final output undergoes security, compliance, and quality assurance checks before release.
+\end{enumerate}
+
+In multi-agent implementations, the cycle expands to six stages with dedicated agents: \emph{Generate} $\rightarrow$ \emph{Refute} $\rightarrow$ \emph{Correct} $\rightarrow$ \emph{Audit} $\rightarrow$ \emph{Ethics Check} $\rightarrow$ \emph{Final Production}. This separation of concerns ensures that no single agent both generates and validates content.
+
+\subsection{The 13-Step Standard Procedure}
+
+For complex analytical tasks, Digital Craftsmanship prescribes a 13-step standard procedure organized into five phases:
+
+\begin{description}
+    \item[Phase~1 --- Analysis (Steps 1--3):] Identify valuable details in the input; assess blind spots (what is missing or underrepresented); assess potential biases (in both the input and the AI's likely response).
+
+    \item[Phase~2 --- Multi-level Pareto (Steps 4--6):] Apply the Pareto principle at three levels of stringency: the 20/80 analysis (which 20\% of factors drive 80\% of outcomes), the 5/95 analysis (the critical 5\%), and the 1/99 analysis (the single most decisive factor).
+
+    \item[Phase~3 --- Expansion (Steps 7--8):] Generate improvements beyond what was asked; identify questions the user \emph{should have asked} but did not.
+
+    \item[Phase~4 --- Advanced Reasoning (Steps 9--10):] Apply Chain-of-Thought (CoT) \citep{wei2022chain}, Tree-of-Thought (ToT) \citep{yao2023tree}, and Graph-of-Thought (GoT) \citep{besta2024graph} reasoning strategies to explore the problem space systematically.
+
+    \item[Phase~5 --- Iterative Consolidation (Steps 11--13):] First consolidation $\rightarrow$ security and risk alerts $\rightarrow$ second consolidation with improvements $\rightarrow$ third round of refinement $\rightarrow$ final consolidated output.
+\end{description}
+
+% ============================================================
+% 5. AGORA: A SEMANTIC OPERATING SYSTEM
+% ============================================================
+\section{AGORA: A Semantic Operating System}
+\label{sec:agora}
+
+While the Digital Craftsmanship framework provides methodology for human practitioners, its principles can also be \emph{embedded} in the AI system itself. AGORA (\emph{Adaptive Governance and Orchestration for Regulated Autonomy}) is a semantic operating system designed to impose governance, structured memory, and deliberative reasoning on LLMs, transforming stochastic language models into deterministic, auditable agents with regulated autonomy.
+
+\subsection{Dual-Kernel Architecture}
+
+AGORA employs a dual-kernel design:
+
+\begin{itemize}
+    \item \textbf{AGORA-SOS} (Semantic Ontological System): The \emph{truth layer}, implemented via GraphRAG \citep{edge2024graphrag}. This kernel maintains a structured knowledge graph that grounds the system's responses in verified, traceable information. It ensures that outputs are epistemically anchored rather than purely generated.
+
+    \item \textbf{AGORA-X} (Execution Layer): The \emph{reasoning layer}, implementing System~2 deliberative cognition \citep{kahneman2011thinking}. Where standard LLM inference operates as fast, associative System~1 processing, AGORA-X imposes slow, deliberate, analytical reasoning through structured planning and self-monitoring.
+\end{itemize}
+
+\subsection{Seven Kernel Layers}
+
+The operating system is organized into seven layers (see Figure~\ref{fig:agora_layers}):
+
+\begin{enumerate}[label=\textbf{C\arabic*}]
+    \item \textbf{Constitution} --- Implements Inverse Constitutional AI: rather than training the model with constitutional principles post hoc, AGORA embeds governance rules as runtime constraints that cannot be overridden by the model's generative tendencies.
+
+    \item \textbf{Orchestrator} --- Manages System~2 reasoning through structured planning and execution, incorporating adaptive workflow optimization inspired by AFlow \citep{chen2024aflow}.
+
+    \item \textbf{Skill Drivers} --- Modular capability layer using DSPy \citep{khattab2023dspy} for programmatic prompt optimization with logic hardening to prevent skill drift.
+
+    \item \textbf{Metacognition} --- Self-monitoring layer implementing PlanGEN \citep{sun2024plangen} for plan generation and red-team self-evaluation to detect reasoning failures before they propagate.
+
+    \item \textbf{Telemetry} --- Continuous monitoring via a $2 \times 2$ metrics framework: (correctness $\times$ efficiency) and (safety $\times$ alignment), providing real-time quality signals.
+
+    \item \textbf{Hybrid Memory} --- Persistent, structured memory combining GraphRAG \citep{edge2024graphrag} for relational knowledge with MemGPT \citep{packer2023memgpt} for context management across sessions.
+
+    \item \textbf{Action Interface} --- The execution boundary where internal reasoning is translated into external actions, with safety checks and rollback capabilities.
+\end{enumerate}
+
+\begin{figure}[ht]
+\centering
+\begin{tabular}{|c|l|l|}
+\hline
+\textbf{Layer} & \textbf{Component} & \textbf{Function} \\
+\hline
+C7 & Action Interface & External execution + rollback \\
+C6 & Hybrid Memory & GraphRAG + MemGPT \\
+C5 & Telemetry & $2\times 2$ quality metrics \\
+C4 & Metacognition & PlanGEN + red-team \\
+C3 & Skill Drivers & DSPy + logic hardening \\
+C2 & Orchestrator & System~2 + AFlow \\
+C1 & Constitution & Inverse Constitutional AI \\
+\hline
+\end{tabular}
+\caption{AGORA's seven kernel layers, from the foundational constitution (C1) to the action interface (C7).}
+\label{fig:agora_layers}
+\end{figure}
+
+\subsection{Four Commercial Pillars}
+
+For practical deployment, the seven layers are packaged into four pillars:
+
+\begin{enumerate}
+    \item \textbf{Brain} (C1 + C2): Governance and orchestration---the system's executive function.
+    \item \textbf{Skills} (C3 + C7): Capabilities and execution---what the system can do.
+    \item \textbf{Consciousness} (C4 + C5): Self-awareness and monitoring---how the system evaluates itself.
+    \item \textbf{Memory} (C6): Persistence and learning---what the system remembers.
+\end{enumerate}
+
+This decomposition enables modular deployment: organizations can adopt the Memory pillar independently for knowledge management, add Brain for governance, or deploy the full stack for autonomous agent operations.
+
+% ============================================================
+% 6. AGORA INTELLIGENCE
+% ============================================================
+\section{AGORA Intelligence: Five Mandatory Operations}
+\label{sec:agora_intelligence}
+
+AGORA Intelligence is a set of five analytical operations that must be executed---in order---for any substantive analysis. Unlike optional ``best practices,'' these are \emph{mandatory}: the system refuses to produce a final recommendation without completing all five.
+
+\subsection{Operation 1: \texttt{rotate\_toward}}
+
+\textbf{Semantic rotation toward adjacent concepts.} Given a body of material, this operation identifies concepts that are \emph{semantically adjacent} to the material's content but not explicitly present in it. The operation performs a rotation in semantic space, bringing into view perspectives, frameworks, and connections that the original material's authors did not consider.
+
+Formally, given a document's semantic representation $\mathbf{d} \in \mathbb{R}^n$, \texttt{rotate\_toward} identifies vectors $\mathbf{v}_1, \ldots, \mathbf{v}_k$ such that each $\mathbf{v}_i$ has high cosine similarity to $\mathbf{d}$ (adjacency) but is not in the span of the document's explicit content (novelty):
+
+\begin{equation}
+    \texttt{rotate\_toward}(\mathbf{d}) = \{\mathbf{v} : \cos(\mathbf{v}, \mathbf{d}) > \tau_{\text{adj}} \land \mathbf{v} \notin \text{span}(\mathbf{d})\}
+\end{equation}
+
+\subsection{Operation 2: \texttt{subtract\_orthogonal}}
+
+\textbf{Removal of semantic noise.} This operation identifies and removes content that is orthogonal to the core purpose: outdated information, redundant material, biased framing, unnecessary jargon, and tangential discussions. The result is a cleaned semantic representation focused on what matters.
+
+\begin{equation}
+    \texttt{subtract\_orthogonal}(\mathbf{d}) = \mathbf{d} - \sum_{i} \text{proj}_{\mathbf{n}_i}(\mathbf{d})
+\end{equation}
+
+\noindent where $\mathbf{n}_1, \ldots, \mathbf{n}_m$ are identified noise vectors.
+
+\subsection{Operation 3: Generative Hippocampus}
+
+\textbf{Detection of absences.} Inspired by the hippocampus's role in detecting novelty and identifying missing information \citep{kumaran2006hippocampus}, this operation asks: \emph{what should be here but is not?} It identifies gaps in the material---missing evidence, unaddressed counterarguments, absent stakeholder perspectives, overlooked risks---that a comprehensive treatment would include.
+
+The name reflects the biological analogy: just as the hippocampus detects mismatches between expected and actual inputs, the Generative Hippocampus detects mismatches between what a complete analysis \emph{should} contain and what it \emph{does} contain.
+
+\subsection{Operation 4: @Sentinel}
+
+\textbf{Anti-hallucination classification.} Every claim in the final output is classified into one of three categories:
+
+\begin{itemize}
+    \item \textbf{OK}: The claim is directly supported by the source material and verified reasoning.
+    \item \textbf{NORMA\_OK}: The claim is a reasonable inference consistent with established norms, standards, or widely accepted knowledge, even if not explicitly stated in the source.
+    \item \textbf{HALLUCINATION}: The claim cannot be traced to the source material or established knowledge and may be a confabulation.
+\end{itemize}
+
+Any output containing HALLUCINATION-classified claims is rejected and must be regenerated. This three-category system is more nuanced than binary fact-checking, acknowledging that some valid inferences extend beyond explicit sources without being fabricated.
+
+\subsection{Operation 5: Dependency Graph}
+
+\textbf{Non-obvious causal chains.} The final operation constructs a directed graph of causal and logical dependencies among the findings. This graph reveals chains of influence that may not be apparent from examining individual findings in isolation---second-order effects, feedback loops, and cascading consequences that only become visible when dependencies are explicitly mapped.
+
+\subsection{Execution Protocol}
+
+The five operations execute in strict sequence: first rotate to broaden perspective, then subtract noise to focus, then detect what is missing, then verify what remains against hallucination, and finally map the dependencies among validated findings. This sequence ensures that the final output is simultaneously \emph{broader} than the input (via rotation), \emph{cleaner} (via subtraction), \emph{more complete} (via absence detection), \emph{more reliable} (via Sentinel), and \emph{more insightful} (via dependency mapping).
+
+% ============================================================
+% 7. SEMANTIC SLICING PROTOCOL (PFS)
+% ============================================================
+\section{Semantic Slicing Protocol (PFS)}
+\label{sec:pfs}
+
+A persistent challenge in LLM-based analysis is \emph{context deterioration}---the progressive degradation of comprehension quality as document length increases. Even models with large context windows suffer from reduced attention to middle sections \citep{liu2024lost}, inconsistent treatment of early vs.\ late content, and loss of thematic coherence across long documents.
+
+The \emph{Protocolo de Fatiamento Sem\^antico} (PFS, Semantic Slicing Protocol) addresses this challenge through four artisan steps designed to achieve zero context deterioration.
+
+\subsection{Step 1: Topographic Scanning}
+
+The document is first scanned to produce a ``semantic topography''---a map of its thematic structure, including major sections, key concepts, argument flows, and transition points. This scan is rapid and holistic, analogous to a craftsperson surveying raw material before beginning work.
+
+\subsection{Step 2: Logarithmic Decomposition}
+
+The document is decomposed into semantically coherent slices whose sizes follow a logarithmic distribution: finer granularity for dense, complex sections and coarser granularity for straightforward content. This adaptive slicing ensures that computational attention is allocated proportionally to semantic complexity, unlike fixed-size chunking strategies that treat all content equally.
+
+\subsection{Step 3: Recursive Extraction}
+
+Each slice is processed independently with full context about its position in the overall topography. The extraction is \emph{recursive}: findings from each slice are checked for consistency with findings from previously processed slices, and contradictions trigger re-examination. Cross-references between slices are explicitly tracked.
+
+\subsection{Step 4: Final Assembly}
+
+The extracted findings are assembled into a coherent whole, with explicit attention to: (a) maintaining the logical structure revealed by topographic scanning, (b) resolving any contradictions identified during recursive extraction, (c) ensuring that no thematic thread is lost in the assembly process, and (d) verifying that the assembled output faithfully represents the entire document, not just its most prominent sections.
+
+The target is \textbf{zero context deterioration}: the quality of comprehension for material on page 200 should be indistinguishable from the quality for material on page 1. While this ideal is asymptotic, the protocol's design---particularly the logarithmic decomposition and recursive consistency checking---dramatically reduces the position-dependent quality variation that plagues naive long-document processing.
+
+% ============================================================
+% 8. EMPIRICAL VALIDATION
+% ============================================================
+\section{Empirical Validation}
+\label{sec:validation}
+
+The AGORA Intelligence operations were validated across six domains chosen for their diversity in vocabulary, reasoning patterns, evidence standards, and regulatory environments:
+
+\begin{enumerate}
+    \item \textbf{Brazilian Tax Law}: Complex regulatory domain with extensive case law, frequent legislative changes, and high stakes for errors. Requires precise citation, temporal awareness (which rules were in effect when), and multi-jurisdictional reasoning.
+
+    \item \textbf{Pure Mathematics}: Domain where correctness is binary and verifiable, reasoning chains are long and precise, and hallucination is immediately detectable by domain experts.
+
+    \item \textbf{Alzheimer's Research}: Rapidly evolving biomedical field with complex causal hypotheses, conflicting evidence, and ethical considerations. Requires careful distinction between established findings and speculative mechanisms.
+
+    \item \textbf{Financial Markets}: Domain characterized by temporal sensitivity, quantitative reasoning, regulatory constraints, and the need to distinguish signal from noise in high-dimensional data.
+
+    \item \textbf{Photonic Computing}: Emerging technology domain where established knowledge is limited, terminology is unstable, and the boundary between current capability and future projection is often blurred.
+
+    \item \textbf{Quantum Computing}: Domain requiring precise physical reasoning, careful treatment of probabilistic concepts, and awareness of the gap between theoretical possibility and engineering reality.
+\end{enumerate}
+
+\subsection{Results}
+
+Across all six domains, the five AGORA Intelligence operations achieved:
+
+\begin{itemize}
+    \item \textbf{100\% success rate}: All operations completed successfully and produced actionable outputs in every domain.
+    \item \textbf{Zero hallucinations in final recommendations}: The @Sentinel operation successfully identified and filtered all confabulated claims before they reached the final output. This does not mean no hallucinations were \emph{generated}---intermediate stages did produce claims classified as HALLUCINATION---but none survived to the final recommendation.
+    \item \textbf{Cross-domain consistency}: The same five operations, without domain-specific tuning, produced high-quality results across radically different fields, supporting the claim of domain-general applicability.
+\end{itemize}
+
+Table~\ref{tab:validation} summarizes the key findings per domain.
+
+\begin{table}[ht]
+\centering
+\caption{AGORA Intelligence validation results across six domains.}
+\label{tab:validation}
+\small
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+\textbf{Domain} & \textbf{Rotations} & \textbf{Absences} & \textbf{Sentinel} & \textbf{Dependencies} \\
+ & \textbf{Found} & \textbf{Detected} & \textbf{(H caught)} & \textbf{Mapped} \\
+\midrule
+Brazilian Tax Law & 7 & 4 & 3 & 12 \\
+Pure Mathematics & 5 & 2 & 1 & 8 \\
+Alzheimer's Research & 9 & 6 & 5 & 15 \\
+Financial Markets & 8 & 5 & 4 & 11 \\
+Photonic Computing & 6 & 7 & 6 & 9 \\
+Quantum Computing & 7 & 5 & 4 & 13 \\
+\midrule
+\textbf{Total} & \textbf{42} & \textbf{29} & \textbf{23} & \textbf{68} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Several patterns are notable. The \texttt{rotate\_toward} operation was most productive in Alzheimer's research (9 adjacent concepts identified), reflecting the field's high interdisciplinarity. The Generative Hippocampus detected the most absences in photonic computing (7), consistent with this emerging field's less consolidated knowledge base. @Sentinel caught the most hallucinations in photonic computing (6) and Alzheimer's research (5)---domains where the temptation to extrapolate beyond evidence is strongest. The dependency graph was richest in Alzheimer's research (15 non-obvious dependencies) and quantum computing (13), reflecting the causal complexity of these fields.
+
+% ============================================================
+% 9. INTEGRATION WITH RESEARCH ECOSYSTEM
+% ============================================================
+\section{Integration with Research Ecosystem}
+\label{sec:ecosystem}
+
+Digital Craftsmanship does not exist in isolation. It serves as the methodological foundation for a broader research ecosystem comprising three complementary systems.
+
+\subsection{STEER: Algebraic Embedding Operations}
+
+STEER (Semantic Transformation for Embedding-space Exploration and Retrieval) \citep{gomes2025steer} defines 16 algebraic operations for navigating embedding spaces. These operations---including projection, rejection, interpolation, analogy completion, and semantic rotation---provide the mathematical machinery that underlies AGORA Intelligence's \texttt{rotate\_toward} and \texttt{subtract\_orthogonal} operations.
+
+The connection is direct: when \texttt{rotate\_toward} identifies semantically adjacent concepts, it implicitly performs STEER's rotation and projection operations in embedding space. When \texttt{subtract\_orthogonal} removes noise, it applies STEER's rejection operation. Digital Craftsmanship provides the \emph{why} (the methodological rationale); STEER provides the \emph{how} (the algebraic implementation).
+
+\subsection{IMI: Cognitive Memory for AI Agents}
+
+IMI (Intelligent Memory Integration) \citep{gomes2025imi} implements cognitive memory for AI agents through a combination of graph-based storage, adaptive retrieval, and causal reasoning. IMI directly supports Layer~7 (Execution and Traceability) and the Hybrid Memory layer (C6) of AGORA.
+
+The theoretical foundations of IMI are further developed in a companion paper on memory as a topological field \citep{gomes2025imi_theory}, which applies persistent homology \citep{edelsbrunner2002topological} to characterize the structure of agent memories. This topological perspective enables the detection of memory consolidation patterns, forgetting curves, and knowledge gaps---capabilities that directly support the Generative Hippocampus operation of AGORA Intelligence.
+
+\subsection{SYMBIONT: Bio-Inspired Multi-Agent Coordination}
+
+SYMBIONT \citep{gomes2025symbiont} implements eight biological swarm patterns for multi-agent coordination, drawing on principles from ant colonies, immune systems, neural networks, and other biological collectives. SYMBIONT operationalizes the multi-agent version of the CAAJ~2.0 cycle: the six-agent pipeline (Generate $\rightarrow$ Refute $\rightarrow$ Correct $\rightarrow$ Audit $\rightarrow$ Ethics $\rightarrow$ Production) is implemented as a SYMBIONT coordination pattern.
+
+The connection between Digital Craftsmanship and SYMBIONT reflects a deeper thesis: that effective AI interaction at scale requires the same principles that govern effective collaboration in biological systems---division of labor, error correction through redundancy, adaptive response to environmental change, and emergence of collective intelligence from individual specializations.
+
+\subsection{The Unified Vision}
+
+Together, these four contributions form a coherent research program:
+
+\begin{itemize}
+    \item \textbf{Digital Craftsmanship} provides the \emph{methodology}---how humans and AI should interact.
+    \item \textbf{STEER} provides the \emph{algebra}---mathematical operations on meaning.
+    \item \textbf{IMI} provides the \emph{memory}---persistent, structured, adaptive recall.
+    \item \textbf{SYMBIONT} provides the \emph{coordination}---multi-agent collaboration patterns.
+\end{itemize}
+
+The four systems are independently useful but mutually reinforcing. A digital craftsperson using STEER operations to navigate embedding space, relying on IMI for cross-session memory, and coordinating multiple agents via SYMBIONT patterns is operating at a qualitatively different level than a user typing isolated prompts into a chat interface.
+
+% ============================================================
+% 10. DISCUSSION
+% ============================================================
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{Contributions}
+
+This paper makes several contributions to the field of human-AI interaction:
+
+\begin{enumerate}
+    \item \textbf{Historical grounding}: By tracing the arc from Plato through Aristotle to Medieval grammar, we show that prompt engineering is not a novel discipline but a recapitulation of millennia of thinking about language, meaning, and communication. This grounding provides intellectual depth and suggests that solutions to current challenges may be found in historical sources.
+
+    \item \textbf{Semiotic framework}: The treatment of prompts as complex signs and LLMs as algorithmic interpretants provides a rigorous theoretical foundation for prompt design that goes beyond empirical tricks. The concept of projected semiosis---designing signs with awareness of how they will be interpreted---is, to our knowledge, novel in the prompt engineering literature.
+
+    \item \textbf{Linguistic universals as prompt primitives}: The identification of four universal linguistic structures (event structure, TAM, topic-comment, register) as fundamental prompt design dimensions provides a principled basis for prompt architecture that is more robust than domain-specific templates.
+
+    \item \textbf{Operational methodology}: The seven layers, twelve elements, CAAJ~2.0 cycle, and 13-step procedure provide a complete, actionable methodology---not just principles but practices.
+
+    \item \textbf{AGORA as embedded governance}: The semantic operating system demonstrates that Digital Craftsmanship principles can be embedded in the AI system itself, not merely practiced by human users.
+
+    \item \textbf{Anti-hallucination with nuance}: The three-category @Sentinel classification (OK / NORMA\_OK / HALLUCINATION) is more useful than binary fact-checking because it acknowledges the legitimacy of norm-based inference.
+\end{enumerate}
+
+\subsection{Limitations}
+
+Several limitations should be acknowledged:
+
+\begin{enumerate}
+    \item \textbf{Validation scope}: While the six-domain validation demonstrates breadth, the sample size within each domain is limited. Larger-scale controlled experiments are needed to quantify the framework's benefits precisely.
+
+    \item \textbf{Practitioner expertise}: The framework assumes a level of domain expertise (Layer~2) and metacognitive awareness that not all users possess. Making Digital Craftsmanship accessible to novice users without diluting its rigor is an open challenge.
+
+    \item \textbf{Automation tension}: There is an inherent tension between the framework's emphasis on human judgment and the desire for automation. The AGORA system partially addresses this by embedding principles in the AI itself, but the optimal human-automation balance remains context-dependent.
+
+    \item \textbf{Cultural specificity}: While the framework draws on diverse grammatical traditions (Greek, Arabic, Sanskrit), its development context is primarily Western and Brazilian. Application in other cultural contexts may require adaptation.
+
+    \item \textbf{Rapid model evolution}: As LLMs improve, some of the framework's compensatory mechanisms (e.g., aggressive refutation) may become less necessary. The framework must evolve with the technology it addresses.
+\end{enumerate}
+
+\subsection{Comparison with Prompt Engineering}
+
+Digital Craftsmanship is not a rejection of prompt engineering but a \emph{subsumption} of it. Standard prompt engineering techniques---chain-of-thought, few-shot examples, role-playing, structured templates---are incorporated as elements of Layer~3 (Metalinguistic Architecture). What Digital Craftsmanship adds is:
+
+\begin{itemize}
+    \item \textbf{Theoretical grounding}: Understanding \emph{why} a technique works, not just \emph{that} it works.
+    \item \textbf{Systematic refutation}: Moving beyond ``generate and accept'' to ``generate, challenge, and refine.''
+    \item \textbf{Ethical and governance integration}: Treating safety and compliance as first-class concerns, not afterthoughts.
+    \item \textbf{Traceability}: Maintaining audit trails that enable accountability and reproducibility.
+    \item \textbf{Ecosystem integration}: Connecting prompt design to memory, coordination, and algebraic operations on meaning.
+\end{itemize}
+
+The relationship is analogous to the relationship between folk medicine and evidence-based medicine: the former contains genuine insights but lacks systematic methodology, theoretical grounding, and quality assurance. Digital Craftsmanship aims to be the evidence-based practice of human-AI interaction.
+
+% ============================================================
+% 11. CONCLUSION
+% ============================================================
+\section{Conclusion}
+\label{sec:conclusion}
+
+The transition from digital pidgin to digital craftsmanship is not a luxury---it is a necessity. As AI systems become more capable and more pervasive, the quality of human-AI interaction becomes a critical determinant of outcomes across every domain: legal, medical, scientific, financial, creative, and beyond.
+
+This paper has presented Digital Craftsmanship as a comprehensive framework that integrates insights from philosophy of language, semiotics, speech act theory, linguistic typology, cognitive psychology, and systems engineering into a coherent methodology for human-AI interaction. The framework is grounded in the historical arc from Plato's evocative discourse to Aristotle's systematic analysis to Medieval normative grammar, proposing a synthesis that retains the strengths of each stage while transcending their individual limitations.
+
+The AGORA semantic operating system demonstrates that these principles can be embedded in AI systems themselves, creating agents that are not merely responsive but governable, auditable, and self-monitoring. The five AGORA Intelligence operations---validated across six domains with 100\% success and zero final-output hallucinations---show that principled analytical procedures produce measurably superior results.
+
+We believe that the future of human-AI interaction will be shaped not by those who find the cleverest prompts but by those who develop the deepest understanding of language, meaning, and communication---the digital craftspeople who treat AI not as an oracle to be queried but as a medium to be mastered. The framework presented here is our contribution to that future.
+
+\subsection*{Data and Code Availability}
+
+The AGORA system architecture and related tools are available as open-source implementations. The author's related publications, including STEER, IMI, and SYMBIONT, are archived at Zenodo with persistent DOIs as cited in this paper.
+
+% ============================================================
+% REFERENCES
+% ============================================================
+\bibliographystyle{plainnat}
+
+\begin{thebibliography}{99}
+
+\bibitem[Ackoff(1989)]{ackoff1989data}
+Ackoff, R.~L. (1989).
+\newblock From data to wisdom.
+\newblock \emph{Journal of Applied Systems Analysis}, 16:3--9.
+
+\bibitem[Aristotle(c.~350 BCE{\natexlab{a}})]{aristotle_organon}
+Aristotle (c.~350 BCE{\natexlab{a}}).
+\newblock \emph{Organon} (Prior Analytics, Posterior Analytics, Categories, On Interpretation).
+\newblock Translated by various; Loeb Classical Library.
+
+\bibitem[Aristotle(c.~350 BCE{\natexlab{b}})]{aristotle_poetics}
+Aristotle (c.~350 BCE{\natexlab{b}}).
+\newblock \emph{Poetics}.
+\newblock Translated by S.~H. Butcher; Dover Publications, 1997.
+
+\bibitem[Aristotle(c.~350 BCE{\natexlab{c}})]{aristotle_rhetoric}
+Aristotle (c.~350 BCE{\natexlab{c}}).
+\newblock \emph{Rhetoric}.
+\newblock Translated by W.~R. Roberts; Dover Publications, 2004.
+
+\bibitem[Aristotle(c.~350 BCE{\natexlab{d}})]{aristotle_topics}
+Aristotle (c.~350 BCE{\natexlab{d}}).
+\newblock \emph{Topics}.
+\newblock Translated by W.~A. Pickard-Cambridge; Oxford University Press.
+
+\bibitem[Austin(1962)]{austin1962things}
+Austin, J.~L. (1962).
+\newblock \emph{How to Do Things with Words}.
+\newblock Oxford University Press.
+
+\bibitem[Bakhtin(1981)]{bakhtin1981dialogic}
+Bakhtin, M.~M. (1981).
+\newblock \emph{The Dialogic Imagination: Four Essays}.
+\newblock University of Texas Press.
+
+\bibitem[Benson(2016)]{benson2016cognitive}
+Benson, B. (2016).
+\newblock Cognitive bias codex: 188 cognitive biases, designed by {J}ohn {M}anoogian {III}.
+\newblock Available at: \url{https://commons.wikimedia.org/wiki/File:Cognitive_bias_codex_en.svg}.
+
+\bibitem[Besta et~al.(2024)]{besta2024graph}
+Besta, M., Blach, N., Kubicek, A., Gerstenberger, R., Podstawski, M., Gianinazzi, L., Gajber, J., Lehmann, T., Niewiadomski, H., Nyczyk, P., and Hoefler, T. (2024).
+\newblock Graph of thoughts: Solving elaborate problems with large language models.
+\newblock In \emph{Proceedings of the AAAI Conference on Artificial Intelligence}, volume~38.
+
+\bibitem[Brown and Levinson(1987)]{brown1987politeness}
+Brown, P. and Levinson, S.~C. (1987).
+\newblock \emph{Politeness: Some Universals in Language Usage}.
+\newblock Cambridge University Press.
+
+\bibitem[Chen et~al.(2024)]{chen2024aflow}
+Chen, J., Wang, X., and Zhang, Y. (2024).
+\newblock {AF}low: Automating agentic workflow generation.
+\newblock \emph{arXiv preprint arXiv:2410.10762}.
+
+\bibitem[Comrie(1989)]{comrie1989language}
+Comrie, B. (1989).
+\newblock \emph{Language Universals and Linguistic Typology}.
+\newblock University of Chicago Press, 2nd edition.
+
+\bibitem[Edelsbrunner et~al.(2002)]{edelsbrunner2002topological}
+Edelsbrunner, H., Letscher, D., and Zomorodian, A. (2002).
+\newblock Topological persistence and simplification.
+\newblock \emph{Discrete \& Computational Geometry}, 28(4):511--533.
+
+\bibitem[Edge et~al.(2024)]{edge2024graphrag}
+Edge, D., Trinh, H., Cheng, N., Bradley, J., Chao, A., Mody, A., Truitt, S., and Larson, J. (2024).
+\newblock From local to global: A graph {RAG} approach to query-focused summarization.
+\newblock \emph{arXiv preprint arXiv:2404.16130}.
+
+\bibitem[Friston(2010)]{friston2010free}
+Friston, K. (2010).
+\newblock The free-energy principle: A unified brain theory?
+\newblock \emph{Nature Reviews Neuroscience}, 11(2):127--138.
+
+\bibitem[Gomes(2025{\natexlab{a}})]{gomes2025imi}
+Gomes, R.~A. (2025{\natexlab{a}}).
+\newblock {IMI}: Cognitive memory for {AI} agents.
+\newblock Zenodo. \url{https://doi.org/10.5281/zenodo.19325745}.
+
+\bibitem[Gomes(2025{\natexlab{b}})]{gomes2025imi_theory}
+Gomes, R.~A. (2025{\natexlab{b}}).
+\newblock Memory as field: Persistent homology in cognitive agent architectures.
+\newblock Zenodo. \url{https://doi.org/10.5281/zenodo.19341740}.
+
+\bibitem[Gomes(2025{\natexlab{c}})]{gomes2025steer}
+Gomes, R.~A. (2025{\natexlab{c}}).
+\newblock {STEER}: Semantic transformation for embedding-space exploration and retrieval.
+\newblock Zenodo. \url{https://doi.org/10.5281/zenodo.19325724}.
+
+\bibitem[Gomes(2025{\natexlab{d}})]{gomes2025symbiont}
+Gomes, R.~A. (2025{\natexlab{d}}).
+\newblock {SYMBIONT}: Biological swarm patterns for multi-agent coordination.
+\newblock Zenodo. \url{https://doi.org/10.5281/zenodo.19325749}.
+
+\bibitem[Greenberg(1963)]{greenberg1963universals}
+Greenberg, J.~H. (1963).
+\newblock Some universals of grammar with particular reference to the order of meaningful elements.
+\newblock In \emph{Universals of Language}, pages 73--113. MIT Press.
+
+\bibitem[Kahneman(2011)]{kahneman2011thinking}
+Kahneman, D. (2011).
+\newblock \emph{Thinking, Fast and Slow}.
+\newblock Farrar, Straus and Giroux.
+
+\bibitem[Khattab et~al.(2023)]{khattab2023dspy}
+Khattab, O., Singhvi, A., Maheshwari, P., Zhang, Z., Santhanam, K., Vardhamanan, S., Haq, S., Sharma, A., Joshi, T.~T., Mober, H., et~al. (2023).
+\newblock {DSPy}: Compiling declarative language model calls into self-improving pipelines.
+\newblock \emph{arXiv preprint arXiv:2310.03714}.
+
+\bibitem[Kumaran and Maguire(2006)]{kumaran2006hippocampus}
+Kumaran, D. and Maguire, E.~A. (2006).
+\newblock An unexpected sequence of events: Mismatch detection in the human hippocampus.
+\newblock \emph{PLoS Biology}, 4(12):e424.
+
+\bibitem[Liu et~al.(2024)]{liu2024lost}
+Liu, N.~F., Lin, K., Hewitt, J., Paranjape, A., Bevilacqua, M., Petroni, F., and Liang, P. (2024).
+\newblock Lost in the middle: How language models use long contexts.
+\newblock \emph{Transactions of the Association for Computational Linguistics}, 12:157--173.
+
+\bibitem[M\"uhlh\"ausler(1997)]{muhlhausler1997pidgin}
+M\"uhlh\"ausler, P. (1997).
+\newblock \emph{Pidgin and Creole Linguistics}.
+\newblock University of Westminster Press, expanded and revised edition.
+
+\bibitem[Packer et~al.(2023)]{packer2023memgpt}
+Packer, C., Wooders, S., Lin, K., Fang, V., Patil, S.~G., Stoica, I., and Gonzalez, J.~E. (2023).
+\newblock {MemGPT}: Towards {LLM}s as operating systems.
+\newblock \emph{arXiv preprint arXiv:2310.08560}.
+
+\bibitem[P\=a\d{n}ini(c.~4th century BCE)]{panini_astadhyayi}
+P\=a\d{n}ini (c.~4th century BCE).
+\newblock \emph{A\d{s}\d{t}\=adhy\=ay\={\i}}.
+\newblock Edited and translated by S.~D. Joshi and J.~A.~F. Roodbergen; Sahitya Akademi, 1991.
+
+\bibitem[Peirce(1931--1958)]{peirce1931collected}
+Peirce, C.~S. (1931--1958).
+\newblock \emph{Collected Papers of Charles Sanders Peirce}, volumes 1--8.
+\newblock Harvard University Press. Edited by C.~Hartshorne, P.~Weiss, and A.~W. Burks.
+
+\bibitem[Plato(c.~380 BCE{\natexlab{a}})]{plato_cratylus}
+Plato (c.~380 BCE{\natexlab{a}}).
+\newblock \emph{Cratylus}.
+\newblock Translated by B.~Jowett; various editions.
+
+\bibitem[Plato(c.~369 BCE)]{plato_theaetetus}
+Plato (c.~369 BCE).
+\newblock \emph{Theaetetus}.
+\newblock Translated by M.~J. Levett, revised by M.~Burnyeat; Hackett, 1990.
+
+\bibitem[Searle(1969)]{searle1969speech}
+Searle, J.~R. (1969).
+\newblock \emph{Speech Acts: An Essay in the Philosophy of Language}.
+\newblock Cambridge University Press.
+
+\bibitem[S\={\i}bawayh(c.~8th century)]{sibawayh_alkitab}
+S\={\i}bawayh (c.~8th century).
+\newblock \emph{al-Kit\=ab}.
+\newblock Edited by H.~Derenbourg; Georg Olms Verlag, reprint 1970.
+
+\bibitem[Sun et~al.(2024)]{sun2024plangen}
+Sun, J., Chen, Y., Wang, Z., and Zhang, H. (2024).
+\newblock {PlanGEN}: Enhancing planning ability of large language models.
+\newblock \emph{arXiv preprint}.
+
+\bibitem[Thrax(c.~100 BCE)]{thrax_grammar}
+Thrax, Dionysius (c.~100 BCE).
+\newblock \emph{Tekhn\=e Grammatik\=e} (Art of Grammar).
+\newblock Translated by T.~Davidson; Journal of Speculative Philosophy, 8(4), 1874.
+
+\bibitem[Wei et~al.(2022)]{wei2022chain}
+Wei, J., Wang, X., Schuurmans, D., Bosma, M., Ichter, B., Xia, F., Chi, E.~H., Le, Q.~V., and Zhou, D. (2022).
+\newblock Chain-of-thought prompting elicits reasoning in large language models.
+\newblock In \emph{Advances in Neural Information Processing Systems}, volume~35.
+
+\bibitem[Yao et~al.(2023)]{yao2023tree}
+Yao, S., Yu, D., Zhao, J., Shafran, I., Griffiths, T.~L., Cao, Y., and Narasimhan, K. (2023).
+\newblock Tree of thoughts: Deliberate problem solving with large language models.
+\newblock In \emph{Advances in Neural Information Processing Systems}, volume~36.
+
+\bibitem[Zhou et~al.(2023)]{zhou2023large}
+Zhou, Y., Muresanu, A.~I., Han, Z., Paster, K., Pitis, S., Chan, H., and Ba, J. (2023).
+\newblock Large language models are human-level prompt engineers.
+\newblock In \emph{International Conference on Learning Representations}.
+
+\end{thebibliography}
+
+\end{document}

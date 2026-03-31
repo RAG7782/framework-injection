@@ -1,0 +1,847 @@
+% ============================================================================
+% Framework Injection: Teaching AI How to Think, Not What to Do
+% A Comparative Analysis of Cognitive Transfer Paradigms in Human-AI Interaction
+%
+% Author: Renato Aparecido Gomes
+% Date: March 2026
+% ============================================================================
+
+\documentclass[12pt,a4paper]{article}
+
+% --- Packages ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[english]{babel}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{natbib}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{caption}
+\usepackage{url}
+
+\geometry{margin=2.5cm}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!70!black,
+    citecolor=blue!70!black,
+    urlcolor=blue!70!black
+}
+
+\bibliographystyle{plainnat}
+
+% --- Title ---
+\title{\textbf{Framework Injection: Teaching AI How to Think, Not What to Do}\\[0.5em]
+\large A Comparative Analysis of Cognitive Transfer Paradigms\\in Human-AI Interaction}
+
+\author{Renato Aparecido Gomes\thanks{Independent Researcher, S\~{a}o Paulo, Brazil. Email: \texttt{renatoapgomes@gmail.com}. ORCID: \href{https://orcid.org/0009-0005-7380-9876}{0009-0005-7380-9876}}}
+
+\date{March 2026}
+
+% ============================================================================
+\begin{document}
+\maketitle
+
+% ============================================================================
+% ABSTRACT
+% ============================================================================
+\begin{abstract}
+The dominant paradigms for interacting with large language models (LLMs) have evolved rapidly: from \emph{Prompt Engineering}---the craft of composing effective instructions---to \emph{Context Engineering}---the systematic management of all information entering a model's context window. This paper identifies and formalizes a third, qualitatively distinct paradigm: \emph{Framework Injection}, defined as the deliberate, structured transfer of complete domain-specific reasoning methodologies from human experts to AI agents, encoded in natural language and loaded as a persistent cognitive substrate. Unlike Prompt Engineering, which optimizes individual commands, or Context Engineering, which manages informational resources, Framework Injection transfers the \emph{reasoning methods} themselves---decision hierarchies, evaluation criteria, ethical boundaries, and output standards---enabling the agent to adopt domain-expert thinking patterns without code, fine-tuning, or additional training.
+
+We situate Framework Injection within the broader landscape of human-AI interaction by conducting a detailed comparative analysis against five closely related approaches: traditional Prompt Engineering, DSPy \citep{khattab2023dspy}, Context Engineering \citep{anthropic2025context}, LLM-ACTR \citep{wu2025cognitive}, Cognitive Design Patterns \citep{agi2025cognitive}, and meta-prompting techniques including Chain-of-Thought \citep{wei2022chain}. We demonstrate that none of these approaches addresses the specific gap that Framework Injection fills: the transfer of complete, bespoke domain reasoning from practitioner to agent.
+
+We provide a formal definition, a semiotic foundation grounded in Peirce's theory of signs, and a novel five-type taxonomy of injectable frameworks (declarative, procedural, evaluative, ethical, compositional). Critically, we establish theoretical connections that have not previously been made in the context of human-AI interaction: Vygotsky's Zone of Proximal Development as a model for scaffolded AI capability, Sweller's Cognitive Load Theory as an explanatory mechanism for performance gains, Wittgenstein's language games as the philosophical basis for domain-specific reasoning transfer, and Polanyi's tacit knowledge as the epistemological foundation for expert-to-agent knowledge externalization. Empirical evidence from cross-domain validation across six knowledge domains and a semantic slicing protocol for context management supports the practical viability of the approach. We conclude with a research agenda addressing transfer fidelity, framework composition, cross-model portability, and reproducibility.
+\end{abstract}
+
+\noindent\textbf{Keywords:} Framework Injection, Prompt Engineering, Context Engineering, LLM reasoning, cognitive transfer, domain-specific AI, Digital Craftsmanship, semiotic foundation, scaffolding theory
+
+% ============================================================================
+% 1. INTRODUCTION
+% ============================================================================
+\section{Introduction}
+\label{sec:introduction}
+
+The emergence of large language models as general-purpose reasoning engines has created a fundamental challenge: how should human experts communicate their domain knowledge to these systems? The answer to this question has evolved through three distinct phases, each representing a qualitative shift in the nature of the interaction.
+
+The first phase, \textbf{Prompt Engineering} (approximately 2022--2023), focused on the optimization of individual instructions \citep{goodside2022prompt,openai2023cookbook,schulhoff2024prompt}. Practitioners learned to craft prompts with specific structures---role assignments, few-shot examples, chain-of-thought scaffolds---to elicit better responses. The unit of work was the single prompt, and the goal was to maximize the quality of a single interaction. While revolutionary in its impact on accessibility, Prompt Engineering suffers from a fundamental limitation: it operates at the level of \emph{commands}, not reasoning. Each prompt is a self-contained instruction that tells the model \emph{what to do} without transferring the underlying \emph{methodology} for how to think about the problem.
+
+The second phase, \textbf{Context Engineering} (approximately 2024--2025), shifted attention from what the user writes to what information enters the model's context window \citep{anthropic2025context}. Practitioners began to think in terms of ``context budgets''---the strategic allocation of the model's limited attention across system prompts, retrieval-augmented generation (RAG) results, tool outputs, conversation history, and persistent memory. Context Engineering represents a genuine advance: it recognizes that the quality of an LLM's output depends not just on the prompt but on the entire informational environment in which the prompt is processed. Yet Context Engineering remains fundamentally concerned with \emph{resources}---tokens, attention allocation, relevance filtering---rather than with the transfer of reasoning methods. It asks, ``What should the model \emph{see}?'' but does not address, ``How should the model \emph{think}?''
+
+This paper introduces and formalizes a third paradigm: \textbf{Framework Injection}. Developed as part of the Digital Craftsmanship methodology \citep{gomes2026digital}, Framework Injection is the deliberate transfer of complete domain-specific reasoning methodologies from human domain experts to AI agents. The injected framework includes decision hierarchies, evaluation criteria, ethical boundaries, and output standards---an entire cognitive substrate that the agent internalizes and applies across all interactions within the target domain. Framework Injection requires no code, no fine-tuning, and no additional training: the framework is encoded entirely in natural language and loaded into the model's context as a persistent reasoning scaffold.
+
+Three metaphors illuminate the distinction. Prompt Engineering is \emph{giving someone a recipe}: specific instructions for a specific dish. Context Engineering is \emph{equipping a kitchen}: providing the right ingredients, tools, and reference cookbooks. Framework Injection is \emph{teaching someone to cook}: transferring the principles, techniques, taste sensibilities, and judgment criteria that enable a practitioner to produce excellent results across an entire culinary domain without step-by-step instructions.
+
+This paper addresses three research questions:
+
+\begin{enumerate}
+    \item \textbf{RQ1:} What distinguishes Framework Injection from existing paradigms for human-AI interaction, and why do current approaches leave a gap?
+    \item \textbf{RQ2:} What theoretical foundations from cognitive science, philosophy of language, and epistemology support Framework Injection as a principled methodology?
+    \item \textbf{RQ3:} How does Framework Injection compare empirically to the state of the art across multiple evaluation dimensions?
+\end{enumerate}
+
+The contributions of this paper are sixfold: (1) the term ``Framework Injection'' and its formal definition; (2) a three-paradigm taxonomy of human-AI interaction (commands $\rightarrow$ context $\rightarrow$ reasoning); (3) a semiotic foundation grounding prompt design in Peirce's theory of signs; (4) the application of linguistic universals to prompt architecture; (5) a five-type taxonomy of injectable frameworks; and (6) novel theoretical connections to Vygotsky's Zone of Proximal Development, Sweller's Cognitive Load Theory, Wittgenstein's language games, and Polanyi's tacit knowledge---connections that have not previously been articulated in the context of human-AI interaction.
+
+The remainder of this paper is organized as follows. Section~\ref{sec:related} surveys the five closest approaches in the current literature. Section~\ref{sec:definition} presents the formal definition and semiotic foundation of Framework Injection. Section~\ref{sec:theory} develops the theoretical grounding in depth. Section~\ref{sec:comparison} provides a detailed comparative analysis. Section~\ref{sec:empirical} presents empirical evidence. Section~\ref{sec:future} outlines open questions and a research agenda. Section~\ref{sec:contributions} summarizes contributions and limitations. Section~\ref{sec:conclusion} concludes.
+
+
+% ============================================================================
+% 2. RELATED WORK
+% ============================================================================
+\section{Related Work: The Five Closest Approaches}
+\label{sec:related}
+
+We survey five approaches that represent the state of the art in structured human-AI interaction, each addressing some aspect of the problem that Framework Injection targets. For each, we identify the core contribution and the critical gap that remains.
+
+\subsection{Prompt Engineering (Traditional)}
+\label{sec:related:pe}
+
+The practice of Prompt Engineering emerged alongside the public availability of large language models and has been documented extensively \citep{goodside2022prompt,openai2023cookbook,schulhoff2024prompt}. The approach encompasses techniques such as role-based prompting (``You are a legal expert...''), few-shot exemplification, chain-of-thought elicitation \citep{wei2022chain}, and structured output formatting. Community resources such as PromptingGuide.ai have catalogued dozens of patterns and heuristics.
+
+Prompt Engineering's strengths are accessibility and immediacy: any user can improve their results by applying basic techniques, and the feedback loop is instantaneous. However, its limitations are structural. First, Prompt Engineering operates at the level of \emph{individual interactions}: each prompt is optimized independently, with no mechanism for persistent reasoning transfer across sessions. Second, it provides no validation framework: there is no principled way to assess whether a prompt reliably transfers domain reasoning or merely triggers superficially appropriate responses. Third, it offers no governance: no ethical boundaries, quality criteria, or hallucination detection are encoded in the interaction.
+
+We characterize this limitation as the ``digital pidgin'' problem. Just as pidgin languages emerge when speakers of different languages develop minimal communication without full mutual comprehension, most human-LLM interaction occurs through impoverished signals---keywords, role labels, surface-level instructions---that fail to transfer the rich, structured reasoning that domain experts actually employ. Prompt Engineering optimizes the pidgin; it does not transcend it.
+
+\subsection{DSPy: Programming with Foundation Models}
+\label{sec:related:dspy}
+
+DSPy \citep{khattab2023dspy} represents a significant advance by treating LLM interactions not as static prompts but as optimizable programs. The framework introduces \emph{signatures}---declarative specifications of input-output behavior---and \emph{modules} that can be compiled into self-improving pipelines. A DSPy program declares what the LLM should do at each step; the DSPy compiler then optimizes the underlying prompts automatically, potentially surpassing hand-crafted prompt engineering.
+
+The contribution of DSPy is substantial: it brings software engineering principles (modularity, compilation, optimization) to the problem of LLM interaction. However, the critical difference from Framework Injection is one of \emph{scope and intent}. DSPy optimizes the \emph{mechanics} of LLM calls---pipeline structure, prompt compilation, automatic few-shot selection---but does not address the transfer of domain-specific reasoning from human experts. The human's domain knowledge remains implicit in the choice of pipeline architecture and training examples; it is never externalized as a transferable reasoning framework. DSPy is software engineering applied to prompts; Framework Injection is cognitive transfer applied to AI agents. The two are complementary: a Framework Injection could be delivered through a DSPy pipeline, but DSPy alone does not provide the framework.
+
+\subsection{Context Engineering}
+\label{sec:related:ce}
+
+Context Engineering, articulated most clearly by Anthropic \citep{anthropic2025context}, represents the recognition that an LLM's performance depends on the entirety of its context window, not just the user's prompt. The paradigm encompasses system prompts, RAG-retrieved documents, tool outputs, conversation history, and persistent memory, all managed as a unified ``context budget.'' The practitioner's task shifts from writing a good prompt to curating the right information for each interaction---a ``just-in-time'' architecture that mirrors aspects of human cognition.
+
+Context Engineering addresses a genuine limitation of Prompt Engineering: the recognition that what the model \emph{sees} matters as much as what it is \emph{told}. However, the paradigm remains fundamentally \emph{horizontal}: the same techniques (retrieval, summarization, memory management) are applied identically regardless of domain. Context Engineering does not distinguish between providing legal precedents and providing medical records; both are ``context.'' It asks, ``What should the model see?'' without addressing, ``How should the model reason about what it sees?''
+
+Framework Injection, by contrast, is \emph{vertical}: each domain receives its own artisanal reasoning framework, crafted by a domain expert. The framework does not just provide information; it provides the \emph{methodology} for processing information within that domain. Context Engineering manages resources; Framework Injection transfers reasoning methods.
+
+\subsection{LLM-ACTR: Cognitive Models to LLMs}
+\label{sec:related:actr}
+
+LLM-ACTR \citep{wu2025cognitive} integrates the ACT-R cognitive architecture \citep{anderson2004integrated} with large language models, enabling knowledge transfer from computational cognitive models to LLMs. This approach is perhaps the closest to Framework Injection in spirit, as it explicitly addresses the transfer of structured reasoning to language models. The work was published in the SAGE Journal of AI in Organizations in 2025 and represents a rigorous, theoretically grounded contribution.
+
+However, three critical differences distinguish LLM-ACTR from Framework Injection. First, the \emph{source} of the transfer differs: LLM-ACTR transfers from a \emph{computational cognitive model} (ACT-R) to an LLM, whereas Framework Injection transfers from \emph{human domain expertise} directly. ACT-R is a generic cognitive theory validated across domains; Framework Injection frameworks are bespoke, crafted by practitioners for specific domains. Second, the \emph{expertise required} differs: LLM-ACTR requires cognitive science expertise to configure and calibrate ACT-R modules, whereas Framework Injection requires domain expertise---a tax lawyer, a clinician, a financial analyst---to externalize their reasoning methods. Third, Framework Injection includes components absent from LLM-ACTR: a semiotic foundation for prompt design, adversarial validation cycles (CAAJ---Critic, Advocate, Arbiter, Judge), anti-hallucination mechanisms (@Sentinel), and explicit ethical governance layers.
+
+\subsection{Cognitive Design Patterns for LLM Agents}
+\label{sec:related:cdp}
+
+The Cognitive Design Patterns approach \citep{agi2025cognitive}, presented at AGI 2025, identifies recurring patterns across LLM agent architectures---memory management, planning strategies, reflection loops, and tool-use patterns. The contribution is taxonomic: it observes what patterns have \emph{emerged} across existing agent implementations and organizes them into a descriptive framework.
+
+The critical difference from Framework Injection is one of \emph{orientation}. Cognitive Design Patterns \emph{describes} patterns that emerged organically; Framework Injection \emph{prescribes} frameworks to be deliberately injected. The former is taxonomy; the latter is methodology. The former is observation; the latter is intervention. This distinction is analogous to the difference between a botanist cataloguing plant species and an agronomist designing cultivation methods: both contribute to agricultural science, but only the latter tells you how to grow crops.
+
+\subsection{Meta-Prompting and Thinking LLMs}
+\label{sec:related:meta}
+
+A family of techniques has emerged for structuring LLM reasoning itself: Chain-of-Thought (CoT) prompting \citep{wei2022chain}, Tree of Thoughts (ToT) \citep{yao2023tree}, Graph of Thoughts (GoT) \citep{besta2024graph}, and the ``thinking LLMs'' approach in which models generate internal reasoning tokens before producing a response. These techniques provide generic reasoning scaffolds---step-by-step decomposition, branching exploration, graph-structured deliberation---that improve performance across tasks.
+
+The critical difference from Framework Injection lies in the distinction between \emph{reasoning structure} and \emph{reasoning content}. Meta-prompting teaches the model \emph{how to organize its thinking} (sequentially, as a tree, as a graph); Framework Injection teaches the model \emph{what to think about} within a specific domain (legal hierarchies, clinical protocols, financial due diligence criteria). The analogy is precise: Chain-of-Thought teaches someone to use a map; Framework Injection provides the actual territory. A CoT prompt might instruct, ``Think step by step''; a Framework Injection specifies, ``First check whether the tax obligation falls under Article 150 of the Brazilian Constitution, then determine whether any of the seven immunity categories apply, then assess proportionality under the precedent established in RE 574.706.'' The former is domain-agnostic scaffolding; the latter is domain-specific reasoning transfer.
+
+\subsection{Summary: The Gap}
+
+Table~\ref{tab:gap} summarizes the aspect of human-AI interaction that each approach addresses and the gap each leaves unfilled.
+
+\begin{table}[H]
+\centering
+\caption{Approaches to human-AI interaction and their primary focus.}
+\label{tab:gap}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Approach} & \textbf{Primary Focus} & \textbf{Does Not Address} \\
+\midrule
+Prompt Engineering & Individual instructions & Reasoning transfer \\
+DSPy & Pipeline optimization & Domain knowledge externalization \\
+Context Engineering & Information management & Reasoning methodology \\
+LLM-ACTR & Cognitive model transfer & Practitioner expertise transfer \\
+Cognitive Design Patterns & Pattern taxonomy & Prescriptive methodology \\
+Meta-Prompting (CoT/ToT/GoT) & Reasoning structure & Domain-specific content \\
+\midrule
+\textbf{Framework Injection} & \textbf{Reasoning transfer} & See Section~\ref{sec:contributions:limits} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The gap is clear: no existing approach provides a methodology for the structured transfer of complete, bespoke domain reasoning from a human practitioner to an AI agent. Framework Injection fills this gap.
+
+
+% ============================================================================
+% 3. FRAMEWORK INJECTION: DEFINITION AND FORMALIZATION
+% ============================================================================
+\section{Framework Injection: Definition and Formalization}
+\label{sec:definition}
+
+\subsection{Formal Definition}
+\label{sec:definition:formal}
+
+\begin{quote}
+\textbf{Framework Injection} is the deliberate, structured transfer of a complete domain-specific reasoning methodology---including decision hierarchies, evaluation criteria, ethical boundaries, and output standards---from a human domain expert to an AI agent, encoded in natural language and loaded as a persistent cognitive substrate that the agent internalizes and applies across all interactions within that domain.
+\end{quote}
+
+Five key properties distinguish Framework Injection from other forms of human-AI interaction:
+
+\begin{enumerate}[label=\textbf{P\arabic*}.]
+    \item \textbf{Completeness.} The injected framework is not a hint, tip, or example; it is an entire reasoning method encompassing how to approach problems, what criteria to apply, what sources to prioritize, what outputs to produce, and what constraints to respect. A complete framework is self-sufficient: the agent does not need to ``fill in the gaps'' with generic reasoning.
+
+    \item \textbf{Domain specificity.} Each framework is crafted for a specific domain by a practitioner of that domain. A legal framework is not a medical framework with different terminology; it embodies fundamentally different reasoning patterns (precedent-based argumentation vs.\ differential diagnosis), different source hierarchies (statute $\rightarrow$ case law $\rightarrow$ doctrine vs.\ clinical trial $\rightarrow$ meta-analysis $\rightarrow$ expert consensus), and different ethical constraints (due process vs.\ do no harm).
+
+    \item \textbf{Natural language encoding.} The framework requires no code, no API calls, no model fine-tuning, and no additional training data. It is expressed entirely in natural language---structured, precise, and explicit, but natural language nonetheless. This property ensures that domain experts who are not programmers can create and maintain frameworks.
+
+    \item \textbf{Persistence.} Once loaded, the framework applies across all interactions within the domain session. The agent does not need to be re-instructed for each query; it reasons from the framework as a human expert reasons from internalized methodology. This property distinguishes Framework Injection from prompt-level instructions, which are ephemeral.
+
+    \item \textbf{Internalization.} The agent does not ``follow instructions'' in the sense of executing commands; it \emph{adopts the reasoning pattern}. The distinction is observable: an instructed agent produces outputs that match a specification; an agent that has internalized a framework produces outputs that \emph{extend} the specification to novel situations, applying the framework's logic to cases not explicitly covered.
+\end{enumerate}
+
+\subsection{The Semiotic Foundation}
+\label{sec:definition:semiotics}
+
+Framework Injection rests on a semiotic foundation derived from Peirce's theory of signs \citep{peirce1931collected}. In Peircean semiotics, a \emph{sign} is a triadic relation among a \emph{representamen} (the sign vehicle), an \emph{object} (what the sign refers to), and an \emph{interpretant} (the effect the sign produces in its interpreter). This triadic structure maps directly onto human-LLM interaction:
+
+\begin{itemize}
+    \item The \textbf{representamen} is the prompt---the textual artifact submitted to the model.
+    \item The \textbf{object} is the intended task, outcome, or reasoning process the human seeks to elicit.
+    \item The \textbf{interpretant} is the model's internal processing and the output it generates.
+\end{itemize}
+
+In this framework, the LLM functions as an \emph{algorithmic interpretant}---a system that generates interpretants (outputs) based on its processing of representamina (prompts). The quality of the interaction depends on the degree to which the representamen is designed to produce the intended interpretant, given the algorithmic interpreter's capabilities and limitations.
+
+We introduce the concept of \textbf{projected semiosis}: the deliberate design of the sign (prompt) with explicit consideration of how it will be interpreted by the specific class of interpreter (LLM). Projected semiosis is the semiotic counterpart of Framework Injection---the practice of crafting signs rich enough to transfer not merely referential content but entire reasoning methodologies.
+
+The ``digital pidgin'' problem can now be stated precisely: most human-LLM interaction produces \emph{impoverished signs}---representamina that underdetermine the intended interpretant. The model fills the gap with its own priors, producing outputs that are linguistically fluent but methodologically arbitrary. Framework Injection resolves this by producing \emph{rich signs}---representamina that fully determine the intended reasoning methodology, leaving the model to apply (rather than invent) the method.
+
+We contrast \emph{digital pidgin} with what we term \emph{Linguagem Plena} (Full Language): interaction in which the human's signs are sufficiently rich, structured, and explicit to support deterministic interpretation by the algorithmic interpretant. Framework Injection is the methodology for achieving Linguagem Plena.
+
+\subsection{Linguistic Universals as Primitives}
+\label{sec:definition:universals}
+
+Drawing on Greenberg's work on linguistic universals \citep{greenberg1963universals}, we identify a set of cross-linguistic structural primitives that serve as the building blocks of injectable frameworks:
+
+\begin{itemize}
+    \item \textbf{Agent/Action/Patient} $\rightarrow$ persona definition, task specification, and output targeting. Every framework injection specifies who is reasoning (agent), what reasoning operation is being performed (action), and what object the reasoning is applied to (patient).
+
+    \item \textbf{Tense/Aspect/Modality} $\rightarrow$ scenario framing, hypothesis marking, and certainty calibration. Frameworks use temporal and modal markers to distinguish between established facts, working hypotheses, and speculative extensions.
+
+    \item \textbf{Topic-Comment structure} $\rightarrow$ context/task separation. The universal tendency to organize information into ``what we are talking about'' (topic) and ``what we are saying about it'' (comment) maps to the separation between domain context and specific analytical tasks in a framework.
+
+    \item \textbf{Politeness hierarchies} $\rightarrow$ formality calibration, audience adaptation, and register control. Frameworks specify the appropriate register for different output types within a domain (e.g., formal legal memorandum vs.\ client-facing summary).
+\end{itemize}
+
+These universals provide a principled basis for framework design that is grounded in the structure of human language itself, rather than in the idiosyncrasies of any particular LLM architecture.
+
+\subsection{A Taxonomy of Injectable Frameworks}
+\label{sec:definition:taxonomy}
+
+We propose a five-type taxonomy of injectable frameworks, organized by the \emph{cognitive function} each type serves:
+
+\begin{enumerate}[label=\textbf{Type \arabic*}.]
+    \item \textbf{Declarative Frameworks} --- \emph{What to know.} These frameworks establish knowledge hierarchies and source rankings within a domain. A legal declarative framework might specify: ``Constitutional provisions supersede ordinary legislation, which supersedes administrative regulations, which supersede doctrine. Within doctrine, prefer the majority position of Superior Tribunal de Justi\c{c}a over isolated academic opinions.'' A medical declarative framework might specify: ``Randomized controlled trials supersede observational studies, which supersede case reports, which supersede expert opinion.''
+
+    \item \textbf{Procedural Frameworks} --- \emph{How to reason.} These frameworks provide step-by-step reasoning methods, decision trees, and analytical protocols. A financial due diligence procedural framework might specify: ``(1) Verify the legal entity structure and identify all beneficial owners; (2) assess liquidity ratios against industry benchmarks; (3) examine related-party transactions for arm's-length compliance; (4) model downside scenarios at 1$\sigma$ and 2$\sigma$ deviations.''
+
+    \item \textbf{Evaluative Frameworks} --- \emph{How to judge.} These frameworks provide quality criteria, scoring rubrics, and assessment standards. An academic peer review evaluative framework might specify: ``Evaluate on five dimensions: originality (0--10), methodological rigor (0--10), clarity of exposition (0--10), significance of contribution (0--10), and adequacy of related work coverage (0--10). A paper must score $\geq$ 7 on rigor and $\geq$ 6 on all other dimensions to receive a recommendation for acceptance.''
+
+    \item \textbf{Ethical Frameworks} --- \emph{What to refuse.} These frameworks establish hard constraints, compliance rules, and ethical fences. A clinical ethical framework might specify: ``Never recommend a treatment not approved by ANVISA for the indicated condition. Never provide dosage recommendations without specifying the need for medical supervision. Always flag drug interactions when multiple medications are mentioned.''
+
+    \item \textbf{Compositional Frameworks} --- \emph{How to combine.} These frameworks orchestrate multi-step workflows and adversarial validation cycles. The CAAJ (Critic--Advocate--Arbiter--Judge) pattern is a compositional framework: the Critic attacks the analysis, the Advocate defends it, the Arbiter synthesizes, and the Judge renders a final assessment. Compositional frameworks may incorporate elements of all four other types.
+\end{enumerate}
+
+In practice, a complete domain framework typically combines multiple types. A comprehensive legal framework, for instance, includes a declarative component (source hierarchy), a procedural component (analytical method), an evaluative component (quality criteria for legal opinions), an ethical component (constraints on what the agent may recommend), and a compositional component (the adversarial validation workflow).
+
+
+% ============================================================================
+% 4. THEORETICAL GROUNDING
+% ============================================================================
+\section{Theoretical Grounding: Connections Across Disciplines}
+\label{sec:theory}
+
+This section constitutes the central theoretical contribution of this paper. We establish four connections between Framework Injection and established bodies of theory in cognitive science, educational psychology, philosophy of language, and epistemology. To our knowledge, none of these connections has been previously articulated in the context of human-AI interaction. Each connection both illuminates the \emph{mechanism} by which Framework Injection operates and provides \emph{predictive power} for its expected effects.
+
+\subsection{Vygotsky's Zone of Proximal Development: Framework as Scaffolding}
+\label{sec:theory:vygotsky}
+
+Lev Vygotsky's concept of the Zone of Proximal Development (ZPD), introduced in \emph{Mind in Society} \citep{vygotsky1978mind}, distinguishes between two levels of cognitive capability: the \emph{actual development level}, defined as the level of problem-solving a learner can achieve independently, and the \emph{potential development level}, defined as the level achievable ``under adult guidance or in collaboration with more capable peers'' \citep[p.~86]{vygotsky1978mind}. The ZPD is the distance between these two levels. Learning occurs when the learner operates within the ZPD, supported by \emph{scaffolding}---structured assistance that enables performance beyond the learner's independent capacity.
+
+We propose that this framework maps with striking precision onto the interaction between an LLM and a Framework Injection:
+
+\begin{itemize}
+    \item The LLM's \textbf{actual development level} corresponds to its baseline capabilities: the quality of output it produces when given a task without domain-specific guidance. For a complex legal analysis, this baseline is typically characterized by surface-level accuracy, generic reasoning patterns, occasional hallucination, and the absence of the subtle judgment that characterizes expert practice.
+
+    \item The LLM's \textbf{potential development level} corresponds to the quality of output it can produce when operating under the guidance of a Framework Injection. With a comprehensive legal framework loaded, the same model produces analyses that follow expert reasoning patterns, apply appropriate source hierarchies, respect jurisdictional nuances, and exhibit the kind of judgment that would be recognized by practitioners as competent.
+
+    \item The \textbf{Framework Injection itself} functions as scaffolding in Vygotsky's sense: it is structured guidance from a ``more capable peer'' (the domain expert who crafted the framework) that enables the LLM to perform within its ZPD.
+\end{itemize}
+
+This analogy generates a critical prediction: \emph{when the scaffolding is removed, performance should drop back to the actual development level}. This is precisely what we observe. When a Framework Injection is removed from the context and the same task is presented with a bare prompt, the model's output reverts to its baseline quality---confirming that the framework functions as scaffolding rather than as permanent learning. The model has not been fine-tuned or retrained; it has been scaffolded.
+
+The Vygotskian perspective also illuminates the \emph{boundary conditions} of Framework Injection. Just as scaffolding is effective only within the ZPD---it cannot enable a child to perform tasks that are entirely beyond their developmental stage---a Framework Injection can only enhance capabilities that are within the model's potential. A framework cannot make a model perform tasks that require capabilities it fundamentally lacks (e.g., perceptual grounding for a text-only model). The framework enables latent capabilities; it does not create new ones.
+
+Furthermore, Vygotsky's insight that the ZPD is best traversed through \emph{collaboration with more capable peers} rather than through isolated practice maps onto a key principle of Framework Injection: the framework must be crafted by a genuine domain expert. A framework written by a non-expert---even a well-intentioned one---will fail to scaffold effectively, just as guidance from a similarly confused peer fails to support learning within the ZPD. The expertise of the framework author is not incidental; it is constitutive.
+
+This application of Vygotsky's ZPD to LLM interaction is, to our knowledge, the first in the literature. While analogies between educational scaffolding and AI systems have been drawn informally, the specific mapping between Framework Injection and the ZPD---including the prediction of scaffolding-dependent performance and the identification of boundary conditions---has not been previously articulated.
+
+\subsection{Cognitive Load Theory: Framework as Schema}
+\label{sec:theory:sweller}
+
+John Sweller's Cognitive Load Theory (CLT), first articulated in 1988 \citep{sweller1988cognitive} and subsequently refined \citep{sweller2011cognitive}, provides an explanatory mechanism for \emph{why} Framework Injection improves LLM performance. CLT distinguishes three types of cognitive load:
+
+\begin{enumerate}
+    \item \textbf{Intrinsic load}: the inherent complexity of the material being processed, determined by the number of interacting elements that must be simultaneously held in working memory.
+
+    \item \textbf{Extraneous load}: the cognitive burden imposed by poor instructional design---effort spent processing information that does not contribute to learning or task performance.
+
+    \item \textbf{Germane load}: the cognitive effort devoted to constructing and automating schemas---the mental structures that organize knowledge and enable efficient processing.
+\end{enumerate}
+
+While CLT was developed for human cognition, we argue that a structurally analogous framework applies to LLM processing. Large language models have finite computational resources (context window, attention budget, parameter capacity) that function as a loose analogue of working memory. When processing a complex domain task, the model must allocate these resources across multiple demands.
+
+Without Framework Injection, the model must simultaneously:
+\begin{enumerate}[label=(\alph*)]
+    \item Determine what the domain requires (what kind of reasoning is appropriate),
+    \item Figure out how to reason within the domain (what methods to apply),
+    \item Apply those methods to the specific input, and
+    \item Produce an appropriately formatted output.
+\end{enumerate}
+
+Tasks (a) and (b) constitute \emph{extraneous load} in Sweller's terms: they are processing demands that do not contribute directly to solving the specific problem at hand. The model must ``reinvent'' the domain's reasoning methodology for each interaction, consuming computational resources that could be allocated to the actual analytical task.
+
+Framework Injection eliminates this extraneous load by \emph{providing the schema directly}. The injected framework is, in Sweller's sense, a pre-constructed schema that organizes domain knowledge and reasoning methods into a structured, immediately applicable form. With the framework loaded, the model can allocate its full computational budget to \textbf{germane processing}---applying the provided reasoning method to the specific input.
+
+This analysis generates testable predictions:
+
+\begin{enumerate}
+    \item \textbf{Performance improvement should be greater for complex tasks.} Simple tasks impose low intrinsic load and thus leave ample resources even without a framework. Complex tasks with high intrinsic load benefit disproportionately from the elimination of extraneous load. Preliminary observations support this prediction: Framework Injection produces modest improvements on simple factual queries but dramatic improvements on complex multi-step analyses.
+
+    \item \textbf{Performance improvement should be greater for longer interactions.} As context accumulates, the model's effective ``working memory'' is increasingly consumed by conversation history. A pre-loaded framework is more efficient than repeated re-derivation of reasoning methods, just as a schema is more efficient than re-learning a procedure from scratch for each application.
+
+    \item \textbf{Frameworks that are well-structured should outperform frameworks with equivalent content but poor organization.} CLT predicts that the \emph{structure} of the schema matters, not just its content. A framework that is clearly organized with explicit hierarchies and labeled sections should reduce extraneous load more effectively than a framework that presents the same information in a disorganized narrative. This prediction distinguishes Framework Injection from mere ``long prompts'': it is not the quantity of information that matters but its organization as a schema.
+\end{enumerate}
+
+The application of Cognitive Load Theory to LLM processing is a novel contribution. While CLT has been extensively applied to human-computer interaction and educational technology, its extension to the analysis of prompt design and framework injection in large language models has not been previously proposed.
+
+\subsection{Wittgenstein's Language Games: Framework as Rule System}
+\label{sec:theory:wittgenstein}
+
+Ludwig Wittgenstein's later philosophy, articulated in \emph{Philosophical Investigations} \citep{wittgenstein1953philosophical}, introduced the concept of \emph{language games} (Sprachspiele)---the idea that the meaning of language is determined by its use within specific, rule-governed activities. There is no single, universal ``language''; there are only language games, each with its own rules for what counts as a valid move, what constitutes a meaningful utterance, and what criteria determine success or failure.
+
+This insight maps directly onto the problem that Framework Injection addresses. Each professional domain constitutes a language game with its own rules:
+
+\begin{itemize}
+    \item \textbf{Legal reasoning} is a language game. Valid moves include: citing precedent, applying statutory provisions, distinguishing factual situations, arguing by analogy, and invoking constitutional principles. Invalid moves include: relying on personal opinion, citing non-authoritative sources as binding, and ignoring jurisdictional boundaries.
+
+    \item \textbf{Medical diagnosis} is a different language game. Valid moves include: generating a differential diagnosis, ordering tests to rule out hypotheses, assessing pre-test probability, and evaluating evidence quality according to established hierarchies. Invalid moves include: diagnosing without sufficient evidence, ignoring red-flag symptoms, and recommending treatments without contraindication screening.
+
+    \item \textbf{Financial analysis} is yet another language game. Valid moves include: calculating valuation multiples, stress-testing assumptions, assessing counterparty risk, and modeling scenario distributions. Invalid moves include: projecting returns without risk adjustment, ignoring liquidity constraints, and conflating revenue with profit.
+\end{itemize}
+
+Without Framework Injection, an LLM plays a \emph{generic language game}---a kind of ``all-purpose reasoning'' that draws on its training distribution without committing to the specific rules of any particular domain. This generic game produces outputs that are linguistically coherent but methodologically underdetermined: the model might reason about law in the way it reasons about casual conversation, or reason about medicine in the way it reasons about creative writing. The outputs are often impressive in form but deficient in method.
+
+Framework Injection explicitly teaches the LLM \emph{which language game to play}. The injected framework specifies:
+\begin{itemize}
+    \item What counts as a valid reasoning move within this domain,
+    \item What sources and evidence types are admissible and how they rank,
+    \item What constitutes a successful outcome, and
+    \item What moves are prohibited.
+\end{itemize}
+
+In Wittgensteinian terms, Framework Injection provides the \emph{rules of the game}. The model no longer needs to infer which game is being played from the sparse clues in a bare prompt; it has been explicitly inducted into the game and can play according to its rules.
+
+This connection has significant implications for the \emph{evaluation} of Framework Injection. Wittgenstein argued that meaning is determined by use within a language game; analogously, the quality of an LLM's output should be evaluated not by generic criteria (fluency, coherence, factual accuracy) but by \emph{domain-specific criteria}---the rules of the relevant language game. A legal analysis should be evaluated by legal standards; a clinical assessment by clinical standards. Framework Injection enables this domain-specific evaluation because the framework itself encodes the criteria.
+
+The Wittgensteinian analysis also explains a puzzling phenomenon: why the same model can produce expert-level output in one domain and mediocre output in another, depending on the framework injected. This is not surprising if we accept that each domain is a different language game with different rules. Competence in one game does not transfer to another; the rules must be explicitly provided for each.
+
+Finally, Wittgenstein's observation that ``the limits of my language mean the limits of my world'' (\emph{Tractatus Logico-Philosophicus}, 5.6) acquires new resonance in this context. The limits of the framework injected into an LLM define the limits of its reasoning world within that domain. A framework that omits ethical constraints produces an agent without ethical reasoning in that domain. A framework that omits a source hierarchy produces an agent that treats all sources as equally authoritative. The framework \emph{is} the agent's world for that domain, and its completeness or incompleteness determines the agent's capabilities and blindspots.
+
+\subsection{Polanyi's Tacit Knowledge: Framework as Externalization}
+\label{sec:theory:polanyi}
+
+Michael Polanyi's concept of \emph{tacit knowledge}, introduced in \emph{The Tacit Dimension} \citep{polanyi1966tacit}, identifies a category of knowledge that practitioners possess and use but cannot easily articulate: ``we can know more than we can tell'' \citep[p.~4]{polanyi1966tacit}. A master craftsman knows how to produce excellent work, but the knowledge that guides their hands, eyes, and judgment is largely tacit---embodied in practice rather than encoded in explicit rules.
+
+Domain experts face precisely this challenge when attempting to guide AI agents. A senior tax lawyer ``knows'' how to analyze a complex tax situation, but much of what they know---the intuitive weighting of sources, the sense of when a particular argument will resonate with a tribunal, the judgment about when to push an aggressive position and when to adopt a conservative one---is tacit. When asked to write a prompt for an AI, the expert typically produces a surface-level instruction (``Analyze this tax situation'') that captures almost none of the tacit knowledge that makes their own analyses excellent.
+
+Framework Injection provides a structured methodology for \emph{externalizing tacit knowledge}. The process of crafting a framework forces the domain expert to articulate what they normally leave implicit:
+
+\begin{itemize}
+    \item What sources do I actually consult, and in what order? (Declarative externalization)
+    \item What steps do I actually follow when analyzing a problem? (Procedural externalization)
+    \item What criteria do I actually apply when judging quality? (Evaluative externalization)
+    \item What lines do I actually refuse to cross? (Ethical externalization)
+    \item How do I actually combine multiple analyses into a final assessment? (Compositional externalization)
+\end{itemize}
+
+Each question forces the expert to convert tacit knowledge into explicit knowledge---precisely the process that Nonaka and Takeuchi \citep{nonaka1995knowledge} identified as \emph{externalization} in their SECI model of organizational knowledge creation (Socialization $\rightarrow$ Externalization $\rightarrow$ Combination $\rightarrow$ Internalization).
+
+The connection to the SECI model positions Framework Injection as a knowledge management technology, not merely an AI interaction technique. The framework creation process (externalization) produces an artifact that can be shared, refined, and versioned (combination). When an AI agent operates under the framework, it ``internalizes'' the knowledge in a functional sense---producing outputs consistent with the methodology (internalization). And when the framework is used as a training tool for junior practitioners who observe the AI's framework-guided reasoning, a form of socialization occurs.
+
+This analysis reveals a paradox we term \textbf{the Artisan's Paradox}: Framework Injection requires deep domain expertise to create the framework, yet the value of the framework lies in democratizing access to that expertise via AI. The artisan creates tools that could theoretically reduce the demand for artisans. We argue that this paradox resolves itself through the creation of a \emph{new} market category: ``framework artisans''---practitioners who specialize not in performing domain work directly but in translating domain expertise into injectable formats. This is not automation replacing craft; it is craft scaling through codification. The expert's role shifts from performing analyses to designing the reasoning systems that perform analyses---a higher-order form of expertise.
+
+Furthermore, the Polanyian analysis highlights a fundamental limitation: no externalization process captures all tacit knowledge. There will always be a residual of expert judgment that resists codification into a framework. This implies that Framework Injection produces \emph{expert-competent} rather than \emph{expert-equivalent} performance---the agent with a framework performs as a competent practitioner would, but may lack the subtle, situation-specific judgment of a true master. This is an honest limitation, but it is also a significant achievement: competent-level performance, available on demand at scale, represents enormous practical value in domains where expert access is scarce.
+
+\subsection{The Artisan's Paradox: A Deeper Analysis}
+\label{sec:theory:paradox}
+
+The Artisan's Paradox warrants further analysis because it touches on the political economy of expertise in the age of AI. Consider three scenarios:
+
+\begin{enumerate}
+    \item \textbf{Without Framework Injection}: AI agents perform at baseline quality. Domain experts remain indispensable for all complex work. Access to expertise is scarce and expensive.
+
+    \item \textbf{With Framework Injection, experts resistant}: Frameworks are not created because experts perceive them as threats to their livelihood. The technology's potential is unrealized. The status quo persists.
+
+    \item \textbf{With Framework Injection, experts engaged}: Experts create frameworks, scaling their expertise to thousands of AI-assisted interactions. Their role evolves from performing work to designing reasoning systems. The total market for expert-quality analysis expands because previously priced-out clients gain access.
+\end{enumerate}
+
+Scenario 3 is the resolution of the paradox: Framework Injection expands the market rather than cannibalizing it. The analogy is to how accounting software did not eliminate accountants but instead expanded the market for financial services by making basic bookkeeping accessible and freeing accountants for higher-value advisory work.
+
+The Artisan's Paradox connects to Friston's Free Energy Principle \citep{friston2010free} at a conceptual level: organizations, like organisms, minimize surprise by developing increasingly accurate internal models of their environment. Framework Injection provides organizations with higher-fidelity models of their domain reasoning, reducing the ``surprise'' (error, inconsistency, deviation from expert standards) in their AI-assisted operations.
+
+
+% ============================================================================
+% 5. COMPARATIVE ANALYSIS
+% ============================================================================
+\section{Comparative Analysis: Formal Evaluation}
+\label{sec:comparison}
+
+\subsection{Evaluation Dimensions and Scoring}
+\label{sec:comparison:scoring}
+
+We evaluate six approaches across ten dimensions, each scored on a 0--10 scale. Scores reflect the authors' assessment based on published literature, documented capabilities, and practical experience. Table~\ref{tab:comparison} presents the results; justifications follow.
+
+\begin{table}[H]
+\centering
+\caption{Comparative evaluation of human-AI interaction paradigms (0--10 scale).}
+\label{tab:comparison}
+\small
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+\textbf{Dimension} & \textbf{PE} & \textbf{CE} & \textbf{DSPy} & \textbf{ACT-R} & \textbf{Meta-P} & \textbf{FI} \\
+\midrule
+Theoretical foundation     & 3  & 5  & 6  & 8  & 5  & 9  \\
+Domain specificity          & 3  & 5  & 4  & 6  & 2  & 10 \\
+Reasoning transfer          & 2  & 3  & 5  & 7  & 4  & 9  \\
+Anti-hallucination          & 1  & 5  & 3  & 4  & 2  & 9  \\
+Ethical governance           & 1  & 3  & 1  & 2  & 1  & 9  \\
+Practitioner accessibility  & 9  & 5  & 3  & 2  & 6  & 5  \\
+Reproducibility             & 3  & 7  & 8  & 7  & 5  & 7  \\
+Validation rigor            & 2  & 5  & 7  & 7  & 3  & 8  \\
+Scalability                 & 4  & 8  & 9  & 5  & 7  & 7  \\
+Completeness of methodology & 2  & 5  & 6  & 6  & 3  & 9  \\
+\midrule
+\textbf{Total}              & \textbf{30} & \textbf{51} & \textbf{52} & \textbf{54} & \textbf{38} & \textbf{85} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Score justifications:}
+
+\paragraph{Theoretical foundation.}
+Prompt Engineering (PE: 3) emerged from practice rather than theory; its heuristics are empirically discovered but theoretically ungrounded. Context Engineering (CE: 5) draws informally on information retrieval and cognitive science. DSPy (6) is grounded in programming language theory and compiler design. LLM-ACTR (8) has the strongest existing theoretical base, grounded in the well-validated ACT-R cognitive architecture. Meta-Prompting (5) draws on cognitive science concepts (working memory, deliberation) but without formal theoretical development. Framework Injection (9) integrates semiotic theory, linguistic universals, and---as developed in Section~\ref{sec:theory}---Vygotskian scaffolding, Cognitive Load Theory, Wittgensteinian language games, and Polanyian epistemology.
+
+\paragraph{Domain specificity.}
+PE (3) and Meta-Prompting (2) are inherently domain-agnostic; their techniques apply identically regardless of content domain. CE (5) can be domain-specific through retrieval configuration but provides no methodology for domain-specific \emph{reasoning}. DSPy (4) enables domain-specific pipelines but the domain knowledge remains implicit. LLM-ACTR (6) can be configured for specific domains through ACT-R modules but requires cognitive science expertise for each configuration. Framework Injection (10) is maximally domain-specific by design: each framework is a bespoke artifact crafted by and for a specific domain.
+
+\paragraph{Reasoning transfer.}
+PE (2) transfers instructions, not reasoning. CE (3) transfers information, not methodology. DSPy (5) enables structured reasoning through pipeline design but does not explicitly transfer domain reasoning methods. LLM-ACTR (7) transfers cognitive architecture reasoning patterns, a genuine form of reasoning transfer but from a computational model rather than from domain expertise. Meta-Prompting (4) scaffolds generic reasoning structure. Framework Injection (9) explicitly transfers complete domain reasoning methodologies, scoring highest but receiving 9 rather than 10 due to the inherent limitation that some tacit knowledge resists externalization (Section~\ref{sec:theory:polanyi}).
+
+\paragraph{Anti-hallucination.}
+PE (1) provides no hallucination mitigation. CE (5) reduces hallucination through grounding in retrieved documents. DSPy (3) can include verification steps in pipelines but provides no dedicated anti-hallucination mechanism. LLM-ACTR (4) constrains outputs through cognitive architecture but without explicit hallucination detection. Meta-Prompting (2) may increase reasoning quality but does not address hallucination directly. Framework Injection (9) includes the @Sentinel anti-hallucination mechanism and adversarial validation cycles (CAAJ) as integral components.
+
+\paragraph{Ethical governance.}
+PE (1), DSPy (1), and Meta-Prompting (1) provide no ethical governance mechanisms. CE (3) can include ethical guidelines in system prompts but without enforcement. LLM-ACTR (2) inherits basic ethical constraints from ACT-R's architecture. Framework Injection (9) includes ethical frameworks as one of five fundamental framework types (Section~\ref{sec:definition:taxonomy}), with explicit hard constraints, compliance rules, and refusal criteria.
+
+\paragraph{Practitioner accessibility.}
+PE (9) is the most accessible: anyone can write a prompt. Meta-Prompting (6) requires understanding of reasoning structures but no programming. CE (5) and FI (5) require moderate expertise---CE in information management, FI in domain knowledge and framework design. DSPy (3) requires programming competence. LLM-ACTR (2) requires cognitive science expertise.
+
+\paragraph{Reproducibility.}
+PE (3) is poorly reproducible because prompt effectiveness is sensitive to phrasing variations. Meta-Prompting (5) is moderately reproducible. CE (7), DSPy (8), and LLM-ACTR (7) are highly reproducible due to systematic architectures. Framework Injection (7) is reproducible within a framework (the same framework produces consistent results) but frameworks themselves may vary across authors (Section~\ref{sec:future:reproducibility}).
+
+\paragraph{Validation rigor.}
+PE (2) relies on informal evaluation (``did the output look good?''). Meta-Prompting (3) adds reasoning trace inspection but without formal validation. CE (5) and DSPy (7) enable systematic evaluation through benchmarks and pipeline metrics. LLM-ACTR (7) inherits ACT-R's validation methodology. Framework Injection (8) includes built-in validation through the CAAJ adversarial cycle and evaluative framework components.
+
+\paragraph{Scalability.}
+PE (4) scales poorly because each prompt must be individually crafted. CE (8) and DSPy (9) scale well through automated retrieval and pipeline compilation. Meta-Prompting (7) scales through generic applicability. LLM-ACTR (5) faces scaling challenges due to cognitive science configuration requirements. Framework Injection (7) scales through framework reuse: once crafted, a framework serves unlimited interactions, though creating new frameworks requires domain expertise.
+
+\paragraph{Completeness of methodology.}
+PE (2) is a collection of heuristics, not a complete methodology. Meta-Prompting (3) provides reasoning scaffolds without a broader methodology. CE (5), DSPy (6), and LLM-ACTR (6) each address significant portions of the interaction challenge but leave gaps (CE lacks reasoning transfer; DSPy lacks domain knowledge externalization; LLM-ACTR lacks practitioner accessibility). Framework Injection (9) provides a complete methodology from framework design through validation, implementation, and governance.
+
+\subsection{The Inclusion Relationship}
+\label{sec:comparison:inclusion}
+
+The three primary paradigms exist in a formal inclusion relationship:
+
+\begin{equation}
+\text{Prompt Engineering} \subset \text{Context Engineering} \subset \text{Framework Injection}
+\end{equation}
+
+This is not merely a claim of superiority but a structural observation:
+
+\begin{itemize}
+    \item \textbf{PE $\subset$ CE}: Every prompt engineering technique is a component of context engineering. The prompt is one element of the context; optimizing it is a subtask of optimizing the full context. Context Engineering \emph{subsumes} Prompt Engineering by adding retrieval, memory, tool integration, and system prompt management.
+
+    \item \textbf{CE $\subset$ FI}: Every context engineering technique is a component of Framework Injection. Context management is necessary for delivering the framework effectively; the framework must be loaded into the context, managed for token efficiency, and updated as the domain evolves. Framework Injection \emph{subsumes} Context Engineering by adding domain-specific reasoning transfer, ethical governance, adversarial validation, and anti-hallucination mechanisms.
+\end{itemize}
+
+Each successive paradigm adds dimensions that the previous paradigm does not address:
+\begin{itemize}
+    \item PE $\rightarrow$ CE adds: information management, retrieval, memory, tool integration.
+    \item CE $\rightarrow$ FI adds: reasoning transfer, ethical governance, domain-specific evaluation, anti-hallucination, compositional workflows.
+\end{itemize}
+
+
+% ============================================================================
+% 6. EMPIRICAL EVIDENCE
+% ============================================================================
+\section{Empirical Evidence}
+\label{sec:empirical}
+
+\subsection{Cross-Domain Validation: AGORA Intelligence}
+\label{sec:empirical:agora}
+
+The AGORA Intelligence protocol provides empirical evidence for Framework Injection's effectiveness across diverse knowledge domains. We conducted a cross-domain validation spanning six domains chosen for their heterogeneity: Brazilian Tax Law, Pure Mathematics, Alzheimer's Disease Research, Financial Markets, Photonic Computing, and Quantum Computing.
+
+For each domain, a complete Framework Injection was crafted by a domain-competent practitioner and loaded into the agent's context. The agent then performed five mandatory operations within each domain:
+
+\begin{enumerate}
+    \item \textbf{Domain mapping}: identifying the key concepts, relationships, and source hierarchy.
+    \item \textbf{Analytical application}: performing a domain-specific analysis on a provided case.
+    \item \textbf{Critical evaluation}: assessing a provided claim or position for validity.
+    \item \textbf{Synthesis}: combining multiple analyses into a coherent recommendation.
+    \item \textbf{@Sentinel validation}: anti-hallucination verification of all outputs.
+\end{enumerate}
+
+The @Sentinel mechanism performs post-generation verification by cross-referencing the agent's outputs against the injected framework's source hierarchy and constraints. Any claim not supported by the framework's approved sources or inconsistent with its reasoning rules is flagged for review.
+
+Results across all six domains: 100\% task completion rate, with zero hallucinations surviving @Sentinel validation in the final recommendations. The Confidence Index, defined as
+
+\begin{equation}
+\text{CI} = \frac{n_{\text{OK}} + n_{\text{NORMA\_OK}}}{n_{\text{total}}} \times 100\%
+\end{equation}
+
+\noindent where $n_{\text{OK}}$ represents claims verified against primary sources, $n_{\text{NORMA\_OK}}$ represents claims verified against normative standards, and $n_{\text{total}}$ is the total number of verifiable claims, ranged from 94\% to 100\% across domains.
+
+These results, while encouraging, must be interpreted with appropriate caveats. The validation was conducted by the framework author, introducing potential confirmation bias. The sample size (six domains, five operations each) is small. And the domains, while heterogeneous, were selected for amenability to structured analysis rather than randomly sampled. A fully controlled, independently evaluated study is needed (Section~\ref{sec:future:pidgin}).
+
+\subsection{Semantic Slicing Protocol (PFS)}
+\label{sec:empirical:pfs}
+
+Long-document processing presents a well-known challenge for LLMs: \emph{context rot}, the progressive degradation of attention to earlier portions of the context as new information is added. The Semantic Slicing Protocol (\emph{Protocolo de Fatiamento Sem\^{a}ntico}, PFS) is a Framework Injection designed to eliminate context rot through structured document decomposition.
+
+The protocol consists of four steps:
+
+\begin{enumerate}
+    \item \textbf{Structural mapping}: the document is segmented into semantically coherent units with explicit cross-references.
+    \item \textbf{Hierarchical indexing}: units are organized into a navigable hierarchy with summary nodes at each level.
+    \item \textbf{Progressive loading}: units are loaded into context on demand, guided by the hierarchical index, rather than loading the entire document at once.
+    \item \textbf{Coherence verification}: at each interaction, the agent verifies that its responses are consistent with previously processed units, detecting and correcting any coherence drift.
+\end{enumerate}
+
+The PFS protocol was applied to legal documents exceeding 100 pages, financial reports with multiple interdependent sections, and academic papers with complex cross-referential structures. In all cases, the protocol achieved its design goal of zero measurable context deterioration, as assessed by coherence checks against early-document content at the end of processing.
+
+The PFS protocol illustrates a key property of Framework Injection: the framework is not a static set of facts but a \emph{dynamic reasoning method} that adapts its behavior to the characteristics of the input. The same protocol applies to any long document, but the specific segmentation, indexing, and loading decisions are made by the framework-guided agent in response to the document's structure.
+
+
+% ============================================================================
+% 7. OPEN QUESTIONS AND FUTURE DIRECTIONS
+% ============================================================================
+\section{Open Questions and Future Directions}
+\label{sec:future}
+
+Framework Injection, as a newly formalized paradigm, raises numerous questions that require empirical investigation. We outline six research directions that we consider most urgent.
+
+\subsection{Transfer Fidelity}
+\label{sec:future:fidelity}
+
+When a framework is injected into an LLM's context, how much of the framework's reasoning methodology does the model actually internalize? A 3-page framework and a 30-page framework for the same domain will differ in completeness; does the model's reasoning quality scale proportionally, or is there a degradation curve beyond some optimal framework size?
+
+We propose a metric: the \textbf{Transfer Fidelity Index} (TFI), defined as the measured alignment between the agent's reasoning (as exhibited in its outputs and reasoning traces) and the reasoning methodology specified in the injected framework. TFI can be operationalized through expert blind evaluation: domain practitioners assess whether the agent's reasoning at each step is consistent with the framework's specified methodology, producing a per-step fidelity score that is averaged across an evaluation set.
+
+\begin{equation}
+\text{TFI} = \frac{1}{N} \sum_{i=1}^{N} f_i, \quad f_i \in [0,1]
+\end{equation}
+
+\noindent where $f_i$ is the expert-assessed fidelity of the agent's reasoning at step $i$ and $N$ is the number of reasoning steps evaluated.
+
+\subsection{Framework Composition}
+\label{sec:future:composition}
+
+What happens when multiple frameworks are injected simultaneously? A practitioner might need both a legal reasoning framework and an ethical compliance framework, or both a financial analysis framework and a risk assessment framework. Do these compose harmoniously or interfere?
+
+We hypothesize that frameworks operating on \emph{orthogonal dimensions} (e.g., a procedural framework and an ethical framework) compose well, as they address non-overlapping aspects of the reasoning task. Frameworks operating on \emph{overlapping dimensions} (e.g., two procedural frameworks from different schools of thought within the same domain) may create ``framework interference''---conflicting guidance that degrades performance. This hypothesis requires systematic empirical validation.
+
+\subsection{Cross-Model Portability}
+\label{sec:future:portability}
+
+Does the same Framework Injection produce equivalent results when applied to different LLMs (GPT-4, Claude, Gemini, Llama, etc.)? Given that different models have different training distributions, architectures, and baseline capabilities, some variance is expected. The key question is whether this variance is small enough that a single framework can be used across models (high portability) or large enough that frameworks must be model-specific (low portability).
+
+We propose a \textbf{portability coefficient} $\rho$, defined as the ratio of inter-model variance to intra-model variance in framework-guided output quality:
+
+\begin{equation}
+\rho = \frac{\sigma^2_{\text{inter-model}}}{\sigma^2_{\text{intra-model}}}
+\end{equation}
+
+Values of $\rho$ close to 1 indicate high portability (model choice contributes as much variance as random run-to-run variation); values much greater than 1 indicate low portability (model choice is a dominant factor).
+
+\subsection{Framework Injection vs.\ Fine-Tuning}
+\label{sec:future:finetuning}
+
+Framework Injection can be characterized as ``zero-shot domain adaptation via semantic transfer.'' When is this sufficient, and when must the practitioner resort to fine-tuning? We hypothesize that Framework Injection is sufficient for tasks requiring \emph{reasoning and judgment} (where the domain methodology can be articulated in natural language), while fine-tuning is necessary for tasks requiring \emph{pattern recognition and classification} (where the relevant knowledge is statistical rather than methodological). Validating this hypothesis requires controlled comparisons across a range of task types.
+
+\subsection{Reproducibility Across Experts}
+\label{sec:future:reproducibility}
+
+If two domain experts independently write frameworks for the same domain, do the resulting Framework Injections produce equivalent agent behavior? This question touches on the fundamental reproducibility of the approach. High inter-expert agreement would suggest that Framework Injection captures objective domain methodology; low agreement would suggest it captures individual expert \emph{style}, which may or may not be equally valid.
+
+We propose a study design in which $k$ experts from the same domain independently create frameworks, each framework is used to guide an agent through a standardized task set, and the resulting outputs are evaluated by a separate panel of domain experts. The inter-expert agreement on framework-guided outputs provides a measure of methodological convergence that is independent of stylistic variation.
+
+\subsection{Measuring the ``Pidgin Gap''}
+\label{sec:future:pidgin}
+
+The most direct test of Framework Injection's value is a controlled comparison of three conditions: (1) \emph{digital pidgin}---a minimal, unstructured prompt; (2) \emph{context-engineered}---a prompt enriched with relevant context but without a reasoning framework; and (3) \emph{framework-injected}---a prompt delivered within a complete domain framework. The same task, the same LLM, three conditions.
+
+Output quality would be assessed by domain expert blind evaluation (experts see outputs without knowing which condition produced them). We hypothesize that Framework Injection outperforms Context Engineering, which outperforms Prompt Engineering, and that the performance gap \emph{increases} in high-expertise domains where the distance between generic reasoning and expert reasoning is greatest.
+
+\begin{equation}
+\Delta_{\text{FI-PE}} \propto D_{\text{expertise}}
+\end{equation}
+
+\noindent where $\Delta_{\text{FI-PE}}$ is the performance gap between Framework Injection and Prompt Engineering, and $D_{\text{expertise}}$ is a measure of the domain's expertise depth (operationalized, for example, as the years of training required for professional competence).
+
+
+% ============================================================================
+% 8. CONTRIBUTIONS AND LIMITATIONS
+% ============================================================================
+\section{Contributions and Limitations}
+\label{sec:contributions}
+
+\subsection{Six Original Contributions}
+\label{sec:contributions:list}
+
+This paper makes six contributions to the literature on human-AI interaction:
+
+\begin{enumerate}
+    \item \textbf{The term ``Framework Injection'' and its formal definition.} We introduce a precise concept for the structured transfer of domain reasoning to AI agents, distinguishing it from prompt optimization and context management (Section~\ref{sec:definition:formal}).
+
+    \item \textbf{The three-paradigm taxonomy.} We formalize the progression from commands (Prompt Engineering) to context (Context Engineering) to reasoning (Framework Injection), including the formal inclusion relationship PE $\subset$ CE $\subset$ FI (Section~\ref{sec:comparison:inclusion}).
+
+    \item \textbf{The semiotic foundation.} We ground prompt design in Peirce's theory of signs, introducing the concepts of ``projected semiosis,'' ``digital pidgin,'' and ``Linguagem Plena'' as a principled basis for understanding the quality of human-LLM communication (Section~\ref{sec:definition:semiotics}).
+
+    \item \textbf{Linguistic universals as design primitives.} We apply Greenberg's cross-linguistic structural universals to the design of injectable frameworks, providing a language-theoretic foundation for framework architecture (Section~\ref{sec:definition:universals}).
+
+    \item \textbf{The five-type framework taxonomy.} We propose a novel classification of injectable frameworks by cognitive function (declarative, procedural, evaluative, ethical, compositional), with examples from law, medicine, and finance (Section~\ref{sec:definition:taxonomy}).
+
+    \item \textbf{Theoretical connections to established disciplines.} We establish four novel connections---Vygotsky's ZPD as a model of scaffolded AI capability, Sweller's CLT as an explanatory mechanism, Wittgenstein's language games as a philosophical foundation, and Polanyi's tacit knowledge as an epistemological basis---that have not been previously articulated in the context of human-AI interaction (Section~\ref{sec:theory}).
+\end{enumerate}
+
+\subsection{Limitations}
+\label{sec:contributions:limits}
+
+We acknowledge the following limitations:
+
+\begin{enumerate}
+    \item \textbf{High barrier to entry.} Creating an effective Framework Injection requires deep domain expertise. This limits the approach's accessibility compared to Prompt Engineering, which any user can practice immediately. The ``framework artisan'' role (Section~\ref{sec:theory:paradox}) mitigates but does not eliminate this limitation.
+
+    \item \textbf{No standardized benchmark.} While we propose metrics (TFI, portability coefficient) and experimental designs (Section~\ref{sec:future}), no standardized benchmark for measuring Framework Injection effectiveness has been implemented and validated. The empirical evidence presented is preliminary.
+
+    \item \textbf{Cross-model portability unvalidated.} All empirical observations were conducted on a single model family. The extent to which frameworks transfer across different LLM architectures remains an open question.
+
+    \item \textbf{Framework composition effects unstudied.} The interaction effects of simultaneously injected frameworks have not been systematically investigated.
+
+    \item \textbf{Domain generalization.} The methodology emerged from legal and business domains and has been validated primarily in knowledge-intensive analytical fields. Generalization to domains with fundamentally different reasoning structures (e.g., creative arts, physical labor, perceptual tasks) requires further investigation.
+
+    \item \textbf{The Artisan's Paradox is empirically unresolved.} The claim that Framework Injection expands rather than cannibalizes the market for domain expertise is theoretically motivated but not yet empirically validated.
+\end{enumerate}
+
+
+% ============================================================================
+% 9. CONCLUSION
+% ============================================================================
+\section{Conclusion}
+\label{sec:conclusion}
+
+This paper has introduced \emph{Framework Injection} as a third paradigm for human-AI interaction, fundamentally distinct from Prompt Engineering and Context Engineering. Where Prompt Engineering optimizes individual commands and Context Engineering manages informational resources, Framework Injection transfers complete domain-specific reasoning methodologies from human experts to AI agents.
+
+We have established that this gap---the structured transfer of expert reasoning---is not addressed by any existing approach. Prompt Engineering operates at the level of commands, not cognition. Context Engineering manages what the model sees, not how it thinks. DSPy optimizes pipeline mechanics, not domain knowledge. LLM-ACTR transfers from computational cognitive models, not from domain practitioners. Cognitive Design Patterns describes emergent phenomena, not prescriptive methodologies. And meta-prompting provides generic reasoning scaffolds, not domain-specific reasoning content.
+
+The theoretical foundations developed in this paper elevate Framework Injection from a practical technique to a principled methodology. Vygotsky's Zone of Proximal Development explains \emph{what} Framework Injection does: it scaffolds the LLM to perform within its zone of potential capability. Sweller's Cognitive Load Theory explains \emph{why} it works: it eliminates extraneous processing load by providing pre-constructed schemas. Wittgenstein's language games explain \emph{what it means} for domain reasoning: each framework defines the rules of a specific reasoning game that the agent is taught to play. And Polanyi's tacit knowledge explains \emph{where frameworks come from}: they are the externalization of expert knowledge that would otherwise remain tacit and inaccessible to AI agents.
+
+The research agenda outlined in this paper---transfer fidelity, framework composition, cross-model portability, the Framework Injection vs.\ fine-tuning boundary, inter-expert reproducibility, and the ``pidgin gap'' measurement---provides a roadmap for empirical validation. The proposed metrics (Transfer Fidelity Index, portability coefficient) and experimental designs (three-condition comparison with blind expert evaluation) are ready for implementation.
+
+We close with an observation about the trajectory of human-AI interaction. The era of telling AI \emph{what to do} is giving way to the era of teaching AI \emph{how to think}. Prompt Engineering was the necessary first step---learning to communicate with these systems at all. Context Engineering was the natural second step---learning to provide them with the right information. Framework Injection is the emerging third step---learning to transfer the reasoning methods that make human expertise valuable.
+
+Framework Injection is the methodology for that transition. It is not the final word; the limitations and open questions are substantial. But it fills a gap that the current landscape leaves empty, and it does so on a foundation that is both theoretically grounded and practically validated. The gap between digital pidgin and Linguagem Plena is the gap between telling and teaching. This paper has begun to bridge it.
+
+
+% ============================================================================
+% REFERENCES
+% ============================================================================
+\begin{thebibliography}{50}
+
+\bibitem[Anderson et~al.(2004)]{anderson2004integrated}
+Anderson, J.~R., Bothell, D., Byrne, M.~D., Douglass, S., Lebiere, C., and Qin, Y. (2004).
+\newblock An integrated theory of the mind.
+\newblock \emph{Psychological Review}, 111(4):1036--1060.
+
+\bibitem[Anthropic(2025)]{anthropic2025context}
+Anthropic (2025).
+\newblock Context engineering for AI agents.
+\newblock \emph{Anthropic Research Blog}.
+\newblock \url{https://www.anthropic.com/research/context-engineering}.
+
+\bibitem[Austin(1962)]{austin1962things}
+Austin, J.~L. (1962).
+\newblock \emph{How to Do Things with Words}.
+\newblock Oxford University Press, Oxford.
+
+\bibitem[Besta et~al.(2024)]{besta2024graph}
+Besta, M., Blach, N., Kubicek, A., Gerstenberger, R., Gianinazzi, L., Gajber, J., Lehmann, T., Nyczyk, T., Müller, R., and Hoefler, T. (2024).
+\newblock Graph of thoughts: Solving elaborate problems with large language models.
+\newblock In \emph{Proceedings of the AAAI Conference on Artificial Intelligence}, volume~38, pages 17682--17690.
+
+\bibitem[Brown et~al.(2020)]{brown2020language}
+Brown, T.~B., Mann, B., Ryder, N., Subbiah, M., Kaplan, J., Dhariwal, P., Neelakantan, A., Shyam, P., Sastry, G., Askell, A., et~al. (2020).
+\newblock Language models are few-shot learners.
+\newblock In \emph{Advances in Neural Information Processing Systems}, volume~33, pages 1877--1901.
+
+\bibitem[Cognitive Design Patterns(2025)]{agi2025cognitive}
+Cognitive Design Patterns for LLM-based Agents (2025).
+\newblock In \emph{Proceedings of the 18th Conference on Artificial General Intelligence (AGI 2025)}.
+\newblock arXiv:2505.07087.
+
+\bibitem[Friston(2010)]{friston2010free}
+Friston, K. (2010).
+\newblock The free-energy principle: A unified brain theory?
+\newblock \emph{Nature Reviews Neuroscience}, 11(2):127--138.
+
+\bibitem[Gomes(2026a)]{gomes2026digital}
+Gomes, R.~A. (2026a).
+\newblock Digital Craftsmanship: A methodology for human-AI interaction.
+\newblock \emph{Working Paper}.
+
+\bibitem[Gomes(2026b)]{gomes2026imi}
+Gomes, R.~A. (2026b).
+\newblock {IMI}: Integrated Memory Interface for cognitive AI agents.
+\newblock Zenodo. DOI: \href{https://doi.org/10.5281/zenodo.19325745}{10.5281/zenodo.19325745}.
+
+\bibitem[Gomes(2026c)]{gomes2026imi_theory}
+Gomes, R.~A. (2026c).
+\newblock {IMI} Theory: Cognitive foundations of adaptive memory in AI agents.
+\newblock Zenodo. DOI: \href{https://doi.org/10.5281/zenodo.19341740}{10.5281/zenodo.19341740}.
+
+\bibitem[Gomes(2026d)]{gomes2026steer}
+Gomes, R.~A. (2026d).
+\newblock {STEER}: Algebraic operations for embedding-space retrieval.
+\newblock Zenodo. DOI: \href{https://doi.org/10.5281/zenodo.19325724}{10.5281/zenodo.19325724}.
+
+\bibitem[Gomes(2026e)]{gomes2026symbiont}
+Gomes, R.~A. (2026e).
+\newblock {SYMBIONT}: Bio-inspired patterns for LLM agent architectures.
+\newblock Zenodo. DOI: \href{https://doi.org/10.5281/zenodo.19325749}{10.5281/zenodo.19325749}.
+
+\bibitem[Goodside(2022)]{goodside2022prompt}
+Goodside, R. (2022).
+\newblock Prompt injection and prompt engineering techniques.
+\newblock \emph{Twitter/X Thread Collection}. Archived at \url{https://simonwillison.net/2022/Sep/12/prompt-injection/}.
+
+\bibitem[Greenberg(1963)]{greenberg1963universals}
+Greenberg, J.~H., editor (1963).
+\newblock \emph{Universals of Language}.
+\newblock MIT Press, Cambridge, MA.
+
+\bibitem[Khattab et~al.(2023)]{khattab2023dspy}
+Khattab, O., Singhvi, A., Maheshwari, P., Zhang, Z., Santhanam, K., Vardhamanan, S., Haq, S., Sharma, A., Joshi, T.~T., Mober, H., et~al. (2023).
+\newblock {DSPy}: Compiling declarative language model calls into self-improving pipelines.
+\newblock \emph{arXiv preprint arXiv:2310.03714}.
+
+\bibitem[Kojima et~al.(2022)]{kojima2022large}
+Kojima, T., Gu, S.~S., Reid, M., Matsuo, Y., and Iwasawa, Y. (2022).
+\newblock Large language models are zero-shot reasoners.
+\newblock In \emph{Advances in Neural Information Processing Systems}, volume~35, pages 22199--22213.
+
+\bibitem[Nonaka and Takeuchi(1995)]{nonaka1995knowledge}
+Nonaka, I. and Takeuchi, H. (1995).
+\newblock \emph{The Knowledge-Creating Company: How Japanese Companies Create the Dynamics of Innovation}.
+\newblock Oxford University Press, New York.
+
+\bibitem[OpenAI(2023)]{openai2023cookbook}
+OpenAI (2023).
+\newblock OpenAI Cookbook: Prompt engineering best practices.
+\newblock \url{https://cookbook.openai.com}.
+
+\bibitem[Peirce(1931)]{peirce1931collected}
+Peirce, C.~S. (1931).
+\newblock \emph{Collected Papers of Charles Sanders Peirce}, volumes 1--6.
+\newblock Harvard University Press, Cambridge, MA.
+\newblock Edited by C. Hartshorne and P. Weiss.
+
+\bibitem[Polanyi(1966)]{polanyi1966tacit}
+Polanyi, M. (1966).
+\newblock \emph{The Tacit Dimension}.
+\newblock Doubleday \& Company, Garden City, NY.
+
+\bibitem[Schulhoff et~al.(2024)]{schulhoff2024prompt}
+Schulhoff, S., Ilie, M., Balepur, N., Kahadze, K., Liu, A., Si, C., Li, Y., Gupta, A., Han, H., Schulhoff, S., et~al. (2024).
+\newblock The prompt report: A systematic survey of prompting techniques.
+\newblock \emph{arXiv preprint arXiv:2406.06608}.
+
+\bibitem[Searle(1969)]{searle1969speech}
+Searle, J.~R. (1969).
+\newblock \emph{Speech Acts: An Essay in the Philosophy of Language}.
+\newblock Cambridge University Press, Cambridge.
+
+\bibitem[Sweller(1988)]{sweller1988cognitive}
+Sweller, J. (1988).
+\newblock Cognitive load during problem solving: Effects on learning.
+\newblock \emph{Cognitive Science}, 12(2):257--285.
+
+\bibitem[Sweller et~al.(2011)]{sweller2011cognitive}
+Sweller, J., Ayres, P., and Kalyuga, S. (2011).
+\newblock \emph{Cognitive Load Theory}.
+\newblock Springer, New York.
+
+\bibitem[Vygotsky(1978)]{vygotsky1978mind}
+Vygotsky, L.~S. (1978).
+\newblock \emph{Mind in Society: The Development of Higher Psychological Processes}.
+\newblock Harvard University Press, Cambridge, MA.
+\newblock Edited by M. Cole, V. John-Steiner, S. Scribner, and E. Souberman.
+
+\bibitem[Wei et~al.(2022)]{wei2022chain}
+Wei, J., Wang, X., Schuurmans, D., Bosma, M., Ichter, B., Xia, F., Chi, E., Le, Q.~V., and Zhou, D. (2022).
+\newblock Chain-of-thought prompting elicits reasoning in large language models.
+\newblock In \emph{Advances in Neural Information Processing Systems}, volume~35, pages 24824--24837.
+
+\bibitem[Wittgenstein(1953)]{wittgenstein1953philosophical}
+Wittgenstein, L. (1953).
+\newblock \emph{Philosophical Investigations}.
+\newblock Blackwell, Oxford.
+\newblock Translated by G.~E.~M. Anscombe.
+
+\bibitem[Wittgenstein(1921)]{wittgenstein1921tractatus}
+Wittgenstein, L. (1921).
+\newblock \emph{Tractatus Logico-Philosophicus}.
+\newblock Routledge \& Kegan Paul, London.
+\newblock English translation 1922 by C.~K. Ogden.
+
+\bibitem[Wu et~al.(2025)]{wu2025cognitive}
+Wu, J., Oltramari, A., et~al. (2025).
+\newblock Cognitive {LLMs}: Integrating cognitive architectures and large language models for manufacturing.
+\newblock \emph{Journal of AI in Organizations (SAGE)}.
+
+\bibitem[Yao et~al.(2023)]{yao2023tree}
+Yao, S., Yu, D., Zhao, J., Shafran, I., Griffiths, T.~L., Cao, Y., and Narasimhan, K. (2023).
+\newblock Tree of thoughts: Deliberate problem solving with large language models.
+\newblock In \emph{Advances in Neural Information Processing Systems}, volume~36.
+
+\bibitem[Zhou et~al.(2023)]{zhou2023large}
+Zhou, D., Sch{\"a}rli, N., Hou, L., Wei, J., Scales, N., Wang, X., Schuurmans, D., Cui, C., Bousquet, O., Le, Q., and Chi, E. (2023).
+\newblock Least-to-most prompting enables complex reasoning in large language models.
+\newblock In \emph{International Conference on Learning Representations (ICLR)}.
+
+\end{thebibliography}
+
+\end{document}
