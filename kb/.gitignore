@@ -1,0 +1,8 @@
+# Private tacit knowledge — not for public repository
+BEYOND.private.md
+
+# OS files
+.DS_Store
+
+# Obsidian config (local preferences)
+.obsidian/
