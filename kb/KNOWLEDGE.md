@@ -352,16 +352,38 @@ Based on critical feedback (including from Gemini analysis), Protocol v2 was des
 
 The theoretical framework connects DA to sigma(t) optimization across output, identifies that the Artisan's Paradox has a discursive root (stereotypes vs archetypes in language production), and notes an isomorphism between FI and structured critical reading (the LER-DENSO protocol).
 
-All results are from LLM-evaluated synthetic benchmarks [Hypothesis: no empirical validation by humans]. Human validation -- the critical next step -- has not yet been conducted. The investigation is promising but pre-validation; claims should be qualified as "preliminary synthetic benchmarks suggest..." rather than "we demonstrated."
+All results from Tests 1-7 are from LLM-evaluated synthetic benchmarks. However, as of April 2026, the human validation infrastructure has been built and preliminary qualitative comparison conducted (see below).
+
+### Human Validation Platform (April 2026)
+
+A complete human validation platform was built at `/experimentos/human-validation/` (GitHub: RAG7782/human-validation-dafi) with Supabase backend, static HTML/CSS/JS frontend, and 9 outputs generated with controlled parameters (Claude Sonnet 4.6, temperature 0.7, max_tokens 8192).
+
+**Three domains tested:** Legal (LGPD compliance memo), Tax (software company tax opinion), Technical (monolith-to-microservices ADR).
+
+**Three conditions:** BL (Baseline — direct prompt), AD (Auto-DA — model generates its own blueprint, then executes), HD (Human-DA — model executes human-crafted lapidated blueprint).
+
+**Three blueprints lapidated:** Each blueprint underwent 2-3 passes of the Lapidacao protocol (17 operations), web research verification (Res. ANPD 19/2024, LC 214/2025, CREMESP 385/2024, InfoQ/Medium precedents), and integration with the Blueprint Definitivo v4 framework (tributario). Juridico blueprint: 258 lines, 31 improvements. Tributario: 472 lines, 22 improvements + 7 Transversal Mechanisms. Tecnico: 348 lines, 24 improvements.
+
+**Preliminary qualitative findings (researcher comparison, not yet blind human evaluation):**
+
+1. **Anti-hallucination guardrail** [Validated: qualitative comparison, 3 domains | Triangulation: 1]: BL fabricated a non-existent regulation (CFM Resolution 2.299/2021) in the legal domain. HD, guided by a blueprint containing verified norms, did not. The blueprint functions as a guardrail that constrains the model to cite real regulations.
+
+2. **Method transfer, not information transfer** [Hypothesis: qualitative observation]: HD outputs were structurally different from BL, not merely "better." HD legal output had strict separation of facts vs analysis, conditional risk classifications ("if company demonstrates X, classification changes to Y"), cross-allegation analysis, and inter-phase gates. HD tax output included Confidence Index (0.71), thesis signaling (CONSOLIDATED/MAJORITY/CHANGING/NEW), fiscal counterpoint, downside calculation (R$3.75M for 5-year retroactive assessment), and update protocol with triggers. HD technical output used 23 DDD terms (BL: 0), 10 rollback mentions (BL: 1), feature flags (BL: 0), and explicit abandon criteria. These differences suggest that what the blueprint transfers is not domain information (the model already knows LGPD, tax law, and microservices) but **method of reasoning organization** — precisely the FI thesis.
+
+3. **Token allocation effect** {Reified: observation → named finding, Apr/2026}: Dense human blueprints consume proportionally more tokens in fundamentation sections (legal citations, norm references), requiring higher max_tokens (8192 vs 4096) to produce complete outputs. At 4096 tokens, HD truncated at the analysis section because the blueprint's density directives prioritized thorough legal grounding. This is consistent with the Semiotic Density principle: high-density terms in the blueprint activate extensive implicit fields that the model expands.
+
+**Status:** Platform built, outputs generated, qualitative comparison done. Awaiting blind evaluation by 9+ domain professionals (lawyers OAB 5+ years, tax specialists, senior software engineers). Protocol fully designed at `da-experiments/PROTOCOL-human-validation.md`.
 
 ### §Tensions
-- **FI-DA orthogonality**: The hypothesis that reasoning (FI) and delivery (DA) are independent dimensions with multiplicative effects is architecturally elegant but entirely unvalidated. If they are correlated rather than orthogonal, the theoretical framework collapses to a single dimension. Status: OPEN | Impact: critical | Since: Apr/2026
-- **Artisan's Paradox vs automation promise**: +122% human advantage in DA directly contradicts the automation narrative of the broader AI field. This is either the program's most important finding or its most embarrassing measurement artifact. Status: OPEN | Impact: critical | Since: Mar/2026
-- **LLM-as-evaluator circularity**: Using LLMs to evaluate LLM outputs introduces systematic bias. The results may reflect what LLMs think is good rather than what is actually good. Status: OPEN | Impact: high | Since: Apr/2026
+- **FI-DA orthogonality**: The hypothesis that reasoning (FI) and delivery (DA) are independent dimensions with multiplicative effects is architecturally elegant but entirely unvalidated by human evaluators. The qualitative comparison suggests orthogonality (HD outputs differ structurally, not just in content quality), but this remains a researcher observation, not blind evaluation. Status: OPEN | Impact: critical | Since: Apr/2026
+- **Artisan's Paradox vs automation promise**: +122% human advantage in DA (Test 7) is now supported by qualitative evidence from 3 additional domains. The human-crafted blueprints produced outputs with instruments the model does not generate spontaneously (Confidence Index, thesis signaling, abandon criteria, conditional classifications). Status: OPEN but strengthened | Impact: critical | Since: Mar/2026
+- **LLM-as-evaluator circularity**: The qualitative comparison was done by the researcher (who crafted the blueprints), not blind evaluators. The circularity concern remains until the human validation protocol is executed. Status: OPEN | Impact: high | Since: Apr/2026
+- **Blueprint anti-hallucination**: The finding that BL fabricated a norm while HD did not is striking but N=1 (one domain). Does this generalize? Status: OPEN — requires systematic verification | Impact: high | Since: Apr/2026
 
 ### §Open Questions
-- **What makes a human-crafted blueprint better?**: The +122% is measured but not explained. Is it structural choices? Term selection? Implicit domain knowledge encoded in the structure? Ghost since: Apr/2026 | Blocks: DA theory
+- **What makes a human-crafted blueprint better?**: Preliminary decomposition from the 3-domain comparison suggests: (a) verified norms prevent hallucination (~30%?), (b) genre-specific structure guides organization (~25%?), (c) density directives control depth allocation (~20%?), (d) conditional/condicional fields enable nuanced analysis (~15%?), (e) cross-analysis instructions reveal connections (~10%?). These percentages are speculative. Ghost since: Apr/2026 | Blocks: DA theory | Partially addressed by qualitative comparison
 - **DA + ATP interaction**: Does adversarial tempering improve delivery architecture outputs, or does it only improve reasoning? Ghost since: Apr/2026 | Blocks: full pipeline validation
+- **Does anti-hallucination generalize?**: The BL fabricated CFM 2.299/2021 in the legal domain. Does this pattern (fabrication of domain-specific norms/standards) occur in other domains without blueprint guardrails? Ghost since: Apr/2026 | Blocks: anti-hallucination as FI benefit
 
 ---
 
@@ -662,9 +684,11 @@ Q0: How should humans and AI systems communicate?
 │   ├── Q5.2: Is the LLM substrate qualitatively different from traditional agents? [OPEN]
 │   └── Q5.3: How many patterns are actually necessary? [OPEN — no ablation]
 ├── Q6: Is output structure independent of reasoning quality?
-│   ├── Q6.1: Are FI and DA orthogonal? [OPEN — hypothesis only]
-│   ├── Q6.2: Why is human-crafted structure +122% better? [OPEN — mechanism unknown]
-│   └── Q6.3: Can DA be automated without losing the artisan advantage? [OPEN]
+│   ├── Q6.1: Are FI and DA orthogonal? [OPEN — qualitative evidence supports, awaiting blind eval]
+│   ├── Q6.2: Why is human-crafted structure +122% better? [PARTIALLY ADDRESSED — decomposition: anti-hallucination + genre structure + density directives + conditionals + cross-analysis]
+│   ├── Q6.3: Can DA be automated without losing the artisan advantage? [OPEN]
+│   ├── Q6.4: Do human blueprints function as anti-hallucination guardrails? [NEW — BL fabricated CFM 2.299/2021, HD did not]
+│   └── Q6.5: Does blueprint density cause token allocation tradeoff? [NEW — dense blueprints consume tokens in fundamentation, requiring higher max_tokens]
 └── Q7: Can the program validate itself without circular reasoning?
     ├── Q7.1: How to conduct human validation? [Protocol v2 designed, unexecuted]
     ├── Q7.2: Does the Artisan's Paradox apply to the program's own validation? [OPEN]
@@ -679,6 +703,7 @@ Q0: How should humans and AI systems communicate?
 |------|-------|-------|
 | 2026-04-03 | Initial compilation of KNOWLEDGE.md from all research program sources | Full document (13 sections, ~453 lines) |
 | 2026-04-03 | Epistemic enrichment: added §Tensions (13 sections), §Open Questions (13 sections), §Beyond This Page (sections 2, 3, 5, 6), inline markers (Validated, Hypothesis, Depth, Decay, Velocity, Reified) throughout all sections, and 5 new structural sections (Vocabulary Map, Reading Debt, Bifurcation Log, Question Tree, Changelog) | Full document — enrichment pass |
+| 2026-04-04 | Human Validation Platform: added §9 subsection with platform description, 3 lapidated blueprints, 9 outputs, preliminary qualitative findings (anti-hallucination guardrail, method transfer, token allocation effect). Updated §Tensions (4 items, 1 strengthened) and §Open Questions (3 items, 1 partially addressed). New reified finding: Token Allocation Effect. GitHub: RAG7782/human-validation-dafi. NotebookLM: e921c3df. | Section 9 (DA) — major update |
 
 ---
 
