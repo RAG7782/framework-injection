@@ -704,6 +704,7 @@ Q0: How should humans and AI systems communicate?
 | 2026-04-03 | Initial compilation of KNOWLEDGE.md from all research program sources | Full document (13 sections, ~453 lines) |
 | 2026-04-03 | Epistemic enrichment: added §Tensions (13 sections), §Open Questions (13 sections), §Beyond This Page (sections 2, 3, 5, 6), inline markers (Validated, Hypothesis, Depth, Decay, Velocity, Reified) throughout all sections, and 5 new structural sections (Vocabulary Map, Reading Debt, Bifurcation Log, Question Tree, Changelog) | Full document — enrichment pass |
 | 2026-04-04 | Human Validation Platform: added §9 subsection with platform description, 3 lapidated blueprints, 9 outputs, preliminary qualitative findings (anti-hallucination guardrail, method transfer, token allocation effect). Updated §Tensions (4 items, 1 strengthened) and §Open Questions (3 items, 1 partially addressed). New reified finding: Token Allocation Effect. GitHub: RAG7782/human-validation-dafi. NotebookLM: e921c3df. | Section 9 (DA) — major update |
+| 2026-04-05 | Semiotic Density Extensions: 3 theoretical axes (brands as 4th system, positional compositionality from Indian numerals, Construction Grammar as 7th foundation). DS-c vs DS-d distinction formalized. Forja Rota A applied (IC=0.88). 4 implementations: IMI v2 positional navigate, STEER DS-d experiments (P1 supported d=0.35, P3 coercion STRONGLY supported 15% displacement), SYMBIONT DensityTranslator middleware, AIP Goldberg documentation. Multi-model replication across 5 embedding models completed. First empirical evidence connecting CxG coercion to LLM behavior. | Sections 8 (SD), cross-program — major theoretical + experimental update |
 
 ---
 
@@ -718,3 +719,16 @@ The strongest empirical findings are: FI improves smaller models by +9.3% [Valid
 The most important open challenge is human validation: moving from LLM-evaluated synthetic benchmarks to blind evaluation by domain professionals. The Artisan's Paradox itself demands this -- if the program's central claim is that human expertise cannot be fully automated, then its own validation cannot rely solely on automated evaluation.
 
 As a Lakatosian research program, the Artisanal Intelligence Program is theoretically progressive (generating novel predictions and concepts) and empirically emerging (building the validation infrastructure). Its hard core -- intelligence is craft, expertise is transferable, governance is constitutional -- remains unfalsified. Its protective belt -- specific taxonomies, benchmark numbers, implementation choices -- continues to evolve with each investigation. The positive heuristic points clearly forward: validate with humans, standardize framework templates, test framework composition, scale to production workloads, and build the Framework Injection Wizard that makes the approach accessible beyond its creator.
+
+## Infrastructure & Orchestration (2026-04-05)
+
+### Paperclip AI Integration
+Paperclip AI (47K stars) installed as agent company orchestrator at localhost:3100. Architecture: Paperclip → openclaw_gateway → OpenClaw → Ollama (6 local models, cost $0). Complements AIOX (session-based, human-in-the-loop) with persistent headless multi-agent orchestration. Phase 1: 3 OpenClaw nodes. Phase 2: Legal Department (4 SOUL agents) + IMI plugin.
+
+### Competitive Landscape
+Three major frameworks analyzed: GSD (47K stars, spec-driven for Claude Code), BMAD (43K stars, AI-driven dev methodology), Paperclip (47K, agent orchestration). Key patterns identified for adoption: Party Mode (multi-agent debate), Scale-Adaptive routing, STATE.md with drift detection, fresh context per subagent, Named Personas.
+
+Our differentiators vs all competitors: Spec-Driven Development with executable Verify/Assert, AGORA Intelligence, FIG (framework generation), IMI (cognitive memory), Immune system (bio-pattern governance), and legal AI domain expertise (FI Juridico Universal, 5 domains).
+
+### Ecosystem Inventory
+Full 3-machine audit: MacBook (73 apps, 41 Claude skills, 8 Ollama models/65GB), Alan VPS (19 containers post-cleanup), Kai VPS (17 containers post-cleanup). SynkraAI AIOX PRO (licensed, 12 agents, ~/Cohort-Advanced) mapped as reference framework. Gmail + Google Calendar MCPs activated for workflow integration.
