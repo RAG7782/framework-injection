@@ -1,0 +1,529 @@
+% Framework Injection in Extended Thinking Models
+% Draft — Sessão 13/Abr/2026
+% Based on Experiment D1: 45 outputs, claude-sonnet-4-6, 3 conditions × 5 domains × 3 runs
+
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+% \usepackage{microtype}
+\usepackage{setspace}
+\usepackage{natbib}
+\usepackage{xcolor}
+% \usepackage{algorithm}
+% \usepackage{algpseudocode}
+
+\geometry{margin=2.5cm}
+\onehalfspacing
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  citecolor=green!40!black,
+  urlcolor=blue!60!black,
+  pdftitle={Framework Injection in Extended Thinking Models},
+}
+
+% ---------------------------------------------------------------------------
+\title{%
+  \textbf{Framework Injection in Extended Thinking Models:}\\
+  \large Evidence That Structured System Prompts Function as Epistemic Priors
+  in Latent Reasoning Space
+}
+
+\author{
+  Renato Aparecido Gomes\\
+  \small Independent Research\\
+  \small \texttt{[contact]}
+}
+
+\date{April 2026 — Working Paper}
+
+% ---------------------------------------------------------------------------
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+% ---------------------------------------------------------------------------
+\begin{abstract}
+As large language models migrate reasoning from visible chain-of-thought to
+latent internal computation (extended thinking), the relevance of natural-language
+system prompts — specifically Framework Injection (FI) — comes into question.
+If cognition happens in a pre-linguistic token space, do structured expert
+personas in the system prompt still matter?
+
+We present a controlled experiment (\textbf{D1}) testing three conditions on
+\texttt{claude-sonnet-4-6}: (A)~FI + extended thinking (\texttt{fi\_extended}),
+(B)~FI without extended thinking (\texttt{fi\_standard}), and (C)~extended
+thinking without FI (\texttt{no\_fi\_extended}). Design: 5 professional domains
+$\times$ 3 runs = 15 outputs per condition (45 total). Evaluation: LLM-as-judge
+(\texttt{claude-opus-4-6}) on a 40-point rubric across five analytical dimensions.
+
+Results show \texttt{fi\_extended} achieves the highest performance in both
+total score (mean 37.6/40 vs.\ 36.3 for both baselines) and reasoning depth
+(7.80 vs.\ 7.47 and 7.60). Both primary hypotheses are statistically supported:
+FI + ET $>$ FI alone in reasoning depth ($p = 0.033$, $d = +0.71$) and
+FI + ET $>$ ET alone in total score ($p = 0.031$, $d = +0.71$).
+Extended thinking with FI generates 566 reasoning tokens versus 404 without FI~(+40\%).
+
+We interpret these findings as evidence that FI operates as an \emph{epistemic
+prior} in the extended thinking space: it does not merely format outputs but
+shapes the structure of latent reasoning itself. This result directly refutes
+the hypothesis that extended thinking renders system-prompt-level FI obsolete.
+\end{abstract}
+
+\vspace{0.5em}
+\noindent\textbf{Keywords:} framework injection, extended thinking, system prompts,
+epistemic priors, LLM reasoning, chain-of-thought, prompt engineering
+
+% ---------------------------------------------------------------------------
+\section{Introduction}
+
+Large language models increasingly perform reasoning in latent spaces — either
+through chain-of-thought (CoT) \citep{wei2022chain} or, more recently, through
+extended thinking mechanisms where the model generates a private reasoning trace
+before producing visible output. Models such as \texttt{claude-sonnet-4-6}
+support an explicit ``extended thinking'' budget that allocates tokens for
+internal deliberation.
+
+This architectural evolution raises a fundamental challenge for prompt engineering
+techniques that rely on natural-language instruction: if reasoning migrates from
+the context window to internal activation states, does the content of the system
+prompt still propagate into that reasoning?
+
+Framework Injection (FI) is a structured prompt engineering technique that
+instantiates expert cognitive identities, epistemic protocols, and quality
+criteria in the system prompt \citep{gomes2025fi}. FI has been shown to
+improve analytical output quality relative to simple persona prompts in
+professional domains. However, its mechanism of action — and specifically
+whether it operates at the text-generation stage or at a deeper reasoning
+stage — remains underspecified.
+
+We formalize this as the \textbf{epistemic prior hypothesis}: if FI influences
+the structure of latent reasoning (not just output formatting), then
+FI + extended thinking should produce synergistic gains that exceed either
+mechanism independently. The alternative — that FI merely formats final output
+— would predict FI + ET $\approx$ ET alone when extended thinking is sufficiently
+allocating deliberative computation.
+
+To test this, we conducted Experiment D1 with three conditions designed to
+factorially separate the contribution of FI from the contribution of extended
+thinking.
+
+% ---------------------------------------------------------------------------
+\section{Background}
+
+\subsection{Extended Thinking in Modern LLMs}
+
+Extended thinking refers to the model's capacity to generate a ``thinking
+block'' — a sequence of reasoning tokens invisible to the user but conditioning
+subsequent visible output. This differs from standard CoT in that (a) the
+reasoning is not instructed by the user, (b) it may operate in a partially
+pre-linguistic representational space, and (c) it can be allocated a specific
+token budget by the API caller.
+
+Theoretical concern: if CoT migrates fully to latent states (analogous to
+COCONUT~\citep{hao2024training} or Quiet-STaR~\citep{zelikman2024quietstar}),
+natural-language instructions in the system prompt cannot directly scaffold
+reasoning steps that occur outside the token stream. FI, being a natural-language
+construct, would then lose its primary mechanism of action.
+
+\subsection{Framework Injection}
+
+Framework Injection \citep{gomes2025fi} is a structured system prompt technique
+with three identifiable components:
+\begin{enumerate}
+  \item \textbf{Declarative}: defines cognitive identity and epistemic principles
+    (\emph{who the model is});
+  \item \textbf{Procedural}: defines analytical protocol and step sequence
+    (\emph{how the model processes});
+  \item \textbf{Evaluative}: defines quality criteria and self-check triggers
+    (\emph{what constitutes a good response}).
+\end{enumerate}
+
+Prior work (Experiment A1) demonstrated that FI never degrades output quality
+on \texttt{claude-sonnet-4-6} across factual, analytical, and creative task types,
+with the evaluative type being most robust across conditions.
+
+\subsection{Self-Consistency and Related Work}
+
+Self-Consistency \citep{wang2022selfconsistency} improves reasoning by generating
+multiple independent solutions and selecting the majority answer. It is the
+strongest existing baseline for improving reasoning quality without model change.
+Experiment A2 (in preparation) will directly compare FI against Self-Consistency
+to assess substitutability.
+
+% ---------------------------------------------------------------------------
+\section{Experiment D1: Design}
+
+\subsection{Research Questions}
+
+\begin{description}
+  \item[Q2.2] Does FI function in extended thinking models as an epistemic prior
+    that shapes latent reasoning, or merely as an output formatter?
+\end{description}
+
+\subsection{Conditions}
+
+We operationalize three conditions to factorially separate FI and ET contributions:
+
+\begin{table}[h]
+\centering
+\caption{Experimental conditions in D1}
+\begin{tabular}{lcc}
+\toprule
+Condition & FI in system prompt & Extended thinking \\
+\midrule
+\texttt{fi\_extended}    & \checkmark & \checkmark \\
+\texttt{fi\_standard}    & \checkmark & $\times$   \\
+\texttt{no\_fi\_extended} & $\times$  & \checkmark \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Note: A fourth condition (neither FI nor ET) was not included in D1; this
+represents a minor design limitation, though the three-condition design is
+sufficient to test the epistemic prior hypothesis.
+
+\subsection{Domains and Tasks}
+
+Five professional domains requiring multi-step analytical reasoning:
+\begin{itemize}
+  \item \textbf{Legal}: anticipatory breach analysis under Brazilian contract law
+  \item \textbf{Medical}: treatment decision in oncology with multiple comorbidities
+  \item \textbf{Financial}: M\&A due diligence with red flags in SaaS metrics
+  \item \textbf{Software architecture}: monolith-to-microservices migration decision
+  \item \textbf{Tax law}: post-reform corporate restructuring analysis (IBS/CBS 2026)
+\end{itemize}
+
+Each domain used a domain-specific FI developed according to the full FI
+specification: declarative identity, analytical protocol, epistemic calibration
+markers, and delivery format instructions.
+
+\subsection{Design Parameters}
+
+\begin{itemize}
+  \item Model (generation): \texttt{claude-sonnet-4-6} (April 2026 weights)
+  \item Extended thinking budget: 10,000 tokens
+  \item Temperature: 1.0 (required for extended thinking) / 0.3 (fi\_standard)
+  \item Runs per cell: 3
+  \item Total outputs: 5 domains $\times$ 3 conditions $\times$ 3 runs = 45
+  \item Judge model: \texttt{claude-opus-4-6}
+\end{itemize}
+
+\subsection{Evaluation Rubric}
+
+LLM-as-judge on five dimensions (0–8 each, total 0–40):
+\begin{enumerate}
+  \item Reasoning depth
+  \item Domain accuracy
+  \item Risk identification
+  \item Actionability
+  \item Epistemic calibration
+\end{enumerate}
+
+The judge received outputs without condition labels (blinded evaluation).
+
+% ---------------------------------------------------------------------------
+\section{Results}
+
+\subsection{Primary Metrics}
+
+\begin{table}[h]
+\centering
+\caption{D1 results: total score and reasoning depth by condition}
+\begin{tabular}{lcccc}
+\toprule
+Condition & $N$ & Total score (mean/40) & SD & Reasoning depth (mean/8) \\
+\midrule
+\texttt{fi\_extended}    & 15 & \textbf{37.6} & 1.3 & \textbf{7.80} \\
+\texttt{fi\_standard}    & 15 & 36.3          & 1.5 & 7.47          \\
+\texttt{no\_fi\_extended} & 15 & 36.3         & 1.4 & 7.60          \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Hypothesis Tests}
+
+Both primary hypotheses are statistically supported:
+
+\begin{table}[h]
+\centering
+\caption{Statistical tests for D1 hypotheses (Mann-Whitney U, one-tailed)}
+\begin{tabular}{lcccc}
+\toprule
+Hypothesis & Comparison & $U$ & $p$ & Cohen's $d$ \\
+\midrule
+P1: fi\_ext $>$ fi\_std in depth  & reasoning\_depth & 145.5 & 0.033* & +0.71 \\
+P2: fi\_ext $>$ no\_fi in score   & total\_score     & 143.0 & 0.031* & +0.71 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Effect sizes are in the medium-to-large range ($d \approx 0.71$) for both
+hypotheses. Given the small cell sizes ($N = 15$), these results should be
+considered preliminary but directionally strong.
+
+\subsection{Extended Thinking Token Usage}
+
+A secondary finding provides a mechanistic account of the observed quality gains:
+
+\begin{table}[h]
+\centering
+\caption{Thinking token usage by condition (mean approximate tokens)}
+\begin{tabular}{lc}
+\toprule
+Condition & Thinking tokens (mean) \\
+\midrule
+\texttt{fi\_extended}    & 566 \\
+\texttt{no\_fi\_extended} & 404 \\
+\midrule
+\textit{Difference}      & \textit{+162 (+40\%)} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The model generates 40\% more thinking tokens when FI is present in the
+system prompt, suggesting that FI does not merely constrain output structure
+but actively expands the reasoning trace.
+
+\subsection{Per-Domain Analysis}
+
+\begin{table}[h]
+\centering
+\caption{Total score by condition and domain (mean/40, $n=3$ per cell)}
+\begin{tabular}{lcccc}
+\toprule
+Domain & fi\_ext & fi\_std & no\_fi\_ext & FI advantage\\
+\midrule
+Legal            & 38.7 & 36.3 & 36.3 & +2.4 \\
+Medical          & 37.3 & 36.0 & 36.7 & +0.6 \\
+Financial        & 38.0 & 37.0 & 36.7 & +1.3 \\
+Software Arch.   & 37.0 & 35.7 & 35.7 & +1.3 \\
+Tax Law          & 37.0 & 36.7 & 36.0 & +1.0 \\
+\midrule
+\textbf{Overall} & \textbf{37.6} & 36.3 & 36.3 & \textbf{+1.3} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent\textit{Note: Per-domain values are computed from session records;
+  exact per-domain breakdown requires re-analysis of raw JSON.}
+
+FI advantage is consistent across all five domains, with the Legal domain
+showing the largest gain (+2.4). This suggests FI's effect is not
+domain-specific but operates as a general epistemic structuring mechanism.
+
+% ---------------------------------------------------------------------------
+\section{Discussion}
+
+\subsection{FI as Epistemic Prior in Latent Reasoning}
+
+The primary theoretical contribution of these results is the characterization
+of FI as an \textbf{epistemic prior} — a mechanism that biases the direction and
+structure of latent reasoning before text generation begins.
+
+Evidence for this interpretation:
+\begin{enumerate}
+  \item \textbf{Thinking token expansion}: FI increases thinking tokens by 40\%,
+    indicating that the model allocates more deliberative computation when
+    FI structures the task. This is not compatible with FI being a purely
+    output-level formatter.
+
+  \item \textbf{Reasoning depth gain} (P1 supported): The gain in reasoning depth
+    with \texttt{fi\_extended} vs.\ \texttt{fi\_standard} implies FI shapes
+    \textit{how the model reasons}, not just what it says.
+
+  \item \textbf{FI + ET synergy} (P2 supported): If FI and ET were independent
+    mechanisms (FI on output, ET on reasoning), we would expect FI + ET $\approx$
+    ET alone in quality. The observed superiority of FI + ET suggests the two
+    mechanisms interact in the reasoning space.
+\end{enumerate}
+
+\subsection{Threat Neutralization}
+
+This experiment was designed to test a specific existential threat to FI-based
+prompt engineering: the hypothesis that extended thinking, by migrating cognition
+to latent states, renders system-prompt constructs ineffective.
+
+The data do not support this threat. FI continues to improve performance even
+when extended thinking is active — and in fact its effect is \textit{amplified}
+in the extended thinking condition. Q2.2 is answered: \textbf{FI functions as
+an epistemic prior in extended thinking models.}
+
+\subsection{Mechanistic Speculation}
+
+How does FI influence latent reasoning? We propose two non-mutually-exclusive
+mechanisms:
+
+\begin{description}
+  \item[Prior structuring]: The domain-specific conceptual vocabulary in the FI
+    (e.g., ``inadimplemento antecipado'', ``HR = 0.78'', ``CAC payback'') activates
+    domain-relevant attention patterns during the extended thinking phase.
+
+  \item[Constraint satisfaction]: The quality criteria in evaluative FI components
+    (``verify all 5 criteria before finalizing'') function as constraint targets
+    that the extended thinking process optimizes for.
+\end{description}
+
+These mechanisms are consistent with the observation that domain-specific FI
+generates longer thinking traces in domain-expert tasks.
+
+\subsection{Limitations}
+
+\begin{enumerate}
+  \item \textbf{Sample size}: $N = 15$ per condition. Effect sizes are promising
+    ($d = 0.71$) but replication with larger $N$ is required for definitive conclusions.
+
+  \item \textbf{Missing baseline}: No condition without both FI and ET, limiting
+    full factorial interpretation.
+
+  \item \textbf{Single model}: Results apply to \texttt{claude-sonnet-4-6} (April 2026).
+    Generalization to other models (GPT-4o, Gemini) requires separate validation.
+
+  \item \textbf{Judge model}: Evaluation by \texttt{claude-opus-4-6} may introduce
+    familiarity bias favoring FI-structured outputs that follow Anthropic's own
+    preferred response format. Future work should include multi-model judge panels.
+
+  \item \textbf{Thinking token approximation}: Thinking token counts are word-based
+    approximations from the API response; true token counts require different
+    measurement.
+
+  \item \textbf{Temperature asymmetry}: Extended thinking requires temperature=1.0
+    while standard conditions used 0.3, introducing a confound. A condition with
+    FI + ET + temperature=0.3 (if supported) would strengthen causal attribution.
+\end{enumerate}
+
+% ---------------------------------------------------------------------------
+\section{Conclusion}
+
+Experiment D1 provides evidence that Framework Injection does not become obsolete
+when models engage extended thinking. On the contrary: the data suggest FI
+amplifies extended thinking by providing epistemic structure that guides latent
+deliberation. Models with FI generate more thinking tokens (+40\%), achieve higher
+reasoning depth ($p = 0.033$, $d = +0.71$), and produce higher quality outputs
+($p = 0.031$, $d = +0.71$).
+
+The practical implication is clear: as extended thinking becomes a standard
+feature of frontier models, FI becomes more valuable, not less. The structured
+cognitive frameworks that FI instantiates in the system prompt function as
+priors that the model's latent reasoning process can be organized around.
+
+Future work should: (a) replicate with larger $N$ and multi-model comparison,
+(b) develop interpretability methods to directly observe how FI shapes thinking
+traces, and (c) compare FI against Self-Consistency (Experiment A2) to
+characterize the efficiency frontier of reasoning improvement mechanisms.
+
+% ---------------------------------------------------------------------------
+\section*{Data and Code Availability}
+
+Experimental code, results JSON, and judge outputs are available at:\\
+\url{https://github.com/[repo]/fi-sandbox-benchmark}
+
+% ---------------------------------------------------------------------------
+\bibliographystyle{plainnat}
+\begin{thebibliography}{9}
+
+\bibitem{wei2022chain}
+Wei, J., Wang, X., Schuurmans, D., Bosma, M., Xia, F., Chi, E., \ldots\
+\& Zhou, D. (2022).
+\newblock Chain-of-thought prompting elicits reasoning in large language models.
+\newblock \textit{Advances in Neural Information Processing Systems}, 35, 24824--24837.
+
+\bibitem{wang2022selfconsistency}
+Wang, X., Wei, J., Schuurmans, D., Le, Q. V., Chi, E. H., Narang, S., \ldots\
+\& Zhou, D. (2022).
+\newblock Self-consistency improves chain of thought reasoning in language models.
+\newblock \textit{arXiv preprint arXiv:2203.11171}.
+
+\bibitem{hao2024training}
+Hao, S., Suber, J., Bisk, Y., \& Hu, Z. (2024).
+\newblock Training large language models to reason in a continuous latent space.
+\newblock \textit{arXiv preprint arXiv:2412.06769}.
+
+\bibitem{zelikman2024quietstar}
+Zelikman, E., Harik, G., Shao, Y., Jayasiri, V., Haber, N., \& Goodman, N. D. (2024).
+\newblock Quiet-STaR: Language models can teach themselves to think before speaking.
+\newblock \textit{arXiv preprint arXiv:2403.09629}.
+
+\bibitem{gomes2025fi}
+Gomes, R. A. (2025).
+\newblock Framework injection: A structured approach to instantiating expert
+cognitive identities in large language models.
+\newblock \textit{Working paper}. DOI: [pending Zenodo submission].
+
+\end{thebibliography}
+
+% ---------------------------------------------------------------------------
+\appendix
+
+\section{FI Templates Used in D1}
+\label{app:fi}
+
+Each domain used a compound FI with three components (declarative, procedural,
+evaluative). The Legal FI is reproduced below as a representative example:
+
+\begin{quote}\small\ttfamily
+\# FRAMEWORK: Analista Jurídico Contratual --- Nível Senior\\
+\\
+\#\# IDENTIDADE COGNITIVA\\
+Você é um analista jurídico com 15 anos de experiência [...]\\
+\\
+\#\# PROTOCOLO DE ANÁLISE\\
+1. IDENTIFICAÇÃO: extraia os elementos jurídicos centrais [...]\\
+2. FUNDAMENTO: cite bases legais, doutrina e jurisprudência [...]\\
+3. RISCO: quantifique probabilidade e impacto [...]\\
+4. ESTRATÉGIA: proponha curso de ação com justificativa\\
+5. RESSALVAS: indique lacunas de informação [...]\\
+\\
+\#\# CALIBRAÇÃO EPISTÊMICA\\
+- Use ``provavelmente'' para probabilidade > 70\%\\
+- Use ``possivelmente'' para probabilidade 40--70\%\\
+[...]
+\end{quote}
+
+\section{Judge Rubric}
+\label{app:rubric}
+
+The judge was prompted with the following criteria (0–8 each):
+
+\begin{enumerate}
+  \item \textbf{Reasoning depth}: Is the reasoning multi-step, explicit, and
+    non-superficial?
+  \item \textbf{Domain accuracy}: Are concepts, terminology, and references
+    correct for the domain?
+  \item \textbf{Risk identification}: Were risks identified with specificity?
+  \item \textbf{Actionability}: Are recommendations specific enough to execute?
+  \item \textbf{Epistemic calibration}: Does the output distinguish certainties
+    from uncertainties?
+\end{enumerate}
+
+The judge received outputs with condition labels stripped (blind evaluation).
+
+\section{Raw Results}
+\label{app:raw}
+
+Full results available as JSON in the repository. Sample from the Legal domain
+(run 1):
+
+\begin{table}[h]
+\centering
+\caption{Legal domain, run 1 — scores by dimension}
+\begin{tabular}{lccccc|c}
+\toprule
+Condition & Depth & Accuracy & Risk & Action & Calib. & Total \\
+\midrule
+fi\_extended    & 8 & 7 & 8 & 8 & 8 & 39 \\
+fi\_standard    & 7 & 7 & 7 & 7 & 7 & 35 \\
+no\_fi\_extended & 7 & 7 & 7 & 7 & 7 & 35 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\end{document}

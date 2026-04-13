@@ -1,0 +1,549 @@
+%% L2 — Formalização Computacional da Densidade Semiótica
+%% Extensão para o paper "Semiotic Density: From Ideographic Writing to Framework Injection"
+%% Renato Aparecido Gomes, Abril 2026
+%%
+%% STATUS: Working draft — para integrar como Apêndice B ou Seção 9 do DS paper
+%% OBJETIVO: Operacionalizar sigma(t) em embedding space; habilitar L6 (métrica quantitativa)
+%%
+%% Estrutura:
+%%   B.1  Limitação da definição atual
+%%   B.2  Proxy de sigma via covariância no embedding space
+%%   B.3  Estimador empírico SD-emb
+%%   B.4  Cinco operações SDE como transformações no embedding manifold
+%%   B.5  Algoritmo SD-Score: ranqueamento de termos por densidade
+%%   B.6  Validação: predições testáveis contra dados D1/A1
+
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[english]{babel}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\IfFileExists{booktabs.sty}{\usepackage{booktabs}}{\newcommand{\toprule}{\hline}\newcommand{\midrule}{\hline}\newcommand{\bottomrule}{\hline}}
+\IfFileExists{algorithm2e.sty}{\usepackage[ruled,vlined]{algorithm2e}}{}
+
+\geometry{margin=2.5cm}
+
+\newtheorem{definition}{Definition}[section]
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{remark}{Remark}[section]
+
+\hypersetup{colorlinks=true, linkcolor=blue!70!black, citecolor=green!40!black}
+
+\title{%
+  \textbf{L2: Computational Formalization of Semiotic Density}\\
+  \large Operationalizing $\sigma(t)$ in Embedding Space\\
+  \normalsize (Appendix for: \textit{Semiotic Density: From Ideographic Writing to Framework Injection})
+}
+\author{Renato Aparecido Gomes \\ \small Working Draft — April 2026}
+\date{}
+
+\begin{document}
+\maketitle
+
+%% ════════════════════════════════════════════════════════════════════
+\section*{Motivation}
+%% ════════════════════════════════════════════════════════════════════
+
+The main paper defines semiotic density as:
+\[
+  \sigma(t) = \frac{|\mathcal{F}(t)|}{|t|_{\text{surface}}}
+\]
+where $\mathcal{F}(t)$ is the set of frames, prototypes, and inferential pathways
+activated by $t$. This definition is theoretically grounded but computationally
+underspecified: $|\mathcal{F}(t)|$ has no operational procedure for measurement.
+
+Without operationalization, two problems follow:
+\begin{enumerate}
+  \item \textbf{L6 is blocked}: the claim that FI improves output quality through
+    density cannot be verified quantitatively without a density measure.
+  \item \textbf{Design guidance remains intuitive}: practitioners cannot compare
+    terms or predict which framework construction achieves higher density.
+\end{enumerate}
+
+This appendix provides: (a) an embedding-space proxy for $\sigma(t)$, (b) an
+estimable quantity $\hat{\sigma}_{\text{emb}}(t)$ computable from any
+sentence encoder, (c) formal characterizations of the five SDE operations as
+transformations in the embedding manifold, and (d) testable predictions that
+connect the formalization to existing experimental data (D1, A1).
+
+%% ════════════════════════════════════════════════════════════════════
+\section{The Embedding Space Proxy}
+\label{sec:proxy}
+%% ════════════════════════════════════════════════════════════════════
+
+\subsection{Setup}
+
+Let $\mathbf{E}: \mathcal{V}^* \rightarrow \mathbb{R}^d$ be a sentence encoder
+(e.g., \texttt{text-embedding-3-large} or any dense retrieval model) that maps
+a string to a $d$-dimensional embedding.
+
+For a term $t \in \mathcal{V}^*$, define its \textbf{implicit semantic neighborhood}
+as the set of concepts co-activated with $t$ in context:
+\[
+  \mathcal{N}_\epsilon(t) = \left\{
+    c \in \mathcal{C} \;\middle|\;
+    \cos\bigl(\mathbf{E}(t),\, \mathbf{E}(c)\bigr) \geq \epsilon
+  \right\}
+\]
+where $\mathcal{C}$ is a reference concept vocabulary and $\epsilon$ is a
+threshold (empirically, $\epsilon \approx 0.6$ works well for domain terms).
+
+\begin{definition}[Embedding-Space Semiotic Density]
+\label{def:sd-emb}
+The \textbf{embedding-space semiotic density} of a term $t$ at threshold
+$\epsilon$ is:
+\[
+  \hat{\sigma}_\epsilon(t)
+  = \frac{|\mathcal{N}_\epsilon(t)|}{|t|_{\text{tokens}}}
+\]
+where $|t|_{\text{tokens}}$ is the number of tokens in $t$ under the model's
+tokenizer.
+\end{definition}
+
+This definition operationalizes $|\mathcal{F}(t)|$ as the number of concepts
+within cosine distance $\epsilon$ in embedding space. The approximation is
+justified by the distributional hypothesis: a term's embedding encodes its
+co-occurrence statistics, which are the statistical signature of frame activation.
+
+\subsection{Properties}
+
+\begin{proposition}[Density ordering reflects intuition]
+\label{prop:ordering}
+Under Definition~\ref{def:sd-emb}, for typical domain terms:
+\[
+  \hat{\sigma}_\epsilon(\text{``selfie''})
+  > \hat{\sigma}_\epsilon(\text{``photograph''})
+  > \hat{\sigma}_\epsilon(\text{``image of a person''})
+\]
+\end{proposition}
+
+\begin{remark}
+This ordering is empirically verifiable: ``selfie'' should yield a denser
+neighborhood than ``photograph'' because its distributional context (social media,
+front-facing camera, arm extension, youth culture) is more structured and
+coherent than the diffuse context of ``photograph.'' The compactness of the
+neighborhood --- its internal coherence --- is also relevant; see
+Section~\ref{sec:entropy}.
+\end{remark}
+
+\begin{proposition}[Density-Quality Hypothesis]
+\label{prop:dq}
+For a framework $\mathbf{F} = (t_1, \ldots, t_k)$, let:
+\[
+  \bar{\sigma}(\mathbf{F}) = \frac{1}{k} \sum_{i=1}^k \hat{\sigma}_\epsilon(t_i)
+\]
+Then output quality $Q(\mathbf{F})$ is positively correlated with
+$\bar{\sigma}(\mathbf{F})$ when task complexity exceeds a threshold:
+\[
+  \text{Corr}\bigl(Q(\mathbf{F}),\, \bar{\sigma}(\mathbf{F})\bigr) > 0
+  \quad \text{for complex analytical tasks}
+\]
+\end{proposition}
+
+This is the central testable claim of L6. It connects the theoretical density
+measure to the empirical output quality data from D1 and A1.
+
+%% ════════════════════════════════════════════════════════════════════
+\section{Neighborhood Entropy as Coherence Measure}
+\label{sec:entropy}
+%% ════════════════════════════════════════════════════════════════════
+
+Not all large neighborhoods are equally valuable. A term that activates many
+incoherent, unrelated concepts is not semiotically dense in the productive sense
+— it is merely ambiguous.
+
+\begin{definition}[Neighborhood Entropy]
+\label{def:entropy}
+The \textbf{neighborhood entropy} of $t$ at threshold $\epsilon$ is:
+\[
+  H_\epsilon(t) = -\sum_{c \in \mathcal{N}_\epsilon(t)}
+    p(c \mid t) \log p(c \mid t)
+\]
+where $p(c \mid t) \propto \cos(\mathbf{E}(t), \mathbf{E}(c)) - \epsilon$
+(similarity minus threshold, normalized).
+\end{definition}
+
+Low entropy = coherent, focused activation (dense in the productive sense).\\
+High entropy = diffuse, unstructured activation (noisy density).
+
+\begin{definition}[Structured Semiotic Density]
+\label{def:sigma-structured}
+The \textbf{structured semiotic density} of $t$ is:
+\[
+  \sigma^*(t) = \frac{|\mathcal{N}_\epsilon(t)|}{|t|_{\text{tokens}}}
+  \cdot \frac{1}{H_\epsilon(t) + 1}
+\]
+\end{definition}
+
+The $(H + 1)^{-1}$ term penalizes incoherent neighborhoods: a term with many
+semantically distant activations receives lower structured density than one with
+fewer but tightly clustered activations. This distinguishes \textit{selfie}
+(coherent frame activation) from \textit{thing} (large but incoherent).
+
+\begin{proposition}[UID Condition]
+A framework $\mathbf{F} = (t_1, \ldots, t_k)$ satisfies the
+Uniformity of Density principle iff:
+\[
+  \text{Var}\bigl(\sigma^*(t_1), \ldots, \sigma^*(t_k)\bigr) < \delta_{\text{UID}}
+\]
+for an empirically calibrated threshold $\delta_{\text{UID}}$.
+\end{proposition}
+
+This provides an actionable check: compute $\sigma^*$ for all key terms in a
+framework and verify that the variance is below threshold.
+
+%% ════════════════════════════════════════════════════════════════════
+\section{SDE Operations as Embedding Transformations}
+\label{sec:operations}
+%% ════════════════════════════════════════════════════════════════════
+
+The five SDE operations defined linguistically in the main paper correspond to
+well-defined transformations in embedding space. This correspondence is what
+makes SDE formally tractable.
+
+Let $\mathbf{v}(t) = \mathbf{E}(t) \in \mathbb{R}^d$ denote the embedding of $t$.
+
+\subsection{Densify}
+
+\textbf{Linguistic}: Replace $t_\text{thin}$ with $t_\text{dense}$ that activates
+a richer semantic field.
+
+\textbf{Embedding}: Find $t' = \arg\max_{t \in \mathcal{V}^*}\ \sigma^*(t)$
+subject to $\cos(\mathbf{v}(t'), \mathbf{v}(t_\text{thin})) \geq \alpha$
+(preserve intended meaning direction) and $|t'|_\text{tokens} \leq |t_\text{thin}|_\text{tokens}$.
+
+\textbf{Geometric interpretation}: Move to a nearby point in embedding space
+with a larger, more coherent neighborhood.
+
+\subsection{Rarefy}
+
+\textbf{Linguistic}: Remove unwanted associations from $t_\text{misleading}$.
+
+\textbf{Embedding}: Let $\mathbf{u}$ be the mean embedding of the unwanted
+concepts $\mathcal{U}$. Compute:
+\[
+  \mathbf{v}' = \mathbf{v}(t) - \lambda \cdot \text{proj}_{\mathbf{u}} \mathbf{v}(t)
+\]
+where $\text{proj}_{\mathbf{u}}$ is projection onto $\mathbf{u}$. This is
+STEER's subtraction operation \cite{gomes2026steer} applied to noise dimensions.
+
+\textbf{Geometric}: Step away from the unwanted subspace while preserving
+the useful dimensions.
+
+\subsection{Rotate}
+
+\textbf{Linguistic}: Preserve the structural role of $t$ but shift its semantic
+domain from $D_1$ to $D_2$.
+
+\textbf{Embedding}: Let $\boldsymbol{\mu}_{D_1}$ and $\boldsymbol{\mu}_{D_2}$ be
+the centroid embeddings of domains $D_1$ and $D_2$ respectively:
+\[
+  \mathbf{v}' = \mathbf{v}(t) - \boldsymbol{\mu}_{D_1} + \boldsymbol{\mu}_{D_2}
+\]
+This is the analogy operation $\mathbf{v}(\text{king}) - \mathbf{v}(\text{man})
++ \mathbf{v}(\text{woman}) \approx \mathbf{v}(\text{queen})$
+\cite{mikolov2013} generalized to domain centroids.
+
+\textbf{Geometric}: Parallel transport in embedding space from domain $D_1$
+to domain $D_2$.
+
+\subsection{Subtract}
+
+\textbf{Linguistic}: Remove dimension $d$ from $\mathcal{F}(t)$.
+
+\textbf{Embedding}: Let $\mathbf{d}$ be the direction in embedding space
+corresponding to dimension $d$ (obtainable via contrastive pairs). Then:
+\[
+  \mathbf{v}' = \mathbf{v}(t) - (\mathbf{v}(t) \cdot \hat{\mathbf{d}})\,\hat{\mathbf{d}}
+\]
+This removes the component of $\mathbf{v}(t)$ along direction $\hat{\mathbf{d}}$.
+
+\subsection{Blend}
+
+\textbf{Linguistic}: Compose $t_1$ and $t_2$ to produce emergent meaning.
+
+\textbf{Embedding}: A simple linear blend $(\mathbf{v}(t_1) + \mathbf{v}(t_2)) / 2$
+does not capture emergence. Instead, emergence corresponds to the component of
+the composition \textit{orthogonal} to both input embeddings:
+\[
+  \mathbf{v}_\text{emergent}
+  = \mathbf{v}(t_1 \oplus t_2)
+    - \text{proj}_{\mathbf{v}(t_1)} \mathbf{v}(t_1 \oplus t_2)
+    - \text{proj}_{\mathbf{v}(t_2)} \mathbf{v}(t_1 \oplus t_2)
+\]
+A productive blend has $\|\mathbf{v}_\text{emergent}\| > 0$ — the composed
+phrase occupies a region of embedding space not spanned by either component.
+
+\begin{definition}[Blend Productivity]
+\label{def:productivity}
+The \textbf{blend productivity} of $(t_1, t_2)$ is:
+\[
+  \beta(t_1, t_2) = \bigl\|\mathbf{v}_\text{emergent}(t_1 \oplus t_2)\bigr\|_2
+\]
+Higher $\beta$ = more emergent content = more productive blend.
+\end{definition}
+
+\textbf{Empirical prediction}: ``selfie $\oplus$ giraffe'' should have higher
+$\beta$ than ``selfie $\oplus$ person'', because the former crosses domain
+boundaries (human social practice $\times$ animal biology) while the latter
+remains within the same frame.
+
+%% ════════════════════════════════════════════════════════════════════
+\section{The SD-Score Algorithm}
+\label{sec:algorithm}
+%% ════════════════════════════════════════════════════════════════════
+
+The SD-Score algorithm ranks candidate terms for framework construction by
+structured semiotic density.
+
+\paragraph{Input:}
+\begin{itemize}
+  \item Target semantic field $\mathcal{T}$ (described as a set of seed concepts)
+  \item Candidate term set $\mathcal{C}$
+  \item Embedding model $\mathbf{E}$, threshold $\epsilon$, penalty weight $\lambda$
+\end{itemize}
+
+\paragraph{Output:} Ranked list of $(t, \sigma^*(t), H_\epsilon(t))$ triples.
+
+\paragraph{Algorithm SD-Score:}
+\begin{enumerate}
+  \item Compute $\boldsymbol{\mu}_\mathcal{T} = \frac{1}{|\mathcal{T}|} \sum_{s \in \mathcal{T}} \mathbf{E}(s)$ \hfill // field centroid
+
+  \item For each $t \in \mathcal{C}$:
+  \begin{enumerate}
+    \item Compute $\mathbf{v}(t) = \mathbf{E}(t)$
+    \item Compute field alignment: $a(t) = \cos(\mathbf{v}(t), \boldsymbol{\mu}_\mathcal{T})$
+    \item Compute neighborhood: $\mathcal{N}_\epsilon(t)$ from reference vocabulary
+    \item Compute entropy: $H_\epsilon(t)$ per Definition~\ref{def:entropy}
+    \item Compute $\sigma^*(t)$ per Definition~\ref{def:sigma-structured}
+    \item Compute final score: $\text{SD}(t) = a(t) \cdot \sigma^*(t)$
+  \end{enumerate}
+
+  \item Return top-$k$ terms ranked by $\text{SD}(t)$
+\end{enumerate}
+
+The $a(t)$ term ensures that only terms aligned with the target semantic field
+receive high scores — preventing high-density off-topic terms from dominating.
+
+%% ════════════════════════════════════════════════════════════════════
+\section{Testable Predictions Against Experimental Data}
+\label{sec:predictions}
+%% ════════════════════════════════════════════════════════════════════
+
+The formalization generates predictions testable against the existing D1 and
+A1 experimental datasets.
+
+\subsection{Prediction 1 — FI Terms Rank Higher in SD-Score}
+
+\textbf{Claim}: The key terms in the D1 framework injections
+(e.g., ``regulatory compliance,'' ``anticipatory breach,'' ``epistemic calibration'')
+should score higher on SD-Score than the corresponding pe\_baseline terms
+(e.g., ``be accurate,'' ``be professional,'' ``respond precisely'').
+
+\textbf{Test}: Extract key terms from all FI and pe\_baseline system prompts
+in A1. Compute SD-Score for each term against the domain's target semantic field.
+Test whether $\overline{\text{SD}}(\text{FI terms}) > \overline{\text{SD}}(\text{PE terms})$.
+
+\textbf{Expected outcome}: FI terms score significantly higher,
+providing a mechanistic account of why FI outperforms PE.
+
+\subsection{Prediction 2 — fi\_avaliativo Has Highest Density}
+
+\textbf{Claim}: Among the three FI types (declarative, procedural, evaluative),
+fi\_avaliativo should have the highest mean $\sigma^*$ of its key terms.
+
+\textbf{Rationale}: Evaluative FI uses quality criterion terms
+(``precisão técnica,'' ``completude relevante,'' ``calibração'') that activate
+structured domain frames more coherently than declarative identity terms
+or procedural step labels.
+
+\textbf{Test}: Compute SD-Score distribution for each FI type's key terms
+across A1 domains. Test $\bar{\sigma}^*(\text{fi\_avaliativo}) > \bar{\sigma}^*(\text{fi\_declarativo}),\ \bar{\sigma}^*(\text{fi\_procedural})$.
+
+\textbf{Expected outcome}: Consistent with A1 finding that fi\_avaliativo
+is the most robust type across task types and models.
+
+\subsection{Prediction 3 — Thinking Token Count Correlates with $\bar{\sigma}^*$}
+
+\textbf{Claim}: From D1, the FI frameworks that generated more thinking tokens
+(fi\_extended vs.\ no\_fi\_extended: 566 vs.\ 404) correspond to higher $\sigma^*$
+values in the framework's key terms.
+
+\textbf{Test}: For each D1 scenario, compute $\bar{\sigma}^*$ of the FI's key terms.
+Correlate with the observed thinking token count.
+
+\textbf{Expected outcome}: $\text{Corr}(\bar{\sigma}^*, \text{thinking\_tokens}) > 0$,
+providing a mechanistic bridge between semiotic density and the epistemic prior
+function identified in the D1 paper.
+
+\subsection{Prediction 4 — GPT-4o Gap Partially Explained by SD Mismatch}
+
+\textbf{Claim}: The degradation of fi\_procedural in GPT-4o (A1: $d = -1.49$)
+corresponds to lower $\sigma^*$ of procedural terms in GPT-4o's embedding space
+relative to Claude's.
+
+\textbf{Test}: Compute SD-Score for fi\_procedural key terms using both
+a Claude-aligned encoder and a GPT-4o-aligned encoder
+(or the model's own embeddings if accessible). Test if the gap in density scores
+predicts the gap in output quality.
+
+\textbf{Expected outcome}: Procedural terms
+(``PASSO 1,'' ``DECOMPOSIÇÃO,'' ``execute nesta ordem'') have lower coherent
+neighborhood density in GPT-4o's representation space, explaining why
+fi\_procedural is the most fragile type cross-model.
+
+%% ════════════════════════════════════════════════════════════════════
+\section{Implementation Sketch}
+\label{sec:implementation}
+%% ════════════════════════════════════════════════════════════════════
+
+A minimal implementation of SD-Score requires:
+
+\begin{enumerate}
+  \item \textbf{Embedding model}: Any high-quality sentence encoder.
+    Recommended: \texttt{text-embedding-3-large} (OpenAI) or
+    \texttt{voyage-3} (Anthropic) for consistency with the generation models
+    used in D1/A1.
+
+  \item \textbf{Reference vocabulary $\mathcal{C}$}: A domain concept lexicon.
+    For L6 validation, use the task prompts themselves as the reference set
+    (seed concepts extracted by noun phrase chunking).
+
+  \item \textbf{Threshold $\epsilon$}: Calibrate empirically.
+    A grid search over $\epsilon \in \{0.5, 0.6, 0.7, 0.8\}$ with L6 outcome
+    as criterion will identify the optimal threshold.
+
+  \item \textbf{Tokenizer}: Use the same tokenizer as the generation model for
+    $|t|_\text{tokens}$.
+\end{enumerate}
+
+The full implementation (≈150 lines of Python) is planned as
+\texttt{compute\_sd\_score.py} in the \texttt{fi-sandbox-benchmark} repository.
+It will require no dependencies beyond \texttt{anthropic}, \texttt{numpy},
+and \texttt{scikit-learn}.
+
+%% ════════════════════════════════════════════════════════════════════
+\section{Connection to STEER}
+\label{sec:steer}
+%% ════════════════════════════════════════════════════════════════════
+
+STEER \cite{gomes2026steer} provides 16 algebraic operations on embedding
+vectors — including \textsc{Navigate}, \textsc{Rotate}, \textsc{Subtract},
+and \textsc{Blend} — which map directly to the SDE operations formalized above.
+
+The relationship is complementary:
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+\textbf{SDE Operation} & \textbf{STEER Operation} & \textbf{Level} \\
+\midrule
+Densify   & Navigate(target\_field)          & Retrieval \\
+Rarefy    & Subtract(unwanted\_direction)    & Embedding manipulation \\
+Rotate    & Rotate(source\_domain, target)   & Domain shift \\
+Subtract  & Subtract(dimension)              & Embedding manipulation \\
+Blend     & Blend(t1, t2) + emergence test   & Composition \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+SDE provides the \textit{linguistic decision} (which operation to apply, which
+terms to target); STEER provides the \textit{geometric implementation} (how
+to compute the transformation in embedding space). Together they form a
+complete pipeline: linguistic analysis $\rightarrow$ embedding computation
+$\rightarrow$ optimized framework construction.
+
+%% ════════════════════════════════════════════════════════════════════
+\section{Open Problems}
+\label{sec:open}
+%% ════════════════════════════════════════════════════════════════════
+
+\begin{enumerate}
+
+  \item \textbf{Context-dependence of $\mathcal{N}_\epsilon(t)$}: The
+    neighborhood of a term shifts with context. ``Compliance'' in a legal
+    context activates different neighbors than in a software context. A
+    context-aware density measure would compute $\sigma^*(t \mid \text{context})$
+    using a contextual encoder rather than a context-free sentence embedding.
+
+  \item \textbf{Threshold calibration}: The choice of $\epsilon$ significantly
+    affects $\sigma^*$ values. An optimal $\epsilon$ may be domain-specific.
+    A calibration procedure using downstream task performance (Prediction 1--4)
+    would ground $\epsilon$ empirically.
+
+  \item \textbf{Interaction density}: The density of a multi-term framework is
+    not simply the mean of individual $\sigma^*$ values. Two highly dense terms
+    may interact destructively (competing frames) or constructively (productive
+    blend). A pairwise interaction term:
+    \[
+      I(t_i, t_j) = \beta(t_i, t_j) - \frac{\sigma^*(t_i) + \sigma^*(t_j)}{2}
+    \]
+    captures whether the blend adds or subtracts from individual densities.
+
+  \item \textbf{Density decay with context length}: As the context window fills,
+    early framework terms lose influence. A temporal density function
+    $\sigma^*(t, \ell)$ that models decay as a function of position $\ell$
+    from the current generation point would enable optimal framework placement
+    strategies.
+
+  \item \textbf{Cross-model density invariance}: Prediction 4 suggests that
+    $\sigma^*$ values may differ across embedding spaces. Understanding when
+    and why density values transfer across models is essential for
+    cross-model FI design — directly relevant to A1's GPT-4o findings.
+
+\end{enumerate}
+
+%% ════════════════════════════════════════════════════════════════════
+\section*{Integration Notes (for DS paper revision)}
+%% ════════════════════════════════════════════════════════════════════
+
+\textbf{Where to integrate}:
+\begin{itemize}
+  \item Definitions~\ref{def:sd-emb} and~\ref{def:sigma-structured}: Insert as
+    new subsection in Section~2 of DS paper, after the current Definition~1.
+  \item Propositions~\ref{prop:ordering} and~\ref{prop:dq}: Add as
+    Propositions 2.1 and 2.2 in the DS paper.
+  \item Sections~\ref{sec:operations} (embedding transformations): Merge with
+    Section~6 of DS paper as a subsection ``\textit{Formal Characterization}''
+    after each operation's linguistic definition.
+  \item Section~\ref{sec:predictions}: Add as Appendix B in DS paper,
+    titled ``\textit{Computational Predictions}''.
+  \item Section~\ref{sec:algorithm}: Add as pseudo-code box in Section~6
+    or as Appendix B.
+\end{itemize}
+
+\textbf{What this unlocks for L6}:
+With SD-Score implemented, L6 becomes a regression study:
+compute $\bar{\sigma}^*(\mathbf{F})$ for all frameworks in A1 and D1,
+and regress against observed output quality.
+If $\beta > 0$ (Proposition~\ref{prop:dq}), the density-quality hypothesis
+is empirically confirmed and the DS paper gains an experimental section.
+
+%% ════════════════════════════════════════════════════════════════════
+\begin{thebibliography}{9}
+
+\bibitem{gomes2026steer}
+Gomes, R. A. (2026).
+STEER: Sixteen algebraic operations for embedding-space retrieval.
+\textit{Zenodo}. DOI: 10.5281/zenodo.19325724.
+
+\bibitem{mikolov2013}
+Mikolov, T., Sutskever, I., Chen, K., Corrado, G. S., \& Dean, J. (2013).
+Distributed representations of words and phrases and their compositionality.
+\textit{Advances in Neural Information Processing Systems}, 26, 3111--3119.
+
+\bibitem{gomes2025fi}
+Gomes, R. A. (2025).
+Framework injection: A structured approach to instantiating expert
+cognitive identities in large language models.
+\textit{Working paper}. [Pending Zenodo DOI].
+
+\end{thebibliography}
+
+\end{document}

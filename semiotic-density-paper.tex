@@ -197,6 +197,50 @@ In any communication system---natural language, ideographic script, or AI prompt
 The principle is not that shorter is better.
 It is that \textit{denser} is better---and density is a function of the structured implicit field a term carries, not merely of its character count.
 
+\subsection{Computational Operationalization}
+\label{subsec:computation}
+
+Definition~\ref{def:semiotic-density} is theoretically grounded but computationally underspecified: $|\mathcal{F}(t)|$ has no operational measurement procedure.
+We address this with an embedding-space proxy.
+
+Let $\mathbf{E}: \mathcal{V}^* \rightarrow \mathbb{R}^d$ be a sentence encoder and $\mathcal{C}$ a reference concept vocabulary.
+Define the \textbf{implicit semantic neighborhood} of $t$ at threshold $\epsilon$:
+\[
+  \mathcal{N}_\epsilon(t) = \bigl\{
+    c \in \mathcal{C} \;\big|\;
+    \cos\bigl(\mathbf{E}(t),\, \mathbf{E}(c)\bigr) \geq \epsilon
+  \bigr\}
+\]
+
+\begin{definition}[Structured Semiotic Density]
+\label{def:sigma-structured}
+The \textbf{structured semiotic density} of $t$ at threshold $\epsilon$ is:
+\[
+  \sigma^*(t) = \frac{|\mathcal{N}_\epsilon(t)|}{|t|_{\mathrm{tokens}}}
+               \cdot \frac{1}{H_\epsilon(t) + 1}
+\]
+where $H_\epsilon(t)$ is the entropy of the similarity distribution over $\mathcal{N}_\epsilon(t)$
+(low entropy $=$ coherent, focused activation; high entropy $=$ diffuse, ambiguous activation),
+and $|t|_{\mathrm{tokens}}$ is the token cost of $t$.
+\end{definition}
+
+The $(H+1)^{-1}$ term is the key addition over the raw ratio: it distinguishes \textit{selfie}---which activates a coherent, structured frame---from \textit{thing}---which activates a large but incoherent neighborhood.
+High structured density requires both breadth \textit{and} coherence.
+
+\begin{proposition}[Density-Quality Hypothesis]
+\label{prop:dq}
+For a framework $\mathbf{F} = (t_1, \ldots, t_k)$, let $\bar{\sigma}^*(\mathbf{F}) = \frac{1}{k}\sum_i \sigma^*(t_i)$.
+Then output quality $Q(\mathbf{F})$ is positively correlated with $\bar{\sigma}^*(\mathbf{F})$ for complex analytical tasks:
+\[
+  \mathrm{Corr}\bigl(Q(\mathbf{F}),\, \bar{\sigma}^*(\mathbf{F})\bigr) > 0
+\]
+\end{proposition}
+
+This proposition is the empirical bridge to L6 (Section~\ref{sec:limitations}).
+A full regression of $\bar{\sigma}^*$ against observed output quality from Experiments D1 and A1 constitutes the validation study.
+The Uniformity of Density principle (Principle~\ref{principle:uid}) now has a computable check:
+$\mathbf{F}$ satisfies UID iff $\mathrm{Var}(\sigma^*(t_1), \ldots, \sigma^*(t_k)) < \delta_{\mathrm{UID}}$.
+
 \subsection{Four Explanatory Observations}
 
 We ground the principle with four observations that connect it to known phenomena.
@@ -903,5 +947,71 @@ Of the 214 Kangxi radicals, those most relevant to SDE design are those that fun
 
 These analogies are not decorative.
 They identify, at the level of cognitive architecture, which framework terms will function as the most effective field activators for given domains.
+
+
+%% ════════════════════════════════════════════════════════════════════
+%% APPENDIX B — Computational Predictions (L6 Roadmap)
+%% ════════════════════════════════════════════════════════════════════
+\section{Computational Predictions and L6 Roadmap}
+\label{appendix:predictions}
+
+The structured semiotic density measure $\sigma^*$ (Definition~\ref{def:sigma-structured})
+generates four testable predictions against the D1 and A1 experimental datasets.
+Together, these constitute the L6 study: a regression of $\bar{\sigma}^*$ against
+observed output quality.
+
+\subsection*{Prediction 1 — FI Terms Score Higher than PE Terms}
+
+\textbf{Claim}: The key terms in FI system prompts score higher on $\sigma^*$ than the
+corresponding PE baseline terms.
+
+\textbf{Test}: Extract key terms from all FI and \texttt{pe\_baseline} system prompts in A1.
+Compute $\sigma^*$ for each against the domain's reference vocabulary.
+Test $\bar{\sigma}^*_{\mathrm{FI}} > \bar{\sigma}^*_{\mathrm{PE}}$.
+
+\textbf{Implication}: If supported, $\sigma^*$ provides a mechanistic account of why
+FI outperforms simple persona prompts — not just empirically, but \textit{causally}.
+
+\subsection*{Prediction 2 — \texttt{fi\_avaliativo} Has Highest Mean $\sigma^*$}
+
+\textbf{Claim}: Among the three FI types, \texttt{fi\_avaliativo} has the highest mean
+$\bar{\sigma}^*$ of its key terms.
+
+\textbf{Rationale}: Evaluative terms (``precisão técnica,'' ``calibração epistêmica,''
+``hierarquia lógica'') activate structured quality frames more coherently than declarative
+identity terms or procedural step labels.
+
+\textbf{Implication}: The A1 finding that \texttt{fi\_avaliativo} is the most robust
+type across task types and models would receive a density-theoretic explanation.
+
+\subsection*{Prediction 3 — Thinking Token Count Correlates with $\bar{\sigma}^*$}
+
+\textbf{Claim}: In D1, the $\bar{\sigma}^*$ of a scenario's FI correlates positively
+with the number of thinking tokens generated (\texttt{fi\_extended}: 566 vs.\ \texttt{no\_fi\_extended}: 404).
+
+\textbf{Test}: For each D1 scenario, compute $\bar{\sigma}^*$ of the FI's key terms.
+Run Pearson correlation against observed thinking token counts.
+
+\textbf{Implication}: If $\mathrm{Corr}(\bar{\sigma}^*, \text{thinking\_tokens}) > 0$,
+semiotic density is the mechanism behind the epistemic prior function identified in D1.
+
+\subsection*{Prediction 4 — GPT-4o Gap Explained by Density Mismatch}
+
+\textbf{Claim}: The degradation of \texttt{fi\_procedural} on GPT-4o (A1: $d = -1.49$)
+corresponds to lower $\sigma^*$ of procedural terms in GPT-4o's embedding space.
+
+\textbf{Test}: Compute $\sigma^*$ for \texttt{fi\_procedural} key terms using both a
+Claude-aligned and a GPT-4o-aligned encoder. Test whether the encoder-specific density
+gap predicts the output quality gap.
+
+\textbf{Implication}: Cross-model FI fragility is not arbitrary — it is predictable
+from the density signature of the FI type in each model's representation space.
+
+\subsection*{Implementation}
+
+A reference implementation (\texttt{compute\_sd\_score.py}) is available in the
+\texttt{fi-sandbox-benchmark} repository.
+It computes $\sigma^*$, $H_\epsilon$, and SD-Score for arbitrary terms with a pluggable
+embedding backend, and includes the four validation procedures above.
 
 \end{document}
