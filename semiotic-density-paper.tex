@@ -329,100 +329,21 @@ This principle directly informs the design guidelines in Section~\ref{sec:design
 The Principle of Semiotic Density is not a discovery.
 It is a rediscovery.
 
-Chinese ideographic writing has practiced density engineering for over three millennia, developing a system in which complex meanings are composed from structured combinations of simpler semantic units.
-The parallels to Framework Injection are not metaphorical; they are structural.
+Chinese ideographic writing has practiced density engineering for over three millennia---composing characters like \cjk{明} (sun + moon = bright) and \cjk{信} (person + word = trust) through deliberate frame combination.
+The mechanism is Conceptual Blending \cite{fauconnier2002} applied in stone and ink: two semantically loaded units compose to produce emergent meaning that exists in neither component alone.
+\cjk{信} (trust) does not merely combine ``person'' and ``speech''; it activates an entire social contract---standing by one's word, reliability, accountability---that no enumeration of properties could convey as efficiently.
+This is the same principle FI applies in prompts, and the same principle CoD applies in iterative summarization.
+The difference is timescale; the mechanism is invariant.
 
-\subsection{Character Composition as Conceptual Blending}
-\label{subsec:composition}
+A structural parallel reinforces this: Chinese characters employ approximately 214 \textbf{radicals}---recurring semantic components that function as persistent field activators.
+The radical \cjk{氵} (water) appears in \cjk{河} (river), \cjk{泪} (tears), \cjk{酒} (wine)---it does not ``mean'' water in each case, but it activates a liquid dimension that colors interpretation across the entire writing system.
+When a framework installs the term \textit{compliance}, it functions as a semantic radical: a persistent field activator that colors every subsequent generation, just as \cjk{氵} colors every character it enters.
 
-Chinese characters are not arbitrary symbols.
-Many are composed of two or more semantic or phonetic components, combined according to compositional principles that directly parallel Conceptual Blending.
+He et al.\ \cite{he2018} demonstrated empirically that semantic radicals facilitate categorical inference \textit{before} the full character is processed, validating the priming function of field activators.
+Cao et al.\ \cite{cao2025} showed that fragmenting characters during tokenization degrades LLM semantic performance---the whole is genuinely greater than the sum of its parts, with direct implications for framework design (Section~\ref{sec:design}).
 
-Consider the following examples:
-
-\begin{center}
-\begin{tabular}{lllp{7cm}}
-\toprule
-\textbf{Character} & \textbf{Components} & \textbf{Meaning} & \textbf{Blending Logic} \\
-\midrule
-\cjk{明} & \cjk{日} + \cjk{月} & bright & Sun + moon = sources of light combined \\
-\cjk{森} & \cjk{木} $\times$ 3 & forest & Tree replicated = density of trees \\
-\cjk{休} & \cjk{亻} + \cjk{木} & rest & Person + tree = resting against a tree \\
-\cjk{信} & \cjk{亻} + \cjk{言} & trust & Person + speech = standing by one's word \\
-\cjk{好} & \cjk{女} + \cjk{子} & good & Woman + child = familial goodness \\
-\cjk{安} & \cjk{宀} + \cjk{女} & peace & Roof + woman = safety of the home \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-Each character is a blend.
-\cjk{休} (rest) does not merely combine the denotations of ``person'' and ``tree.''
-It activates a scene: a traveler pausing beneath shade, the relief of stopping, the sheltering function of trees.
-This is emergent structure---meaning that exists in neither component alone, arising from their structured combination.
-
-The parallel to ``selfie of a giraffe'' is exact.
-Both operate through the same cognitive mechanism.
-The difference is timescale: ideographic composition has been refined over millennia; prompt composition is being invented now.
-
-\subsection{Semantic Radicals as Persistent Field Activators}
-\label{subsec:radicals}
-
-Chinese characters employ approximately 214 \textbf{radicals}---recurring semantic components that function as categorical markers.
-The radical \cjk{氵} (three drops of water) appears in:
-
-\begin{center}
-\begin{tabular}{ll}
-\toprule
-\textbf{Character} & \textbf{Meaning} \\
-\midrule
-\cjk{河} & river \\
-\cjk{湖} & lake \\
-\cjk{洗} & to wash \\
-\cjk{泪} & tears \\
-\cjk{酒} & wine/alcohol \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-The radical does not ``mean'' water in isolation.
-It \textbf{activates the liquid-field}---a persistent semantic context that colors the interpretation of every character it appears in.
-Wine is not water, but the radical tells the reader: \textit{attend to the liquid dimension of this concept}.
-
-This is precisely how key terms function in Framework Injection.
-When a framework installs the term \textit{compliance}, it does not merely denote compliance.
-It activates a persistent field---the regulatory context---that colors every subsequent interaction.
-The framework term is a semantic radical: a persistent field activator that operates across the entire conversation, just as the water radical operates across the entire writing system.
-
-\subsection{Empirical Evidence: Radicals Facilitate Categorical Inference}
-
-He et al.\ \cite{he2018} demonstrated in a study published in \textit{Scientific Reports} that semantic radicals facilitate categorical inference during Chinese character recognition.
-Participants responded faster and more accurately to characters whose radical was semantically congruent with the character's meaning, indicating that radicals activate categorical knowledge \textit{before} the full character is processed.
-
-This finding has a direct implication for AI interaction design.
-If framework terms function as semantic radicals, then their placement at the beginning of an interaction---in system prompts, framework headers, or initial context---should activate the desired semantic field before specific instructions are processed, priming the model's generation toward the target domain.
-
-\subsection{Tokenization Evidence: The Whole Greater Than the Sum}
-
-Recent work from MIT \cite{cao2025} has demonstrated that fragmenting Chinese characters during tokenization degrades the semantic performance of large language models.
-When a character is split into sub-character tokens, the model loses access to the compositional semantics that make the character meaningful.
-The whole is genuinely greater than the sum of its parts.
-
-This finding validates a core claim of Semiotic Density: dense terms must be preserved as integral units.
-Fragmenting a dense term---whether through tokenization, paraphrase, or decomposition---destroys the structured field that makes it dense.
-The design implication (Section~\ref{sec:design}) is clear: \textbf{preserve the integrity of dense terms}.
-
-\subsection{Zipf's Law in Ideographic Systems}
-
-Zipf's Law---the observation that word frequency is inversely proportional to rank---operates differently in ideographic systems.
-Deng et al.\ \cite{deng2014} demonstrated that character frequency in Chinese text follows a Weibull distribution rather than the power law characteristic of alphabetic languages, reflecting a different density economy.
-
-In alphabetic systems, frequent words tend to be short (Zipf's brevity law).
-In ideographic systems, frequent characters tend to be \textit{compositionally simple}---but not necessarily visually simple.
-The compression operates at the semantic level rather than the orthographic level.
-This suggests that semiotic density optimization follows different strategies in different communication systems, but the underlying principle---frequent elements should carry maximum information per unit cost---remains invariant.
-
-For Framework Injection, the implication is: the most frequently activated terms in a framework should be the densest, carrying the most structured semantic field per token.
-Rare terms can afford to be thinner.
+\medskip
+\noindent\textit{(Extended treatment of Zipf's Law in ideographic systems, traditional vs.\ simplified character comparison, and full radical taxonomy appears in Appendix~A.)}
 
 
 %% ════════════════════════════════════════════════════════════════════
@@ -468,13 +389,23 @@ This duality suggests that semiotic density is a fundamental property of effecti
 
 
 %% ════════════════════════════════════════════════════════════════════
-%% 6. SEMIOTIC DENSITY ENGINEERING: FIVE OPERATIONS
+%% 6. SEMIOTIC DENSITY ENGINEERING: OPERATIONS AND PRINCIPLES
 %% ════════════════════════════════════════════════════════════════════
-\section{Semiotic Density Engineering: Five Operations}
+\section{Semiotic Density Engineering: Operations and Design Principles}
 \label{sec:operations}
 
-We formalize five operations for engineering semiotic density in human-AI interaction.
-Each operation has a direct parallel in ideographic writing, demonstrating the structural isomorphism between the two systems.
+Effective density engineering requires both a set of atomic operations and a governing principle that constrains how those operations are composed.
+We state the governing principle first, because it functions as a matrix rule: every operation must satisfy it.
+
+\begin{principle}[Uniformity of Density]
+\label{principle:uid}
+Distribute semiotic density evenly across a framework.
+A framework with one extremely dense section and several thin sections creates processing asymmetry: the model over-attends to the dense region and under-attends to the thin ones.
+Every sentence in a well-formed framework should carry approximately equal semiotic load, following the Uniform Information Density hypothesis \cite{frank2008} that natural language speakers optimize unconsciously and framework designers must optimize deliberately.
+\end{principle}
+
+With this constraint in place, five atomic operations govern how density is engineered within each region of a framework.
+Each has a direct parallel in ideographic writing.
 
 \subsection{Densify: Replace Generic with Domain-Dense}
 \label{subsec:densify}
@@ -523,9 +454,8 @@ Given a term $t$ whose density field $\mathcal{F}(t)$ is oriented toward domain 
   \item ``system architecture'' $\xrightarrow{\textsc{Rotate}_{\text{urban}}}$ ``city planning and zoning'' (preserves structural complexity, shifts domain)
 \end{itemize}
 
-\textbf{Connection to STEER:}
-The Rotate operation maps directly to STEER's navigation operations in embedding space \cite{gomes2026steer}.
-STEER provides the quantitative infrastructure for identifying where density fields lie in the embedding manifold and computing the rotations needed to move between them.
+\textbf{Connection to STEER:}\footnote{STEER \cite{gomes2026steer} provides the quantitative infrastructure that makes Rotate measurable: its \textsc{Navigate} and \textsc{Rotate} algebraic operations identify where density fields lie in the embedding manifold and compute the transformations needed to move between them. Where SDE identifies \textit{what} to change at the linguistic level, STEER identifies \textit{where} that change lands geometrically.}
+The Rotate operation maps directly to STEER's navigation operations in embedding space.
 
 \textbf{Ideographic parallel:}
 The same phonetic component can appear with different semantic radicals, rotating the meaning across domains: \cjk{青} (blue/green) appears in \cjk{清} (clear, with water radical), \cjk{请} (please, with speech radical), \cjk{情} (emotion, with heart radical).
@@ -544,7 +474,6 @@ Given a term $t$ whose density field contains an unwanted dimension $d$, \textsc
   \item ``academic writing'' $\xrightarrow{\textsc{Subtract}_{\text{jargon}}}$ ``scholarly but accessible analysis'' (removes the density of specialized terminology while preserving rigor)
 \end{itemize}
 
-\textbf{Connection to STEER:}
 The Subtract operation maps to STEER's dimensional subtraction in embedding space, which removes specific semantic dimensions from a representation while preserving the remainder.
 
 \textbf{Ideographic parallel:}
@@ -636,7 +565,8 @@ Human communication, whether mediated by brush and ink or by transformer and tok
 \section{New Design Principles for Framework Injection}
 \label{sec:design}
 
-The theoretical analysis yields five actionable design principles for practitioners of Framework Injection.
+The theoretical analysis yields four actionable design principles for practitioners of Framework Injection.
+The governing principle---Uniformity of Density (Principle~\ref{principle:uid})---was stated in Section~\ref{sec:operations} as the matrix rule that constrains all operations; the four principles below specify \textit{what} to select and \textit{how} to compose.
 
 \subsection{Key Terms as Semantic Radicals}
 \label{subsec:radicals-design}
@@ -649,19 +579,6 @@ These terms should be chosen not for their literal denotation, but for the bread
 \textbf{Anti-pattern:} Using many low-density terms that enumerate properties rather than activate fields.
 ``Be thorough, accurate, professional, clear, concise, and helpful'' contains six terms, each with low density and overlapping fields.
 ``Operate as a senior McKinsey consultant preparing a board presentation'' contains one dense construction that activates all six properties---plus dozens more---through a single frame.
-
-\subsection{Uniformity of Density}
-\label{subsec:uniformity}
-
-\textbf{Principle:} Distribute density evenly across the framework, following the Uniform Information Density hypothesis.
-
-A framework with one extremely dense section and several thin sections creates processing asymmetry.
-The model will over-attend to the dense section and under-attend to the thin ones.
-Instead, aim for uniform density: every sentence in the framework should carry approximately equal semiotic load.
-
-This is the UID hypothesis \cite{frank2008} applied to framework design.
-Natural language speakers already optimize for uniform density unconsciously.
-Framework designers must do so deliberately.
 
 \subsection{Preserve Integrity of Dense Terms}
 \label{subsec:integrity}
@@ -702,41 +619,7 @@ A framework's ``header''---its opening terms---should be its densest region, bec
 
 
 %% ════════════════════════════════════════════════════════════════════
-%% 9. CONNECTION TO THE RESEARCH ECOSYSTEM
-%% ════════════════════════════════════════════════════════════════════
-\section{Connection to the Research Ecosystem}
-\label{sec:ecosystem}
-
-Semiotic Density does not exist in isolation.
-It connects to and is supported by three other components of the Artisanal Intelligence research program.
-
-\textbf{STEER} \cite{gomes2026steer} provides the quantitative infrastructure for semiotic density operations.
-Its 16 algebraic operations on embedding spaces---particularly \textsc{Rotate}, \textsc{Subtract}, and \textsc{Navigate}---give computational form to the \textsc{Rotate} and \textsc{Subtract} SDE operations.
-Where SDE operates at the linguistic level (choosing terms), STEER operates at the geometric level (transforming vectors).
-The two are complementary: SDE identifies \textit{what} to change; STEER identifies \textit{where} in embedding space that change lands.
-
-\textbf{IMI} \cite{gomes2026imi,gomes2026imitheory} provides the temporal infrastructure.
-A semiotically dense framework is effective within a single interaction, but what happens across interactions?
-IMI's cognitive memory system---combining graph structure, adaptive weighting, and causal reasoning---preserves semiotic density over time.
-When a dense framework term is encoded in IMI's memory graph, its semantic field is preserved through the graph's link structure, enabling retrieval that activates the same field in a future interaction.
-Without memory, density is ephemeral.
-With IMI, density persists.
-
-\textbf{Adversarial Tempering} \cite{gomes2026founding} provides the audit infrastructure.
-A framework designed for high semiotic density may activate unintended frames.
-The Adversarial Tempering Protocol systematically probes whether the activated semantic fields match the designer's intent, identifying cases where dense terms carry unwanted associations that distort generation.
-In SDE terms, Adversarial Tempering is the verification step: it confirms that \textsc{Densify} operations have activated the intended field and not an adjacent, unwanted one.
-
-\textbf{SYMBIONT} \cite{gomes2026symbiont} provides the multi-agent infrastructure.
-In systems where multiple AI agents collaborate, semiotic density must be maintained across agent boundaries.
-SYMBIONT's bio-inspired interaction patterns---mutualism, parasitism detection, symbiotic memory sharing---ensure that dense frameworks propagate correctly between agents rather than being diluted or distorted in translation.
-
-Together, these systems form a coherent research program: STEER navigates, IMI remembers, Adversarial Tempering verifies, SYMBIONT distributes, and Semiotic Density Engineering provides the design language that unifies them all.
-The founding paper \cite{gomes2026founding} provides the philosophical and methodological foundation.
-
-
-%% ════════════════════════════════════════════════════════════════════
-%% 10. LIMITATIONS
+%% 9. LIMITATIONS
 %% ════════════════════════════════════════════════════════════════════
 \section{Limitations}
 \label{sec:limitations}
@@ -774,7 +657,14 @@ Our definition (Definition~\ref{def:semiotic-density}) acknowledges this through
 
 \textbf{Risk of over-density.}
 If practitioners take the principle too literally---maximizing density at every point---they risk producing frameworks that are incomprehensible, self-contradictory, or so dense that the model cannot disentangle the competing frames.
-The UID constraint (Section~\ref{subsec:uid}) mitigates this, but the boundary between productive density and pathological over-compression is not yet empirically characterized.
+The UID constraint (Principle~\ref{principle:uid}) mitigates this, but the boundary between productive density and pathological over-compression is not yet empirically characterized.
+
+\textbf{Density is ephemeral without memory.}
+A semiotically dense framework is effective within a single interaction, but context windows are finite.
+As interactions grow longer, the activated semantic fields of early framework terms decay in influence.
+This is a structural limitation of current LLM architectures, not of the density principle itself.
+The cognitive memory system IMI \cite{gomes2026imi,gomes2026imitheory} addresses this by preserving dense framework terms in a graph structure that enables field reactivation across interactions---effectively extending the persistence of semiotic density beyond the context window.
+Integrating semiotic density engineering with persistent memory systems is a necessary direction for long-horizon applications.
 
 
 %% ════════════════════════════════════════════════════════════════════
@@ -964,5 +854,54 @@ Halliday, M. A. K. (1978).
 London: Edward Arnold.
 
 \end{thebibliography}
+
+%% ════════════════════════════════════════════════════════════════════
+%% APPENDIX A — Extended Ideographic Evidence
+%% ════════════════════════════════════════════════════════════════════
+\appendix
+\section{Extended Ideographic Evidence}
+\label{appendix:ideographic}
+
+\subsection{Zipf's Law in Ideographic Systems}
+
+Zipf's Law---the observation that word frequency is inversely proportional to rank---operates differently in ideographic systems.
+Deng et al.\ \cite{deng2014} demonstrated that character frequency in Chinese text follows a Weibull distribution rather than the power law characteristic of alphabetic languages, reflecting a different density economy.
+
+In alphabetic systems, frequent words tend to be short (Zipf's brevity law).
+In ideographic systems, frequent characters tend to be \textit{compositionally simple}---but not necessarily visually simple.
+The compression operates at the semantic level rather than the orthographic level.
+This suggests that semiotic density optimization follows different strategies in different communication systems, but the underlying principle---frequent elements should carry maximum information per unit cost---remains invariant.
+
+For Framework Injection, the implication is: the most frequently activated terms in a framework should be the densest, carrying the most structured semantic field per token.
+Rare terms can afford to be thinner.
+
+\subsection{Traditional vs.\ Simplified Characters and the Rarefy Operation}
+
+The reform of Chinese characters in the twentieth century---producing simplified forms from traditional ones---is a mass historical application of the \textsc{Rarefy} operation.
+Simplified characters reduce visual complexity by removing radicals or strokes that no longer serve communicative purposes in modern usage.
+\cjk{龙} (dragon, simplified) strips components present in the traditional form without sacrificing semantic function in everyday contexts.
+
+This is the design decision FI practitioners face when choosing between \textsc{Rarefy} and \textsc{Densify}: simplified (rarefied) forms communicate faster in high-frequency contexts; traditional (dense) forms carry more compositional structure and are preferable where nuance matters.
+
+\subsection{Radical Taxonomy Relevant to Framework Design}
+
+Of the 214 Kangxi radicals, those most relevant to SDE design are those that function as \textit{categorical primes}---radicals whose semantic field is so fundamental that they operate as domain activators across entire vocabularies:
+
+\begin{center}
+\begin{tabular}{llp{8cm}}
+\toprule
+\textbf{Radical} & \textbf{Field} & \textbf{FI Analog} \\
+\midrule
+\cjk{氵} & Liquid & \textit{liquidity, flow, risk} (activates financial domain field) \\
+\cjk{言} & Speech/Trust & \textit{compliance, testimony, counsel} (activates legal-communicative field) \\
+\cjk{心} & Mind/Emotion & \textit{epistemic, judgment, care} (activates cognitive-evaluative field) \\
+\cjk{木} & Structure/Growth & \textit{architecture, scaffold, growth} (activates structural field) \\
+\cjk{金} & Value/Metal & \textit{asset, valuation, standard} (activates financial-quality field) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+These analogies are not decorative.
+They identify, at the level of cognitive architecture, which framework terms will function as the most effective field activators for given domains.
 
 \end{document}
