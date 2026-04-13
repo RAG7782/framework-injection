@@ -390,6 +390,15 @@ generates longer thinking traces in domain-expert tasks.
   \item \textbf{Judge model}: Evaluation by \texttt{claude-opus-4-6} may introduce
     familiarity bias favoring FI-structured outputs that follow Anthropic's own
     preferred response format. Future work should include multi-model judge panels.
+    Note: a concurrent experiment (A1-normalized) investigating judge language bias
+    found that an English-language judge \emph{amplifies} the Claude/GPT gap by +47\%
+    compared to Portuguese-language judging (gaps: EN=13.6, PT=9.2, blind=12.3,
+    translate=10.2). This suggests that judge language choice affects absolute score
+    differences between models but does not artificially inflate the FI advantage
+    within a single-model benchmark such as D1 (where only
+    \texttt{claude-sonnet-4-6} outputs are compared). The D1 English judge setup
+    is therefore conservative with respect to between-model comparisons but
+    may moderately inflate the FI vs.\ no-FI gap due to formatting preferences.
 
   \item \textbf{Thinking token approximation}: Thinking token counts are word-based
     approximations from the API response; true token counts require different
