@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Cartão do Aluno — Framework Injection</title>
+<style>
+  @page { size: A5 landscape; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, "Segoe UI", system-ui, sans-serif; background:#0a1a2f; color:#eef; padding: 24px; }
+  .cartao { width: 100%; max-width: 760px; margin: 0 auto; background: linear-gradient(135deg,#0d2b3a,#0a1a2f);
+    border: 1px solid #2a4a5a; border-radius: 16px; padding: 22px 26px; }
+  h1 { color:#5ec8d8; font-size: 22px; letter-spacing:-0.5px; }
+  h1 small { display:block; font-size:12px; opacity:0.7; font-weight:400; margin-top:2px; }
+  .acento { color:#5ec8d8; } .quente { color:#f0a868; }
+  .regua { margin: 14px 0; padding: 12px 14px; background: rgba(94,200,216,0.08); border-left:3px solid #f0a868; border-radius:8px; }
+  .regua b { color:#f0a868; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px; }
+  .box { background:rgba(255,255,255,0.03); border:1px solid #234; border-radius:8px; padding:10px 12px; font-size:13px; }
+  .box h3 { font-size:13px; color:#5ec8d8; margin-bottom:4px; }
+  .box .mono { font-family: ui-monospace, monospace; font-size:11px; opacity:0.85; }
+  ul { margin-left: 16px; font-size: 13px; line-height: 1.5; }
+  .fecho { margin-top:14px; text-align:center; font-size:14px; font-weight:700; }
+  .rodape { margin-top:10px; text-align:center; font-size:10px; opacity:0.55; }
+  @media print { body { background:#fff; color:#111; padding:0; } .cartao { border-color:#ccc; background:#fff; }
+    h1,.acento,.box h3 { color:#0a6; } .quente,.regua b { color:#b60; } .box,.regua { background:#f6f8f9; } }
+</style>
+</head>
+<body>
+<div class="cartao">
+  <h1>Framework Injection — cartão de bolso
+    <small>Pare de comandar a IA. Comece a educá-la. · Academia Lendária</small>
+  </h1>
+
+  <div class="regua">
+    <b>A régua que decide tudo:</b> para cada coisa que você escreve no framework, pergunte —
+    <i>"isto <b>induz</b> ou <b>constrange</b>? E qual dos dois <b>deveria</b>?"</i>
+  </div>
+
+  <div class="grid">
+    <div class="box">
+      <h3>PRIMING (induz)</h3>
+      a sinalização do metrô: dispõe o caminho, mas o modelo <i>pode</i> ignorar.
+      <br>→ reordena probabilidades · <b>estocástico</b>
+      <div class="mono">primus = o que prepara, vem antes</div>
+    </div>
+    <div class="box">
+      <h3>ENFORCEMENT (constrange)</h3>
+      a catraca: sem cumprir a regra, <i>não passa</i>. O modelo não pode desobedecer.
+      <br>→ colapsa a distribuição · <b>determinístico</b>
+      <div class="mono">in-fortis = pôr força dentro</div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="box">
+      <h3>O gesto (ofício)</h3>
+      <ul>
+        <li>Pare de mandar <i>"analisa isso"</i></li>
+        <li>Disponha o <b>método</b>: papel, hierarquia de fontes, o que verificar</li>
+        <li>Densifique: cada palavra carrega método</li>
+        <li>Onde puder, faça o priming <b>escalar</b> a um gate que obriga</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3>A lei (princípio)</h3>
+      <ul>
+        <li>Dispor o vazio para a forma emergir <i>(Cozinheiro Ding)</i></li>
+        <li>A matéria muda; a lei não → atravessa as modas</li>
+        <li><b>A intenção é o que não se terceiriza</b></li>
+        <li>A IA conduz a intenção; nunca a origina</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="fecho quente">Você não vai comandar mais forte. Vai dispor o método — e deixar a inteligência fluir.</p>
+  <p class="rodape">Por que não é só mais um nome: a fronteira separa os dois lados (priming/enforcement); o FI nomeia e mede a travessia. · Imprima em A5 paisagem (Ctrl/Cmd+P).</p>
+</div>
+</body>
+</html>

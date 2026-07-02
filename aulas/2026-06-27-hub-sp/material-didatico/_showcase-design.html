@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Showcase — gramática visual elevada · Aula FI</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css" id="theme">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Montserrat:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+  :root {
+    --bg:#22252B; --bg-dark:#191B20; --bg-card:#2B2F37;
+    --texto:#EDEAE3; --texto-sec:#9A9488;
+    --abobora:#C8662B; --abobora-cl:#E08A4A;
+    --ouro:#C9A25A; --ouro-claro:#E3CFA0;
+    --filete:#3A3E47;
+    --serif:'Fraunces',Georgia,serif; --sans:'Montserrat',Helvetica,sans-serif; --mono:'JetBrains Mono',monospace;
+  }
+  .reveal { font-family:var(--serif); color:var(--texto); }
+  .reveal-viewport { background:var(--bg); }
+  .reveal .slides { text-align:left; }
+  .reveal section { font-size:30px; line-height:1.5; }
+  .reveal h1,.reveal h2,.reveal h3 { font-family:var(--serif); color:var(--texto); font-weight:400; line-height:1.06; }
+  .reveal em { font-style:italic; color:var(--ouro-claro); }
+  .reveal strong { font-weight:600; color:var(--texto); }
+  .reveal .destaque { color:var(--abobora-cl); font-weight:500; font-style:italic; }
+  .reveal .menor { font-size:0.72em; color:var(--texto-sec); font-family:var(--sans); font-weight:300; }
+  .reveal .marca { font-family:var(--sans); font-weight:500; letter-spacing:3px; text-transform:uppercase; font-size:0.46em; color:var(--texto-sec); }
+  .reveal .marca b { color:var(--ouro); font-weight:600; }
+
+  /* ====== ELEVAÇÃO — gramática visual nova ====== */
+
+  /* full-bleed image layer + scrim gradient (imagem-âncora, não caixinha) */
+  .reveal .bg-img { position:absolute; inset:0; z-index:0; background-size:cover; background-position:center; }
+  .reveal .bg-img::after { content:""; position:absolute; inset:0;
+    background:linear-gradient(90deg, var(--bg-dark) 0%, rgba(25,27,32,0.92) 38%, rgba(25,27,32,0.55) 65%, rgba(25,27,32,0.15) 100%); }
+  .reveal .bg-img.right::after {
+    background:linear-gradient(270deg, var(--bg-dark) 0%, rgba(25,27,32,0.88) 30%, rgba(25,27,32,0.35) 58%, rgba(25,27,32,0) 100%); }
+  .reveal .on-img { position:relative; z-index:1; }
+
+  /* kicker editorial com filete */
+  .reveal .kicker { font-family:var(--sans); font-weight:600; font-size:0.46em; letter-spacing:5px; text-transform:uppercase; color:var(--ouro); margin-bottom:1em; display:inline-flex; align-items:center; gap:0.8em; }
+  .reveal .kicker::before { content:""; width:2.4em; height:1px; background:var(--abobora); display:inline-block; }
+
+  /* hero display typography — tamanho calibrado p/ não quebrar palavra */
+  .reveal h1.hero { font-size:2.7em; font-weight:600; letter-spacing:-0.02em; line-height:1.0; white-space:nowrap; }
+  .reveal .hero-sub { font-family:var(--serif); font-style:italic; font-size:1.2em; color:var(--ouro-claro); font-weight:400; margin-top:0.5em; line-height:1.2; }
+
+  /* numeral display — dados como protagonistas */
+  .reveal .stat-row { display:grid; grid-template-columns:1fr 1fr; gap:2.5em; margin-top:0.8em; }
+  .reveal .stat { border-top:1px solid var(--filete); padding-top:0.6em; }
+  .reveal .stat .num { font-family:var(--serif); font-weight:600; font-size:2.6em; line-height:1; color:var(--abobora-cl); letter-spacing:-0.02em; }
+  .reveal .stat .num small { font-size:0.42em; color:var(--ouro); font-weight:500; }
+  .reveal .stat .lbl { font-family:var(--sans); font-size:0.5em; letter-spacing:1px; text-transform:uppercase; color:var(--texto-sec); margin-top:0.5em; line-height:1.4; }
+  .reveal .stat .lbl b { color:var(--texto); font-weight:600; }
+  .reveal .stat .src { font-family:var(--mono); font-size:0.38em; color:var(--texto-sec); opacity:0.7; margin-top:0.4em; }
+
+  /* selo / kanji */
+  .reveal .selo-wrap { position:absolute; top:8%; right:6%; text-align:center; z-index:2; }
+  .reveal .kanji { font-family:'Noto Serif SC',serif; color:var(--ouro-claro); font-weight:500; }
+  .reveal .kanji-grande { font-size:2.2em; line-height:1; display:block; }
+  .reveal .selo-leg { display:block; margin-top:0.4em; font-family:var(--sans); font-size:0.3em; letter-spacing:2px; color:var(--texto-sec); text-transform:uppercase; }
+  .reveal h2.brush::after { content:""; display:block; width:3.2em; height:14px; margin-top:0.3em; background:var(--abobora);
+    -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 24'><path d='M4 14 C40 6, 70 18, 110 11 S170 6, 196 13 C150 17, 90 20, 40 18 S10 16, 4 14 Z'/></svg>") no-repeat center/contain;
+            mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 24'><path d='M4 14 C40 6, 70 18, 110 11 S170 6, 196 13 C150 17, 90 20, 40 18 S10 16, 4 14 Z'/></svg>") no-repeat center/contain; opacity:0.9; }
+
+  /* coluna de texto sobre imagem (largura controlada p/ legibilidade) */
+  .reveal .col-txt { max-width:54%; }
+  .reveal .col-txt.wide { max-width:66%; }
+
+  /* triade ofício/princípio/costura — pictograma + texto */
+  .reveal .triade { display:flex; flex-direction:column; gap:0.7em; margin-top:0.5em; }
+  .reveal .triade .item { display:grid; grid-template-columns:2.6em 1fr; gap:0.9em; align-items:start; }
+  .reveal .triade .ico { width:2.2em; height:2.2em; }
+  .reveal .triade .h { font-family:var(--sans); font-weight:600; font-size:0.5em; letter-spacing:2px; text-transform:uppercase; color:var(--ouro); }
+  .reveal .triade .d { font-size:0.66em; color:var(--texto); line-height:1.4; margin-top:0.15em; }
+  .reveal .triade .d .menor { display:block; }
+
+  .reveal blockquote { font-family:var(--serif); font-style:italic; font-size:1.05em; color:var(--ouro-claro); border:none; border-left:2px solid var(--abobora); background:none; padding:0.1em 0 0.1em 0.85em; margin:0.6em 0; }
+  .reveal .fonte { display:block; margin-top:1em; font-family:var(--sans); font-weight:300; font-size:0.4em; color:var(--texto-sec); opacity:0.7; border-top:1px solid var(--filete); padding-top:0.5em; max-width:62%; }
+  .reveal .assinatura { font-family:var(--serif); font-style:italic; font-size:0.6em; color:var(--texto-sec); margin-top:1.2em; }
+  .reveal .badge-showcase { position:fixed; top:14px; left:18px; z-index:50; font-family:var(--mono); font-size:11px; color:var(--abobora-cl); letter-spacing:1px; opacity:0.7; }
+  </style>
+</head>
+<body>
+<div class="badge-showcase">SHOWCASE · gramática elevada · 3 arquétipos</div>
+<div class="reveal"><div class="slides">
+
+<!-- ════ ARQUÉTIPO 1 · HERO COM IMAGEM-ÂNCORA (capa) ════ -->
+<section data-background-color="#191B20">
+  <div class="bg-img" style="background-image:url('assets/img/marmore-artesanato.png');"></div>
+  <div class="on-img col-txt">
+    <p class="kicker">Aula · Hub SP · 3h</p>
+    <h1 class="hero">Framework<br>Injection</h1>
+    <p class="hero-sub">Pare de comandar a IA.<br>Comece a educá-la.</p>
+    <p class="assinatura">um ofício, não um atalho — o Artesanato Digital</p>
+    <p class="marca" style="margin-top:2em">∞ &nbsp;Academia <b>Lendár[IA]</b></p>
+  </div>
+</section>
+
+<!-- ════ ARQUÉTIPO 2 · EMOCIONAL/CONCEITUAL COM IMAGEM (Artesanato) ════ -->
+<section data-background-color="#191B20">
+  <div class="bg-img right" style="background-image:url('assets/img/intencao-delegada.png');"></div>
+  <div class="on-img col-txt">
+    <p class="kicker">a camada-raiz</p>
+    <h2 style="font-size:1.7em">A intenção delegada</h2>
+    <p style="margin-top:0.5em; font-size:0.92em">A IA <strong>executa</strong>; ela não <strong>pretende</strong>.</p>
+    <p style="font-size:0.92em">Toda intenção no que ela faz foi <span class="destaque">delegada por um humano</span>.</p>
+    <blockquote style="margin-top:0.6em">A intenção é o que não se terceiriza.<br>O artífice é cada um de vocês.</blockquote>
+    <p class="fonte">Searle — intencionalidade intrínseca vs. derivada (o "as-if" do termostato que "quer 20°C"). O FI é pré-inferência: pensa o todo do espaço de raciocínio antes do raciocínio acontecer.</p>
+  </div>
+</section>
+
+<!-- ════ ARQUÉTIPO 3 · DADOS COMO PROTAGONISTAS (dois números) ════ -->
+<section>
+  <p class="kicker">a prova · dois números</p>
+  <h2 class="brush" style="font-size:1.5em">Dois números — não confunda</h2>
+  <div class="stat-row">
+    <div class="stat">
+      <div class="num">+140<small>%</small></div>
+      <div class="lbl"><b>densidade</b> do que <em style="color:var(--ouro-claro)">você diz</em><br>1,86 → 4,47 · o método densifica o INPUT</div>
+      <div class="src">n = 435 transmutações de produção</div>
+    </div>
+    <div class="stat">
+      <div class="num">85–92<small>%</small></div>
+      <div class="lbl"><b>vitória</b> do que <em style="color:var(--ouro-claro)">ela devolve</em><br>vs 0–2% do cru · o método melhora o OUTPUT</div>
+      <div class="src">n = 49 · juízes cegos · consenso 2 de 3</div>
+    </div>
+  </div>
+  <p class="grande" style="margin-top:0.9em; font-size:1.15em; max-width:80%">Densidade é o que <em>eu disse</em>. Vitória é o que <em>ele devolveu</em>. <span class="destaque">Coisas diferentes.</span></p>
+  <p class="fonte" style="max-width:80%">Responde à objeção comum: "o 88% mede o prompt, não o output?" — não; são dois experimentos distintos. <strong>Density ≠ Efficacy.</strong> Fonte: brief §3 (85,7–91,8% vs 0–2%, viés-comprimento ≤4%).</p>
+</section>
+
+</div></div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>Reveal.initialize({ hash:true, slideNumber:'c/t', transition:'fade', transitionSpeed:'slow' });</script>
+</body>
+</html>

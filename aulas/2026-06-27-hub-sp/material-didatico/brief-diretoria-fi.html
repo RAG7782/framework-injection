@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Framework Injection — Estado atual de um programa de pesquisa · Academia Lendár[IA]</title>
+
+  <!-- reveal.js 5.1.0 via CDN (revealjs.com). Cache após 1º load. Sem outras dependências. -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css" id="theme">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+  /* ============================================================
+     DNA Papel & Tinta — mesma identidade dos decks da Aula FI.
+     Registro: exposição de um programa de pesquisa em curso.
+     ============================================================ */
+  :root {
+    --papel:      #F4EFE6;  --papel-alt:  #ECE4D6;
+    --tinta:      #2B2622;  --tinta-suave:#5C5249;
+    --selo:       #9B3D2E;  --bronze:     #A6792E;  --filete:#C9BCA6;
+    --serif-disp: 'Cormorant Garamond', Georgia, serif;
+    --serif-corpo:'EB Garamond', Georgia, serif;
+    --sans:       'Montserrat', Helvetica, sans-serif;
+  }
+  .reveal { font-family:var(--serif-corpo); color:var(--tinta); }
+  .reveal-viewport { background:var(--papel); }
+  .reveal .slides { text-align:left; }
+  .reveal section { font-size:30px; line-height:1.5; -webkit-font-feature-settings:"liga","kern"; font-feature-settings:"liga","kern"; }
+  .reveal h1,.reveal h2,.reveal h3 { font-family:var(--serif-disp); color:var(--tinta); font-weight:600; letter-spacing:0.2px; text-transform:none; line-height:1.1; }
+  .reveal h1 { font-size:2.4em; font-weight:700; }
+  .reveal h2 { font-size:1.45em; margin-bottom:0.5em; }
+  .reveal h2::after { content:""; display:block; width:2.2em; height:1px; background:var(--selo); margin-top:0.35em; }
+  .reveal em { font-style:italic; color:var(--tinta-suave); }
+  .reveal strong { font-weight:600; color:var(--tinta); }
+  .reveal .kicker { font-family:var(--sans); font-style:normal; font-weight:500; font-size:0.5em; letter-spacing:3px; text-transform:uppercase; color:var(--selo); margin-bottom:0.6em; }
+  .reveal .grande { font-size:1.25em; font-weight:500; line-height:1.28; }
+  .reveal .destaque { color:var(--selo); font-weight:600; font-style:italic; }
+  .reveal .numero { font-family:var(--serif-disp); color:var(--bronze); font-weight:700; }
+  .reveal .menor { font-size:0.72em; color:var(--tinta-suave); font-family:var(--serif-corpo); }
+  .reveal ul { list-style:none; margin-left:0; }
+  .reveal ul li { position:relative; padding-left:1.1em; margin:0.28em 0; }
+  .reveal ul li::before { content:"—"; position:absolute; left:0; color:var(--selo); }
+  .reveal blockquote { font-family:var(--serif-disp); font-style:italic; font-size:1.1em; color:var(--tinta-suave); border:none; border-left:2px solid var(--selo); background:none; box-shadow:none; padding:0.1em 0 0.1em 0.8em; margin:0.6em 0; }
+  .reveal table { font-size:0.7em; border-collapse:collapse; margin:0.4em 0; font-family:var(--serif-corpo); width:100%; }
+  .reveal table th,.reveal table td { border:none; border-bottom:1px solid var(--filete); padding:0.32em 0.7em; text-align:left; vertical-align:top; }
+  .reveal table th { font-family:var(--sans); font-weight:500; font-size:0.82em; letter-spacing:1px; text-transform:uppercase; color:var(--bronze); border-bottom:1px solid var(--tinta); }
+  .reveal table .destaque { color:var(--selo); font-style:normal; }
+  .reveal .climax { background:var(--papel-alt); border-top:1px solid var(--selo); border-bottom:1px solid var(--selo); padding:0.7em 0.95em; margin:0.4em 0; }
+  .reveal .formula { display:block; text-align:center; font-family:var(--serif-disp); font-style:italic; font-size:1.25em; color:var(--bronze); background:var(--papel-alt); border-top:1px solid var(--filete); border-bottom:1px solid var(--filete); padding:0.5em 0; margin:0.6em 0; letter-spacing:0.5px; }
+  .reveal .fonte { display:block; margin-top:0.9em; font-family:var(--serif-corpo); font-style:italic; font-size:0.46em; color:var(--tinta-suave); opacity:0.85; text-align:left; border-top:1px solid var(--filete); padding-top:0.4em; }
+  .reveal .assinatura { font-family:var(--serif-corpo); font-style:italic; font-size:0.6em; color:var(--tinta-suave); margin-top:1.2em; }
+  .reveal .marca { font-family:var(--sans); font-weight:500; letter-spacing:3px; text-transform:uppercase; font-size:0.46em; color:var(--tinta-suave); }
+  .reveal .marca b { color:var(--bronze); font-weight:600; }
+  .reveal .slide-number { background:none; color:var(--tinta-suave); font-family:var(--sans); font-size:13px; }
+  .reveal .cards { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1em; margin-top:0.5em; }
+  .reveal .card { background:var(--papel-alt); border-left:3px solid var(--selo); padding:0.7em 0.85em; }
+  .reveal .card .big { font-family:var(--serif-disp); font-size:1.6em; font-weight:700; color:var(--selo); line-height:1; }
+  .reveal .card .lbl { font-family:var(--sans); font-size:0.4em; letter-spacing:1px; text-transform:uppercase; color:var(--tinta-suave); margin-top:0.4em; line-height:1.3; }
+  .reveal .conf { position:absolute; top:18px; right:20px; font-family:var(--sans); font-size:0.34em; letter-spacing:2px; text-transform:uppercase; color:var(--tinta-suave); opacity:0.7; }
+  /* lista de corpus (papers numerados) */
+  .reveal .corpus { font-size:0.6em; }
+  .reveal .corpus .row { display:grid; grid-template-columns:1.6em 1fr; gap:0.5em; padding:0.22em 0; border-bottom:1px solid var(--filete); align-items:baseline; }
+  .reveal .corpus .n { font-family:var(--serif-disp); font-weight:700; color:var(--bronze); text-align:right; }
+  .reveal .corpus .ti { font-weight:600; }
+  .reveal .corpus .de { color:var(--tinta-suave); }
+  .reveal .corpus .doi { font-family:var(--sans); font-size:0.85em; color:var(--tinta-suave); opacity:0.8; }
+  </style>
+</head>
+<body>
+<div class="reveal"><div class="slides">
+
+<!-- 1 CAPA — o conceito de Framework Injection -->
+<section data-background-color="#ECE4D6">
+  <p class="kicker">Estado atual de um programa de pesquisa</p>
+  <h1>Framework&nbsp;Injection</h1>
+  <p class="grande" style="margin-top:0.5em; font-weight:400;">O mecanismo de <span class="destaque">transferência de métodos completos de raciocínio</span> — do expert humano para o modelo / agente de IA, em linguagem natural — injetados <em>antes</em> da inferência, para configurar o espaço de raciocínio em que ele irá operar. Não se comanda a IA: educa-se.</p>
+  <p class="assinatura">Renato Aparecido Gomes · Academia Lendária · junho 2026</p>
+  <p class="marca" style="margin-top:1.2em">∞ &nbsp;Academia <b>Lendár[IA]</b></p>
+</section>
+
+<!-- 1.A O QUE SERÁ COMPARTILHADO (roteiro para a diretoria divulgar) -->
+<section data-background-color="#ECE4D6">
+  <span class="conf">roteiro</span>
+  <h2>O que será compartilhado</h2>
+  <table style="font-size:0.74em">
+    <tr><th>Eixo</th><th>Conteúdo</th></tr>
+    <tr><td class="destaque">Objetivo</td><td>compartilhar com os pares o estado atual de um programa de pesquisa sobre a interação humano–IA generativa</td></tr>
+    <tr><td class="destaque">O que se expõe</td><td>o conceito de Framework Injection, suas modalidades e anatomia, os fundamentos do programa e as observações já reunidas — com o que se sustenta e o que segue em aberto</td></tr>
+    <tr><td class="destaque">Formato</td><td>painel teórico (60–90 min) e, opcionalmente, uma sessão mão na massa (60–90 min) para aplicar e atestar o método</td></tr>
+    <tr><td class="destaque">Como pode ser divulgado</td><td>"o irmão compartilha o estado atual da sua pesquisa sobre como interagimos com a IA generativa — um encontro de exposição e prática, aberto a perguntas"</td></tr>
+  </table>
+  <p class="fonte">Um guia para a divulgação institucional — sóbrio, fiel ao caráter de pesquisa em curso. Não é venda; é convite a um diálogo entre pares.</p>
+</section>
+
+<!-- 2 O QUE É ESTA EXPOSIÇÃO -->
+<section>
+  <h2>O que é esta exposição</h2>
+  <p>Esta é a apresentação do <span class="destaque">estado atual de um programa de pesquisa</span> que venho desenvolvendo — sobre a forma como nós, seres humanos, interagimos com as máquinas, em especial com as inteligências artificiais generativas.</p>
+  <p style="margin-top:0.5em">Compartilho aqui o que observei, as conclusões a que cheguei até agora, e o que ainda permanece em aberto.</p>
+</section>
+
+<!-- 3 O PROBLEMA QUE SE OBSERVA -->
+<section>
+  <span class="conf">1 · ponto de partida</span>
+  <h2>O problema que se observa</h2>
+  <p>Boa parte do que se ensina sobre "IA aplicada" trata de <strong>comandar</strong> modelos — prompts, atalhos, listas de comandos. Esse material tende a envelhecer rápido.</p>
+  <p style="margin-top:0.4em">A questão que se pretende abordar é outra: <span class="destaque">observa-se que a qualidade do que uma IA produz parece depender menos do comando e mais do método de raciocínio transferido a ela.</span></p>
+  <p class="menor" style="margin-top:0.4em">O campo se renomeou três vezes em três anos (engenharia de <em>prompt</em> → de <em>contexto</em> → de <em>harness</em>). Cada renomeação reconhece que a estrutura ao redor do modelo influencia o resultado — mas nenhuma descreve <strong>a ponte entre a linguagem que instrui e a infraestrutura que executa</strong>. É esse vão que esta pesquisa procura observar.</p>
+</section>
+
+<!-- 4 AS 5 MODALIDADES -->
+<section>
+  <span class="conf">2 · o método</span>
+  <h2>As cinco modalidades</h2>
+  <p>O Framework Injection é uma estrutura de transferência de conhecimento do ser humano para a máquina. Essa transferência se dá através de <strong>cinco modalidades</strong>:</p>
+  <table style="font-size:0.78em">
+    <tr><th>Modalidade</th><th>Transfere</th></tr>
+    <tr><td class="destaque">Declarativo</td><td><em>o que saber</em> — hierarquias de fonte, ontologias</td></tr>
+    <tr><td class="destaque">Procedimental</td><td><em>como raciocinar</em> — metodologia passo-a-passo</td></tr>
+    <tr><td class="destaque">Avaliativo</td><td><em>como julgar</em> — rubricas, critérios</td></tr>
+    <tr><td class="destaque">Ético</td><td><em>o que recusar</em> — cercas de compliance</td></tr>
+    <tr><td class="destaque">Composicional</td><td><em>como combinar</em> as anteriores</td></tr>
+  </table>
+  <p class="fonte">Este conhecimento possibilita a construção de uma habilidade de transferência <strong>agnóstica a modelos</strong> e <strong>agnóstica às transformações tecnológicas temporais</strong>.</p>
+</section>
+
+<!-- 5 A ANATOMIA — DINÂMICA, VIVA -->
+<section>
+  <span class="conf">2 · o método</span>
+  <h2>A anatomia — uma estrutura viva</h2>
+  <p style="font-family:var(--serif-disp); font-style:italic; font-size:1.0em; color:var(--bronze); margin:0.2em 0;">[PAPEL] [OBJETIVO] [MÉTODO] [CONTEXTO] [FONTES] [OUTPUT] [CONSTRAINTS] [VERIFICAÇÃO]</p>
+  <p class="menor">Não é um framework genérico de mercado (CRISP e afins). Cada seção tem objetivo próprio, e a estrutura é <strong>dinâmica e adaptável</strong> — molda-se à necessidade do que se pede. É o que os estudos vêm indicando.</p>
+  <p style="margin-top:0.4em">O eixo que norteia toda a estrutura é a travessia <span class="destaque">Priming → Enforcement</span>: a linguagem que <em>induz</em> escalando até a obrigatoriedade que <em>constrange</em>. A verificação — ASSERTS (constrangem) e CHECAGENS (induzem) — é uma camada derivada desse eixo, e permite estimar a maturidade de um framework:</p>
+  <span class="formula">bridge_width = asserts / (asserts + checagens)</span>
+</section>
+
+<!-- 6 EVIDÊNCIAS — OS NÚMEROS -->
+<section>
+  <span class="conf">3 · o que se observou</span>
+  <h2>O que se observou até aqui</h2>
+  <p class="menor" style="margin-bottom:0.2em">Medições produzidas em ambiente real de trabalho. Dois números medem coisas diferentes; um terceiro segue em aberto:</p>
+  <div class="cards">
+    <div class="card"><div class="big">+140%</div><div class="lbl">densidade do <strong>input</strong><br>1,86 → 4,47 · 435 transmutações reais · direcionado</div></div>
+    <div class="card"><div class="big">85–92%</div><div class="lbl">preferência pelo <strong>output</strong> às cegas<br>vs. 0–2% do comando cru · n=49 · direcionado</div></div>
+    <div class="card" style="border-left-color:var(--bronze)"><div class="big" style="color:var(--bronze); font-style:italic; font-size:1.1em;">em aberto</div><div class="lbl">robustez <strong>posicional</strong><br>amostra pequena, frameworks gerados pelo próprio modelo — ainda não definido</div></div>
+  </div>
+  <p class="fonte">Output: 49 tarefas, três desenhos independentes, avaliação cega por modelos de 3 famílias não-Anthropic (consenso 2 de 3), viés de comprimento ≤4%. Posicional: testes preliminares (binomial exato, Clopper–Pearson) em amostra pequena e com frameworks sintéticos — não permitem, ainda, conclusão.</p>
+</section>
+
+<!-- 7 O QUE SEGUE EM ABERTO -->
+<section>
+  <span class="conf">3 · o que se observou</span>
+  <h2>O que segue em aberto</h2>
+  <p class="menor" style="margin-bottom:0.3em">Parte das hipóteses foi testada e <strong>ainda não é conclusiva</strong>. Não se trata de refutação — são frentes que seguem em análise:</p>
+  <ul style="font-size:0.84em">
+    <li><strong>Ajuste em tempo de execução</strong> (variar a "força" do método): os testes feitos, nas premissas adotadas, não sustentaram o ganho esperado — segue em estudo.</li>
+    <li><strong>Robustez posicional</strong>: resultado preliminar e inconclusivo (amostra pequena, uma única vertente abordada) — mantido em aberto.</li>
+    <li><strong>Portabilidade entre modelos</strong> e <strong>dose ótima de densidade</strong>: fronteira de investigação, ainda sem fechamento.</li>
+  </ul>
+  <p style="margin-top:0.3em">Estes pontos não foram conclusivos porque o corpus é pequeno e porque se abordou, por ora, apenas uma das vertentes possíveis. Há outras a adotar.</p>
+</section>
+
+<!-- 8 A NATUREZA DESTA EXPOSIÇÃO -->
+<section data-background-color="#ECE4D6">
+  <h2>A natureza desta exposição</h2>
+  <p>Os números até então apresentados <span class="destaque">ancoram</span> os resultados nos testes já realizados — mas há caminho a percorrer.</p>
+  <p style="margin-top:0.4em">É este o sentido do que se pretende compartilhar: <strong>não uma aula de verdades prontas, mas a exposição do estado atual destas investigações</strong> — o que já se sustenta, e o que ainda se investiga.</p>
+  <p class="fonte">A tese se apoia em um programa de pesquisa organizado em camadas, detalhado a seguir.</p>
+</section>
+
+<!-- 9 FUNDAMENTAÇÃO — VISÃO GERAL -->
+<section>
+  <span class="conf">4 · fundamentação</span>
+  <h2>Um programa de pesquisa, em camadas</h2>
+  <ul style="font-size:0.88em">
+    <li><strong>Fundamentos I</strong> — a densidade semiótica (linguística cognitiva)</li>
+    <li><strong>Fundamentos II</strong> — pedagogia e filosofia</li>
+    <li><strong>Fundamentos III</strong> — os fundamentos do programa (a maestria do artífice)</li>
+    <li><strong>Bibliografia complementar</strong> — arquitetura de modelos e a dimensão do uso</li>
+    <li><strong>Corpus próprio</strong> — os artigos publicados no Zenodo</li>
+  </ul>
+  <p class="fonte">As páginas seguintes detalham cada camada, na mesma estrutura: autor → conceito.</p>
+</section>
+
+<!-- 10 FUND I — DENSIDADE -->
+<section>
+  <span class="conf">4 · fundamentação</span>
+  <h2>I — A densidade semiótica</h2>
+  <p class="menor" style="margin-bottom:0.2em">Sete fundamentos da linguística cognitiva ajudam a compreender por que densificar a instrução parece funcionar:</p>
+  <table style="font-size:0.62em">
+    <tr><th>Autor</th><th>Conceito</th></tr>
+    <tr><td class="destaque">Fillmore (1982)</td><td>Frame Semantics — o termo-chave ativa um frame</td></tr>
+    <tr><td class="destaque">Rosch (1975)</td><td>Prototype Theory — termos prototípicos nas âncoras</td></tr>
+    <tr><td class="destaque">Fauconnier &amp; Turner (2002)</td><td>Conceptual Blending — compor frameworks gera emergência</td></tr>
+    <tr><td class="destaque">Lakoff &amp; Johnson (1980)</td><td>Conceptual Metaphor — transfere método entre domínios</td></tr>
+    <tr><td class="destaque">Firth (1957)</td><td>Distributional Semantics — a densidade mensurável</td></tr>
+    <tr><td class="destaque">Collins &amp; Loftus (1975)</td><td>Spreading Activation — a carga densa se propaga na rede</td></tr>
+    <tr><td class="destaque">Goldberg (1995, 2006)</td><td>Construction Grammar — a construção coage a interpretação</td></tr>
+  </table>
+  <p class="fonte">Antecedentes em análise: Langacker (gramática cognitiva), Barthes (conotação), Goodman (densidade simbólica).</p>
+</section>
+
+<!-- 11 FUND II — PEDAGOGIA E FILOSOFIA -->
+<section>
+  <span class="conf">4 · fundamentação</span>
+  <h2>II — Pedagogia e filosofia</h2>
+  <table style="font-size:0.64em">
+    <tr><th>Campo · Autor</th><th>Conceito</th></tr>
+    <tr><td><span class="menor" style="color:var(--bronze); font-style:italic">pedagogia ·</span> <span class="destaque">Vygotsky</span></td><td>Zona de Desenvolvimento Proximal — o framework como <em>scaffolding</em></td></tr>
+    <tr><td><span class="menor" style="color:var(--bronze); font-style:italic">pedagogia ·</span> <span class="destaque">Sweller</span></td><td>Carga cognitiva — reduz a carga extrínseca</td></tr>
+    <tr><td><span class="menor" style="color:var(--bronze); font-style:italic">filosofia ·</span> <span class="destaque">Wittgenstein</span></td><td>Jogos de linguagem — qual jogo se está jogando</td></tr>
+    <tr><td><span class="menor" style="color:var(--bronze); font-style:italic">filosofia ·</span> <span class="destaque">Polanyi</span></td><td>Conhecimento tácito — "sabemos mais do que podemos dizer"</td></tr>
+    <tr><td><span class="menor" style="color:var(--bronze); font-style:italic">filosofia ·</span> <span class="destaque">Peirce</span></td><td>Semiótica — a tríade do signo e a semiose projetada <span class="menor" style="opacity:0.75">(detalhe a seguir)</span></td></tr>
+    <tr><td><span class="menor" style="color:var(--bronze); font-style:italic">linguística ·</span> <span class="destaque">Greenberg</span></td><td>Universais linguísticos</td></tr>
+    <tr><td><span class="menor" style="color:var(--bronze); font-style:italic">filosofia ·</span> <span class="destaque">Searle</span></td><td><em>Intentionality</em> (1983) — intencionalidade intrínseca vs. derivada</td></tr>
+  </table>
+  <p class="fonte">De Searle deriva o conceito autoral de <em>intenção delegada</em>: a máquina executa; a intenção permanece humana.</p>
+</section>
+
+<!-- 11.bis PEIRCE EM DETALHE — a tríade do signo + semiose projetada -->
+<section>
+  <span class="conf">4 · fundamentação</span>
+  <h2>Peirce — o signo e o interpretante</h2>
+  <p class="menor" style="margin-bottom:0.2em">Não usamos apenas a Terceiridade: a tríade inteira do signo orienta a densidade semiótica. Todo prompt é um <em>signo complexo</em>; toda resposta, um ato de interpretação.</p>
+  <table style="font-size:0.62em">
+    <tr><th>Dimensão do signo</th><th>No Framework Injection</th></tr>
+    <tr><td class="destaque">Primeiridade</td><td>as qualidades intrínsecas — a estrutura sintática e a composição lexical do FI</td></tr>
+    <tr><td class="destaque">Secundidade</td><td>os referentes (tarefa, domínio, restrições) e as pressuposições implícitas (papéis, hierarquias, premissas de domínio)</td></tr>
+    <tr><td class="destaque">Terceiridade</td><td>o interpretante gerado — a distribuição de resposta da IA, condicionada ao signo</td></tr>
+  </table>
+  <p style="font-size:0.82em; margin-top:0.3em">Dois conceitos autorais derivam disso:</p>
+  <ul style="font-size:0.78em">
+    <li><strong>Máquina como interpretante algorítmico</strong> — a qualidade do interpretante é função da qualidade do signo: signo pobre → resposta estocástica; signo rico → resposta quase-determinística.</li>
+    <li><strong>Semiose projetada</strong> — desenhar o signo não pelo que se quer <em>expressar</em>, mas por como o interpretante será <em>gerado</em>: do emissor para o intérprete.</li>
+  </ul>
+  <p class="fonte">Peirce, C. S. (1931–1958), <em>Collected Papers</em> (Vols. 1–8), Harvard University Press. A semiose projetada é a ponte entre Peirce e a prática da densidade semiótica.</p>
+</section>
+
+<!-- 12 FUND III — RAIZ FILOSÓFICA -->
+<section>
+  <span class="conf">4 · fundamentação</span>
+  <h2>III — Os fundamentos do programa</h2>
+  <p class="grande" style="margin:0.1em 0 0.4em; font-size:1.05em">A passividade ativa: <span class="destaque">o que deixa de ser para que tudo seja.</span></p>
+  <p class="menor" style="margin-bottom:0.2em">O eixo é o <strong>Artesanato</strong> — a figura do Mestre Artesão, o homem integral que une o saber tradicional à tecnologia avançada e, agora, à IA generativa. Daí: <strong>Artesanato Digital</strong>. Os demais perpassam esse eixo.</p>
+  <table style="font-size:0.64em">
+    <tr><th>Elemento</th><th>Conceito</th></tr>
+    <tr><td class="destaque">Maestria — o Mestre Artesão</td><td>o homem integral: saber tradicional ⟶ tecnologia ⟶ IA generativa <em>(eixo)</em></td></tr>
+    <tr><td class="destaque">Sennett — <em>The Craftsman</em></td><td>a maestria que se cultiva, não se copia</td></tr>
+    <tr><td class="destaque">Laozi — <em>Tao Te Ching</em> (道德經)</td><td><em>wu wei</em> (無為): a passividade ativa — dispor o vazio para a forma emergir</td></tr>
+    <tr><td class="destaque">Zhuangzi</td><td>o Cozinheiro Ding — a lâmina que encontra os vazios</td></tr>
+  </table>
+  <p class="fonte">O taoísmo e os demais são conceitos transversais; o fundamento essencial é a maestria do artífice. A relação humano-máquina obedece a um princípio que não depende da matéria: a matéria muda (mármore → boi → modelo), o princípio permanece.</p>
+</section>
+
+<!-- 13 BIBLIOGRAFIA COMPLEMENTAR -->
+<section>
+  <span class="conf">4 · fundamentação</span>
+  <h2>Bibliografia complementar</h2>
+  <p class="menor" style="margin-bottom:0.1em">Literatura que delimita o terreno do estudo — não fundamento direto, mas contexto da investigação:</p>
+  <table style="font-size:0.6em">
+    <tr><th>Autor / obra</th><th>Conceito</th></tr>
+    <tr><td class="destaque">Vaswani et al. (2017)</td><td><em>Attention Is All You Need</em> — o Transformer, a "matéria" atual</td></tr>
+    <tr><td class="destaque">Behrouz et al. (2026)</td><td><em>Memory Caching: RNNs with Growing Memory</em> (Google Research) — RNNs sub-quadráticas que crescem a memória por cache; reformula a arquitetura de Transformers e sustenta a invariância à arquitetura</td></tr>
+    <tr><td class="destaque">Liu et al. (2023)</td><td><em>Lost in the Middle</em> — o comportamento posicional do contexto longo</td></tr>
+    <tr><td class="destaque">Karpathy · Hashimoto</td><td>genealogia do campo — engenharia de contexto e de harness</td></tr>
+    <tr><td class="destaque">Wang &amp; Zhang (2026)</td><td><em>Pedagogical partnerships with generative AI</em> (IJETHE, n=912) — a curva do uso: não-usar, usar errado, usar certo</td></tr>
+    <tr><td class="destaque">Iacono (2026)</td><td><em>Hybrid Horizons</em> — o mapa colonial da IA, a IA pequena (Small AI), o salto de etapa na África e Ásia</td></tr>
+  </table>
+  <p class="fonte">Behrouz et al. (2026), <em>Memory Caching: RNNs with Growing Memory</em>, Google Research — arXiv:2602.24281. As duas últimas referências sustentam a dimensão do uso (equidade no acesso ao ofício); Wang &amp; Zhang: DOI 10.1186/s41239-026-00585-x.</p>
+</section>
+
+<!-- 14 CORPUS ZENODO — abertura -->
+<section data-background-color="#ECE4D6">
+  <span class="conf">4 · fundamentação</span>
+  <h2>O corpus publicado</h2>
+  <p>A linha de Framework Injection e Artesanato Digital está registrada publicamente no Zenodo — <span class="numero" style="font-size:1.4em">27</span> artigos publicados.</p>
+  <p style="margin-top:0.4em">As páginas seguintes listam todos, numerados, com uma linha de descrição e o DOI.</p>
+  <p class="fonte">Registro público com data e DOI = prova de autoria independente. Cada artigo resolve em zenodo.org/records/&lt;DOI&gt;.</p>
+</section>
+
+<!-- 15 CORPUS 1–6 -->
+<section>
+  <span class="conf">corpus · 1–6</span>
+  <h2>Corpus — núcleo Framework Injection</h2>
+  <div class="corpus">
+    <div class="row"><span class="n">1</span><span><span class="ti">Framework Injection</span> — <span class="de">define a injeção de framework cognitivo pré-inferência como disciplina.</span> <span class="doi">zenodo.19479916</span></span></div>
+    <div class="row"><span class="n">2</span><span><span class="ti">Framework Injection (v. anterior)</span> — <span class="de">primeira formulação, com a taxonomia de categorias do método.</span> <span class="doi">zenodo.15192370</span></span></div>
+    <div class="row"><span class="n">3</span><span><span class="ti">Founding Paper (FI)</span> — <span class="de">estabelece o aninhamento prompt ⊂ contexto ⊂ framework e as cinco modalidades.</span> <span class="doi">zenodo.19344789</span></span></div>
+    <div class="row"><span class="n">4</span><span><span class="ti">Founding Paper (PT)</span> — <span class="de">versão em português do artigo fundador, para o público lusófono.</span> <span class="doi">zenodo.20129703</span></span></div>
+    <div class="row"><span class="n">5</span><span><span class="ti">Adaptive FI</span> — <span class="de">investiga o ajuste da dose de priming ao modelo solucionador (resultado em aberto).</span> <span class="doi">zenodo.20040726</span></span></div>
+    <div class="row"><span class="n">6</span><span><span class="ti">Delivery Architecture</span> — <span class="de">formaliza <em>como</em> a saída é entregue, não apenas o que se pede.</span> <span class="doi">zenodo.19939303</span></span></div>
+  </div>
+</section>
+
+<!-- 16 CORPUS 7–12 -->
+<section>
+  <span class="conf">corpus · 7–12</span>
+  <h2>Corpus — densidade semiótica e ofício</h2>
+  <div class="corpus">
+    <div class="row"><span class="n">7</span><span><span class="ti">Semiotic Density</span> — <span class="de">propõe a densidade semiótica como medida de poder argumentativo por token.</span> <span class="doi">zenodo.19645955</span></span></div>
+    <div class="row"><span class="n">8</span><span><span class="ti">SDE Encoding</span> — <span class="de">descreve as cinco operações de densificação (densify, rarefy, rotate, subtract, blend).</span> <span class="doi">zenodo.19887868</span></span></div>
+    <div class="row"><span class="n">9</span><span><span class="ti">Digital Craftsmanship</span> — <span class="de">enquadra o Artesanato Digital como práxis epistêmica: ofício, princípio e intenção.</span> <span class="doi">zenodo.19479926</span></span></div>
+    <div class="row"><span class="n">10</span><span><span class="ti">The Artisan's Paradox</span> — <span class="de">examina o paradoxo do artesão (Polanyi): saber tácito que excede a explicitação.</span> <span class="doi">zenodo.19837081</span></span></div>
+    <div class="row"><span class="n">11</span><span><span class="ti">Agent-First Development</span> — <span class="de">trata o agente de IA como leitor primário do código (legibilidade agêntica).</span> <span class="doi">zenodo.20355340</span></span></div>
+    <div class="row"><span class="n">12</span><span><span class="ti">Cognitive Metaprogramming</span> — <span class="de">trata o agente como substrato cognitivo programável por intervenção metalinguística.</span> <span class="doi">zenodo.20355372</span></span></div>
+  </div>
+</section>
+
+<!-- 17 CORPUS 13–18 -->
+<section>
+  <span class="conf">corpus · 13–18</span>
+  <h2>Corpus — recuperação e memória</h2>
+  <div class="corpus">
+    <div class="row"><span class="n">13</span><span><span class="ti">STEER</span> — <span class="de">apresenta operações algébricas de recuperação e a medição quantitativa de densidade.</span> <span class="doi">zenodo.19325724</span></span></div>
+    <div class="row"><span class="n">14</span><span><span class="ti">STEER for Law</span> — <span class="de">aplica o STEER à jurisprudência brasileira (ementas, múltiplos modelos).</span> <span class="doi">zenodo.19607686</span></span></div>
+    <div class="row"><span class="n">15</span><span><span class="ti">A²RAG</span> — <span class="de">reformula a recuperação aumentada com um conjunto de operações algébricas adaptativas.</span> <span class="doi">zenodo.19645965</span></span></div>
+    <div class="row"><span class="n">16</span><span><span class="ti">IMI Core</span> — <span class="de">descreve o núcleo de uma memória cognitiva episódica para agentes.</span> <span class="doi">zenodo.19325745</span></span></div>
+    <div class="row"><span class="n">17</span><span><span class="ti">IMI Theory</span> — <span class="de">fundamenta teoricamente a arquitetura de memória multicamada.</span> <span class="doi">zenodo.19341740</span></span></div>
+    <div class="row"><span class="n">18</span><span><span class="ti">FCM Tiered</span> — <span class="de">propõe uma memória federada em camadas (tiered) para contexto persistente.</span> <span class="doi">zenodo.20129688</span></span></div>
+  </div>
+</section>
+
+<!-- 18 CORPUS 19–24 -->
+<section>
+  <span class="conf">corpus · 19–24</span>
+  <h2>Corpus — agentes e governança</h2>
+  <div class="corpus">
+    <div class="row"><span class="n">19</span><span><span class="ti">NMP</span> — <span class="de">define um protocolo de mensagem inspirado em neurociência para coordenação de agentes.</span> <span class="doi">zenodo.19479935</span></span></div>
+    <div class="row"><span class="n">20</span><span><span class="ti">NeuroAgent</span> — <span class="de">descreve um pipeline de agente de inspiração neurocientífica (13 componentes).</span> <span class="doi">zenodo.19479930</span></span></div>
+    <div class="row"><span class="n">21</span><span><span class="ti">AGORA</span> — <span class="de">apresenta uma arquitetura de orquestração agêntica governada.</span> <span class="doi">zenodo.20129692</span></span></div>
+    <div class="row"><span class="n">22</span><span><span class="ti">AGORA-OS</span> — <span class="de">estende a AGORA a um sistema operacional de agentes com kernel constitucional.</span> <span class="doi">zenodo.20129709</span></span></div>
+    <div class="row"><span class="n">23</span><span><span class="ti">Immune-Inspired Governance</span> — <span class="de">propõe governança de IA inspirada no sistema imunológico (defesa em camadas).</span> <span class="doi">zenodo.19837041</span></span></div>
+    <div class="row"><span class="n">24</span><span><span class="ti">MIAA</span> — <span class="de">arquitetura agêntica inspirada em mercado, com reputação e coordenação.</span> <span class="doi">zenodo.20278754</span></span></div>
+  </div>
+</section>
+
+<!-- 19 CORPUS 25–27 -->
+<section>
+  <span class="conf">corpus · 25–27</span>
+  <h2>Corpus — fronteiras</h2>
+  <div class="corpus">
+    <div class="row"><span class="n">25</span><span><span class="ti">SYMBIONT</span> — <span class="de">explora a simbiose humano-IA como unidade funcional de inteligência híbrida.</span> <span class="doi">zenodo.19325749</span></span></div>
+    <div class="row"><span class="n">26</span><span><span class="ti">Colony to Cognition</span> — <span class="de">traça a passagem da inteligência de colônia à cognição em sistemas multiagente.</span> <span class="doi">zenodo.19837047</span></span></div>
+    <div class="row"><span class="n">27</span><span><span class="ti">Somatic Markers (Zero-Token)</span> — <span class="de">aplica marcadores somáticos (Damásio) à decisão de agentes sem custo de token.</span> <span class="doi">zenodo.20278742</span></span></div>
+  </div>
+  <p class="fonte">Citação recomendada por Concept DOI (resolve sempre para a última versão). Lista completa e PDFs disponíveis sob solicitação.</p>
+</section>
+
+<!-- 20 PRONTIDÃO — DUAS FRENTES -->
+<section>
+  <span class="conf">5 · formato</span>
+  <h2>Como isto pode ser compartilhado</h2>
+  <p>Duas frentes complementares:</p>
+  <ul style="font-size:0.92em">
+    <li><strong>(I) Painel teórico</strong> — 60 a 90 min: exposição dos conceitos e do estado atual da pesquisa.</li>
+    <li><strong>(II) Mão na massa</strong> — 60 a 90 min: aplicação das ideias compartilhadas, para atestar a metodologia na prática.</li>
+  </ul>
+  <p style="margin-top:0.4em">Eventualmente, serão disponibilizados alguns dos <span class="destaque">instrumentos</span> — ferramentas e skills que criei e hoje utilizo no meu próprio trabalho.</p>
+</section>
+
+<!-- 21 FECHO -->
+<section data-background-color="#ECE4D6">
+  <h2>Em síntese</h2>
+  <p class="grande">Este é um <span class="destaque">programa de pesquisa em curso</span> sobre a forma como interagimos com a IA generativa.</p>
+  <p style="margin-top:0.5em">Distingo, com cuidado, o que já se sustenta — ou se direciona a uma conclusão — do que ainda permanece em aberto, em investigação.</p>
+  <p class="assinatura">É este o estado atual. As páginas anteriores são o seu retrato no tempo presente.</p>
+  <p class="marca" style="margin-top:1em">∞ &nbsp;Academia <b>Lendár[IA]</b></p>
+</section>
+
+</div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+  Reveal.initialize({ hash:true, slideNumber:'c/t', transition:'fade', transitionSpeed:'slow', controlsTutorial:false });
+</script>
+</body>
+</html>

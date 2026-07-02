@@ -1,0 +1,18 @@
+# A/B POSICIONAL NO OUTPUT — n=8 | solver=ministral-3:14b-cloud | juízes=3
+
+  item  0: EDGE 2 × 0 MIDDLE → EDGE
+  item  1: EDGE 1 × 1 MIDDLE → TIE
+  item  2: EDGE 1 × 1 MIDDLE → TIE
+  item  3: EDGE 0 × 2 MIDDLE → MIDDLE
+  item  4: EDGE 1 × 1 MIDDLE → TIE
+  item  5: EDGE 1 × 1 MIDDLE → TIE
+  item  6: EDGE 2 × 0 MIDDLE → EDGE
+  item  7: EDGE 2 × 0 MIDDLE → EDGE
+
+## RESULTADO (n=8 válidos, 0 erros)
+  EDGE (âncoras na borda) vence: 3
+  MIDDLE (âncoras no meio) vence: 1
+  empate: 4
+  → EDGE win-rate: 38% (vs MIDDLE 12%)
+
+[G6] Piloto: solver único pequeno, n baixo. Direcional, não conclusivo.

@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Framework Injection — Painel · Academia Lendár[IA]</title>
+
+  <!-- reveal.js 5.1.0 via CDN (revealjs.com). Cache após 1º load. -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css" id="theme">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Montserrat:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+  /* ============================================================
+     DNA do autor (Renato) sobre estrutura editorial da Academia Lendár[IA]
+     grafite profundo · abóbora queimada (vivo) · dourado ouro (nobre) · branco granito
+     ============================================================ */
+  :root {
+    --bg:#22252B; --bg-dark:#191B20; --bg-card:#2B2F37;
+    --texto:#EDEAE3; --texto-sec:#9A9488;
+    --abobora:#C8662B; --abobora-cl:#E08A4A;
+    --ouro:#C9A25A; --ouro-claro:#E3CFA0;
+    --filete:#3A3E47;
+    --serif:'Fraunces',Georgia,serif;
+    --sans:'Montserrat',Helvetica,sans-serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  .reveal { font-family:var(--serif); color:var(--texto); }
+  .reveal-viewport { background:var(--bg); }
+  .reveal .slides { text-align:left; }
+  .reveal section { font-size:30px; line-height:1.5; font-feature-settings:"liga","kern"; }
+  .reveal h1,.reveal h2,.reveal h3 { font-family:var(--serif); color:var(--texto); font-weight:400; letter-spacing:0; text-transform:none; line-height:1.08; }
+  .reveal h1 { font-size:2.5em; font-weight:500; }
+  .reveal h2 { font-size:1.5em; margin-bottom:0.5em; }
+  .reveal h2:not(.brush)::after { content:""; display:block; width:2.4em; height:1px; background:var(--abobora); margin-top:0.4em; opacity:0.8; }
+  .reveal em { font-style:italic; color:var(--ouro-claro); }
+  .reveal strong { font-weight:600; color:var(--texto); }
+  .reveal .kicker { font-family:var(--sans); font-weight:500; font-size:0.5em; letter-spacing:4px; text-transform:uppercase; color:var(--ouro); margin-bottom:0.8em; }
+  .reveal .grande { font-size:1.3em; font-weight:400; line-height:1.25; }
+  .reveal .destaque { color:var(--abobora-cl); font-weight:500; font-style:italic; }
+  .reveal .menor { font-size:0.72em; color:var(--texto-sec); font-family:var(--sans); font-weight:300; }
+  .reveal ul { list-style:none; margin-left:0; }
+  .reveal ul li { position:relative; padding-left:1.2em; margin:0.3em 0; }
+  .reveal ul li::before { content:"—"; position:absolute; left:0; color:var(--abobora); }
+  .reveal blockquote { font-family:var(--serif); font-style:italic; font-size:1.1em; color:var(--ouro-claro); border:none; border-left:2px solid var(--abobora); background:none; box-shadow:none; padding:0.1em 0 0.1em 0.85em; margin:0.6em 0; }
+  .reveal table { font-size:0.78em; border-collapse:collapse; margin:0.5em 0; font-family:var(--sans); font-weight:300; }
+  .reveal table th,.reveal table td { border:none; border-bottom:1px solid var(--filete); padding:0.4em 0.75em; text-align:left; }
+  .reveal table th { font-family:var(--sans); font-weight:500; font-size:0.85em; letter-spacing:1.5px; text-transform:uppercase; color:var(--ouro); border-bottom:1px solid var(--ouro); }
+  .reveal table .destaque { color:var(--ouro-claro); }
+  .reveal .nucleo-cebola { font-family:var(--serif); font-style:italic; font-size:1.3em; color:var(--ouro-claro); letter-spacing:1px; }
+  .reveal .climax { background:var(--bg-card); border-top:1px solid var(--abobora); border-bottom:1px solid var(--abobora); padding:0.75em 1em; margin:0.3em 0; border-radius:2px; }
+  .reveal .fonte { display:block; margin-top:1em; font-family:var(--sans); font-weight:300; font-size:0.4em; color:var(--texto-sec); opacity:0.65; text-align:left; letter-spacing:0.5px; border-top:1px solid var(--filete); padding-top:0.5em; }
+  .reveal .assinatura { font-family:var(--serif); font-style:italic; font-size:0.62em; color:var(--texto-sec); margin-top:1.2em; }
+  .reveal .ghost-num { position:absolute; top:5%; right:5%; font-family:var(--serif); font-weight:300; font-size:5em; color:var(--ouro); opacity:0.10; pointer-events:none; }
+  .chart-box { width:70%; margin:0.2em auto; height:300px; }
+  .reveal section .legenda-grafico { font-size:0.7em; color:var(--texto-sec); font-family:var(--sans); font-weight:300; margin-top:0.3em; line-height:1.35; }
+  .reveal .slide-number { background:none; color:var(--texto-sec); font-family:var(--sans); font-size:12px; letter-spacing:1px; }
+  .reveal .marca { font-family:var(--sans); font-weight:500; letter-spacing:3px; text-transform:uppercase; font-size:0.46em; color:var(--texto-sec); }
+  .reveal .marca b { color:var(--ouro); font-weight:600; }
+
+  /* ===== tempero oriental ===== */
+  .reveal h2.brush::after { content:""; display:block; width:3.2em; height:14px; margin-top:0.3em; background:var(--abobora);
+    -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 24'><path d='M4 14 C40 6, 70 18, 110 11 S170 6, 196 13 C150 17, 90 20, 40 18 S10 16, 4 14 Z'/></svg>") no-repeat center/contain;
+            mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 24'><path d='M4 14 C40 6, 70 18, 110 11 S170 6, 196 13 C150 17, 90 20, 40 18 S10 16, 4 14 Z'/></svg>") no-repeat center/contain;
+    opacity:0.9; }
+  .reveal .selo { display:inline-flex; align-items:center; justify-content:center; width:1.7em; height:1.7em; border:2px solid var(--abobora); color:var(--abobora); font-family:var(--serif); font-style:normal; font-size:1em; line-height:1; border-radius:3px; transform:rotate(-2deg); box-shadow:0 0 0 1px rgba(200,102,43,0.25) inset; }
+  .reveal .selo-wrap { position:absolute; top:7%; right:6%; text-align:center; }
+  .reveal .selo-leg { display:block; margin-top:0.4em; font-family:var(--sans); font-size:0.32em; letter-spacing:2px; color:var(--texto-sec); text-transform:uppercase; }
+  .reveal .kanji { font-family:'Noto Serif SC',serif; color:var(--ouro-claro); font-weight:500; }
+  .reveal .kanji-grande { font-size:2.4em; line-height:1; display:block; }
+
+  /* ===== componentes de diagrama (Linear/Stripe-level, SVG/CSS inline) ===== */
+  /* badge de modalidade */
+  .reveal .badge { display:inline-block; font-family:var(--sans); font-weight:600; font-size:0.5em; letter-spacing:2px; text-transform:uppercase; padding:0.3em 0.8em; border:1px solid var(--ouro); color:var(--ouro); border-radius:2em; }
+  .reveal .delta { font-family:var(--mono); color:var(--abobora-cl); font-weight:500; }
+  /* split cru→FI */
+  .reveal .crufi { display:grid; grid-template-columns:1fr auto 1fr; gap:1em; align-items:center; margin-top:0.6em; }
+  .reveal .crufi .col { background:var(--bg-card); border-radius:4px; padding:0.7em 0.9em; }
+  .reveal .crufi .cru { border-left:3px solid var(--filete); }
+  .reveal .crufi .fi { border-left:3px solid var(--abobora); }
+  .reveal .crufi .lbl { font-family:var(--sans); font-size:0.42em; letter-spacing:2px; text-transform:uppercase; color:var(--texto-sec); margin-bottom:0.4em; }
+  .reveal .crufi .txt { font-family:var(--mono); font-size:0.4em; line-height:1.5; color:var(--texto); }
+  .reveal .crufi .cru .txt { color:var(--texto-sec); }
+  .reveal .crufi .arrow { font-size:1.4em; color:var(--abobora); }
+  .reveal .crufi mark { background:none; color:var(--abobora-cl); font-weight:500; }
+  /* anatomia spec-sheet */
+  .reveal .anatomia { display:grid; grid-template-columns:repeat(2,1fr); gap:0.35em 1.2em; font-family:var(--sans); font-size:0.6em; margin-top:0.4em; }
+  .reveal .anatomia .sec { display:flex; align-items:baseline; gap:0.6em; padding:0.25em 0; border-bottom:1px solid var(--filete); }
+  .reveal .anatomia .tag { font-weight:600; color:var(--ouro); letter-spacing:1px; min-width:7.5em; }
+  .reveal .anatomia .anchor .tag { color:var(--abobora-cl); }
+  .reveal .anatomia .role { color:var(--texto-sec); font-weight:300; }
+  /* gauge DS */
+  .reveal .ds-gauge { font-family:var(--mono); font-size:0.9em; color:var(--ouro-claro); margin-top:0.3em; }
+  .reveal .ds-bar { display:inline-block; height:0.5em; background:linear-gradient(90deg,var(--filete),var(--abobora)); border-radius:2px; vertical-align:middle; transition:width .6s ease; }
+  </style>
+</head>
+<body>
+<div class="reveal"><div class="slides">
+
+<!-- ============ 1. CAPA ============ -->
+<section data-background-color="#191B20">
+  <div class="selo-wrap"><span class="selo">∞</span><span class="selo-leg">o ofício</span></div>
+  <p class="kicker">Painel · Hub SP</p>
+  <h1>Framework&nbsp;Injection</h1>
+  <h3 style="font-style:italic; color:var(--ouro-claro); font-weight:400; margin-top:0.35em;">Pare de comandar a IA. Comece a educá-la.</h3>
+  <p class="assinatura">um ofício, não um atalho — o Artesanato Digital</p>
+  <p class="marca" style="margin-top:2em">∞ &nbsp;Academia <b>Lendár[IA]</b></p>
+  <aside class="notes">Abrir com a pergunta "quem aqui acha que já sabe dar prompt?". O nome só ganha peso lá no slide do Artesanato.</aside>
+</section>
+
+<!-- ============ 1.A — PROGRAMA DE PESQUISA (abertura epistêmica) ============ -->
+<section data-background-color="#191B20">
+  <p class="kicker">antes de começar</p>
+  <h2>Isto é um programa de pesquisa — não um produto fechado</h2>
+  <p style="margin-top:0.5em">Esta aula nasce de um programa de pesquisa meu, <strong>ainda em curso</strong>.</p>
+  <p>O que compartilho é o <span class="destaque">estado atual</span> — não dado absoluto. Os elementos ainda estão sendo constituídos.</p>
+  <p class="grande" style="margin-top:0.5em">Trago as <em>conclusões a que já cheguei</em> — e, com a mesma honestidade, <em>onde ainda não cheguei</em>.</p>
+  <p class="fonte">Mais uma demonstração de pesquisa para pares do que uma aula de verdades prontas. Perguntem.</p>
+  <aside class="notes">Postura de humildade epistêmica desde o primeiro minuto. Não vendo certeza; compartilho um programa vivo. Isso compra credibilidade, não a perde.</aside>
+</section>
+
+<!-- ============ 1.B — MAPA LAKATOSIANO (núcleo · cinturão · borda) ============ -->
+<section>
+  <h2>Como ler um programa de pesquisa</h2>
+  <p class="menor" style="margin-bottom:0.4em">Lakatos: um programa não é uma tese só. Tem um <strong>núcleo</strong> que se protege, um <strong>cinturão</strong> que se revisa, e uma <strong>borda</strong> onde se trabalha.</p>
+  <svg viewBox="0 0 520 280" style="width:60%; display:block; margin:0.1em auto;">
+    <ellipse cx="260" cy="140" rx="250" ry="128" fill="none" stroke="#3A3E47" stroke-width="1.2" stroke-dasharray="4 4"/>
+    <ellipse cx="260" cy="140" rx="170" ry="92" fill="none" stroke="#C9A25A" stroke-width="1.4"/>
+    <ellipse cx="260" cy="140" rx="92" ry="52" fill="#2B2F37" stroke="#C8662B" stroke-width="2.2"/>
+    <text x="260" y="135" fill="#E08A4A" font-family="Fraunces" font-style="italic" font-size="15" text-anchor="middle">a ponte</text>
+    <text x="260" y="153" fill="#9A9488" font-family="Montserrat" font-size="9" text-anchor="middle" letter-spacing="1">NÚCLEO DURO</text>
+    <text x="260" y="72" fill="#C9A25A" font-family="Montserrat" font-size="10" text-anchor="middle" letter-spacing="1">CINTURÃO PROTETOR</text>
+    <text x="260" y="30" fill="#6E6A62" font-family="Montserrat" font-size="10" text-anchor="middle" letter-spacing="1">BORDA VIVA — onde investigamos</text>
+  </svg>
+  <p class="fonte">O núcleo não se abandona por um experimento; o cinturão, sim. Quando uma hipótese de cinturão cai e o núcleo segue de pé, o programa está <em>saudável</em> — não falhando.</p>
+  <aside class="notes">Lakatos (Metodologia dos Programas de Pesquisa Científica). É a moldura que torna honesto dizer 'isto não se sustentou nas premissas adotadas' sem dizer 'o programa fracassou'. Voltaremos a este mapa no fecho.</aside>
+</section>
+
+<!-- ============ 1.C — ONDE ESTAMOS (cravado / aberto / não se sustentou) ============ -->
+<section>
+  <h2>Onde estamos hoje</h2>
+  <div class="anatomia" style="grid-template-columns:1fr; gap:0.5em; font-size:0.66em">
+    <div class="sec anchor"><span class="tag" style="min-width:9em">✓ JÁ CRAVAMOS</span><span class="role">o FI denso vence o comando cru num modelo forte — medido às cegas (85–92% vs 0–2%). E densifica o input (+140%).</span></div>
+    <div class="sec"><span class="tag" style="color:var(--ouro-claro); min-width:9em">🔬 EM ABERTO</span><span class="role">a <em>posição</em> da carga densa dentro do FI. Frente ativa, ancorada no “Lost in the Middle”. Nas premissas que usamos, ainda não chegamos a conclusão efetiva — segue em análise.</span></div>
+    <div class="sec"><span class="tag" style="color:var(--texto-sec); min-width:9em">🜂 TESTADO, NÃO FECHADO</span><span class="role">hipóteses de cinturão que caíram (ex.: “ajustar a força em runtime”). Não dizemos “não funciona” — dizemos “nas nossas premissas, não se sustentou”.</span></div>
+  </div>
+  <p class="fonte">Cravar só o que tem certeza. O resto fica aberto, em investigação — é isso que um par espera ouvir de outro par.</p>
+  <aside class="notes">Este slide é o contrato epistêmico da aula. Três caixas: certeza / aberto / testado-sem-fechar (não se sustentou nas premissas). Tudo que vem depois se encaixa numa delas.</aside>
+</section>
+
+<!-- ============ 1.D — DEFINIÇÃO CANÔNICA DO FI ============ -->
+<section>
+  <span class="selo-wrap"><span class="selo">定</span><span class="selo-leg">a definição</span></span>
+  <h2>O que é Framework Injection</h2>
+  <div class="climax">
+    <p class="grande" style="font-size:1.1em">O mecanismo de transferência de <span class="destaque">métodos completos de raciocínio</span> — do <strong>expert humano para o modelo / agente de IA</strong>, em linguagem natural — injetados <strong>antes da inferência</strong>, para configurar o espaço de raciocínio em que ele vai operar. <em>Não se comanda a IA: educa-se.</em></p>
+  </div>
+  <p class="menor" style="margin-top:0.5em"><strong>Qualificações:</strong></p>
+  <ul style="font-size:0.74em">
+    <li><strong>Pré-inferência</strong> — não age <em>durante</em> o raciocínio (como o Chain-of-Thought); é meta-operação <em>sobre</em> ele. Pensa o todo antes do passo.</li>
+    <li><strong>Priming que pode escalar a enforcement</strong> — densifica a linguagem e, no limite, convoca a infraestrutura que constrange.</li>
+    <li><strong>O que esta linha formaliza — a ponte:</strong> o FI é a travessia bidirecional entre a engenharia de prompt/contexto e a de harness físico. A fronteira que o define não é físico vs. linguístico — é <span class="destaque">enforcement vs. priming</span>.</li>
+  </ul>
+  <p class="fonte">Definição consolidada dos papers de Framework Injection + a formalização desta linha de pesquisa (o FI como ponte). A travessia priming→enforcement já é praticada de forma fragmentária na indústria (Guardrails, ReAct, DSPy); a contribuição aqui é nomear e formalizar a relação. Fonte: blueprint canônico FI-Harness-Bridge §1.</p>
+  <aside class="notes">Esta é a pedra angular. Os papers definem o FI como injeção de framework cognitivo pré-inferência; a formalização acrescenta a natureza de PONTE. Honestidade de prior art: o mecanismo já existe disperso (DSPy nomeia o mecanismo; o FI nomeia a relação) — formalizar não é menos valioso que descobrir. Ler devagar — é a definição que tudo depois pressupõe.</aside>
+</section>
+
+<!-- ============ 1.E — FUNDAMENTOS I: densidade semiótica (linguística cognitiva) ============ -->
+<section>
+  <h2>Fundamentos I — a densidade semiótica</h2>
+  <p class="menor" style="margin-bottom:0.3em">Sete fundamentos da linguística cognitiva sustentam <em>por que</em> densificar funciona:</p>
+  <table style="font-size:0.66em">
+    <tr><th>Autor</th><th>Conceito</th><th>No FI</th></tr>
+    <tr><td class="destaque">Fillmore (1982)</td><td>Frame Semantics</td><td>o termo-chave ativa o frame</td></tr>
+    <tr><td class="destaque">Rosch (1975)</td><td>Prototype Theory</td><td>termos prototípicos nas âncoras</td></tr>
+    <tr><td class="destaque">Fauconnier &amp; Turner (2002)</td><td>Conceptual Blending</td><td>compor FIs gera estrutura emergente</td></tr>
+    <tr><td class="destaque">Lakoff &amp; Johnson (1980)</td><td>Conceptual Metaphor</td><td>transfere método entre domínios</td></tr>
+    <tr><td class="destaque">Firth (1957)</td><td>Distributional Semantics</td><td>DS-distribucional (mensurável, STEER)</td></tr>
+    <tr><td class="destaque">Collins &amp; Loftus (1975)</td><td>Spreading Activation</td><td>a carga densa se propaga na rede</td></tr>
+    <tr><td class="destaque">Goldberg (1995, 2006)</td><td>Construction Grammar</td><td>a construção <em>coage</em> a interpretação — o FI é uma construção</td></tr>
+  </table>
+  <p class="fonte">Antecedentes em análise: Langacker (gramática cognitiva), Barthes (conotação), Goodman (densidade simbólica). Goldberg é o elo que faltava: a forma carrega sentido e coage — exatamente o que o FI faz à LLM. Fonte: FOUNDATIONS-v2 · paper Semiotic Density (DOI 10.5281/zenodo.19645955).</p>
+  <aside class="notes">Esta é a camada que o Renato disse faltar: os autores da DENSIDADE SEMIÓTICA. Goldberg (Construction Grammar) é o 7º fundamento, o autor da gramática construtivista. A 'coerção construcional' é o lastro teórico de por que a estrutura do FI força o output.</aside>
+</section>
+
+<!-- ============ 1.E.bis — FUNDAMENTOS II: pedagogia, filosofia, artigos ============ -->
+<section>
+  <h2>Fundamentos II — pedagogia, filosofia e artigos</h2>
+  <table style="font-size:0.64em">
+    <tr><th>Autor / obra</th><th>Conceito</th><th>No FI</th></tr>
+    <tr><td class="destaque">Vygotsky</td><td>Zona de Desenvolvimento Proximal</td><td>o FI como <em>scaffolding</em></td></tr>
+    <tr><td class="destaque">Sweller</td><td>Carga cognitiva</td><td>elimina a carga extrínseca</td></tr>
+    <tr><td class="destaque">Wittgenstein</td><td>Jogos de linguagem</td><td>ensina <em>qual jogo</em> jogar</td></tr>
+    <tr><td class="destaque">Polanyi</td><td>Conhecimento tácito</td><td>o Paradoxo do Artesão</td></tr>
+    <tr><td class="destaque">Searle</td><td><em>Intentionality</em> (1983)</td><td>a intenção delegada</td></tr>
+  </table>
+  <p class="menor" style="margin-top:0.4em; font-size:0.66em"><strong>Artigos pesquisados (terceiros):</strong> Liu et al. (2023) <em>Lost in the Middle</em> — motiva a frente posicional · estudo Stanford/Tsinghua (mesmo modelo, harness diferente → até <strong>6×</strong>) · UC Berkeley (o gargalo é o sistema, não o modelo) · genealogia: Karpathy (contexto) · Hashimoto (harness).</p>
+  <p class="fonte">+ Peirce (semiótica/Terceiridade), Greenberg (universais). Corpo registrado — DOIs Zenodo (10.5281/zenodo.19325704, .19325724, .19341740, .19479916).</p>
+  <aside class="notes">Segundo slide de bibliografia: a camada pedagógica/filosófica + os ARTIGOS de terceiros que pesquisamos (Liu/Lost-in-the-Middle é o principal, mais o estudo de harness 6× e Berkeley). Completa a lista que estava como amostra no brief.</aside>
+</section>
+
+<!-- ============ 1.E.bis2 — PEIRCE EM DETALHE (tríade do signo + 2 conceitos autorais) ============ -->
+<section>
+  <h2>Peirce — o signo e o interpretante</h2>
+  <p class="menor" style="margin-bottom:0.4em">Não usamos só a Terceiridade: a tríade inteira orienta a densidade. Todo prompt é um <em>signo complexo</em>; toda resposta, um ato de interpretação.</p>
+  <table style="font-size:0.66em">
+    <tr><th>Dimensão do signo</th><th>No Framework Injection</th></tr>
+    <tr><td class="destaque">Primeiridade</td><td>as qualidades intrínsecas — a estrutura sintática e a composição lexical do FI</td></tr>
+    <tr><td class="destaque">Secundidade</td><td>os referentes (tarefa, domínio, restrições) e as pressuposições implícitas</td></tr>
+    <tr><td class="destaque">Terceiridade</td><td>o interpretante gerado — a distribuição de resposta da IA, condicionada ao signo</td></tr>
+  </table>
+  <p class="menor" style="margin-top:0.4em; font-size:0.72em">Dois conceitos autorais derivam disso:</p>
+  <ul style="font-size:0.78em">
+    <li><strong>Máquina como interpretante algorítmico</strong> — a qualidade do interpretante é função da qualidade do signo: <span class="destaque">signo pobre → resposta estocástica · signo rico → resposta quase-determinística</span>.</li>
+    <li><strong>Semiose projetada</strong> — desenhar o signo não pelo que se quer <em>expressar</em>, mas por como o interpretante será <em>gerado</em> — do emissor para o intérprete.</li>
+  </ul>
+  <p class="fonte">É a fundamentação de POR QUE a densidade funciona: o FI desenha o signo para a resposta que se quer induzir. Peirce, C. S. (1931–1958), Collected Papers (Vols. 1–8), Harvard University Press.</p>
+  <aside class="notes">Lâmina propagada do brief (11.bis) — estava ausente nos painéis. A tríade + os 2 conceitos AUTORAIS (interpretante algorítmico, semiose projetada) são a explicação semiótica do mecanismo de densidade. Sem ela, o painel tinha Peirce só de rodapé. Ler devagar a linha 'signo pobre→estocástico / signo rico→quase-determinístico': é o cerne.</aside>
+</section>
+
+<!-- ============ 1.E.ter — FUNDAMENTOS III: a raiz filosófica (taoísmo + ofício) ============ -->
+<section data-background-color="#191B20">
+  <div class="selo-wrap"><span class="kanji kanji-grande" style="font-size:1.6em">無為</span><span class="selo-leg">wú wéi</span></div>
+  <h2 class="brush">Fundamentos III — a raiz filosófica</h2>
+  <p class="menor" style="margin-bottom:0.3em">O <em>princípio</em> do Artesanato Digital não é metáfora decorativa — tem fonte:</p>
+  <table style="font-size:0.7em">
+    <tr><th>Obra / autor</th><th>Conceito</th><th>No programa</th></tr>
+    <tr><td class="destaque">Laozi — <em>Tao Te Ching</em> (道德經)</td><td><span class="kanji">無為</span> wú wéi — a ação sem forçar</td><td>dispor o vazio para a forma emergir</td></tr>
+    <tr><td class="destaque">Zhuangzi</td><td>o Cozinheiro Ding — a lâmina acha os vazios</td><td>fluir pela matéria, não contra ela</td></tr>
+    <tr><td class="destaque">Sennett — <em>The Craftsman</em></td><td>a maestria que se <em>cultiva</em></td><td>é uma escola, não um tutorial</td></tr>
+    <tr><td class="destaque">Searle — <em>Intentionality</em></td><td>intencionalidade intrínseca vs. derivada</td><td>a intenção delegada (camada-raiz)</td></tr>
+  </table>
+  <p class="fonte">A lei é invariante: a matéria muda (mármore → boi → modelo), o princípio não. Por isso o método atravessa as revoluções de arquitetura sem se quebrar — descreve a <em>relação</em> humano-máquina, não a tecnologia. Análise estrutural destas obras nas investigações recentes do programa.</p>
+  <aside class="notes">Este é o slide que o Renato pediu: o Tao Te Ching (Laozi) explícito como fonte do wu wei — não só o Zhuangzi (Cozinheiro Ding) que já estava. Sennett (The Craftsman) entra com Polanyi na linha do ofício/tácito. Searle fecha com a intenção delegada. São as obras de análise estrutural das 'derradeiras investigações'.</aside>
+</section>
+
+<!-- ============ 1.E.quater — BIBLIOGRAFIA CONTINENTE (a literatura de arquitetura) ============ -->
+<section>
+  <h2>Bibliografia continente do programa</h2>
+  <p class="menor" style="margin-bottom:0.3em">Não são fundamentos diretos do FI — são a literatura de <strong>arquitetura de modelos</strong> que o programa estudou para sustentar sua tese mais ampla: a <span class="destaque">invariância à arquitetura</span>.</p>
+  <table style="font-size:0.68em">
+    <tr><th>Obra</th><th>O que aporta ao programa</th></tr>
+    <tr><td class="destaque">Vaswani et al. (2017) — <em>Attention Is All You Need</em></td><td>o Transformer: a "matéria" atual sobre a qual o método opera</td></tr>
+    <tr><td class="destaque">RNNs com caching / state-space</td><td>a arquitetura alternativa — prova que a lei não depende do Transformer</td></tr>
+    <tr><td class="destaque">Behrouz et al. (2026) — <em>Memory Caching: RNNs with Growing Memory</em></td><td>arquitetura de memória que cresce (Google Research, arXiv:2602.24281) — referência complementar</td></tr>
+    <tr><td class="destaque">Liu et al. (2023) — <em>Lost in the Middle</em></td><td>o comportamento posicional do contexto longo</td></tr>
+    <tr><td class="destaque">Stanford/Tsinghua · UC Berkeley</td><td>o harness domina o resultado (até 6×); o gargalo é o sistema</td></tr>
+  </table>
+  <p class="grande" style="margin-top:0.4em; font-size:1.05em">A matéria muda — Transformer, RNN-com-cache, o que vier. <span class="destaque">A lei do ofício, não.</span></p>
+  <p class="fonte">Esta camada é "continente": delimita o terreno do Artesanato Digital como programa — uma investigação da <em>relação</em> humano-máquina que sobrevive à troca de arquitetura. Karpathy (contexto) e Hashimoto (harness) ancoram a genealogia do campo.</p>
+  <aside class="notes">Bibliografia CONTINENTE (diferenciada): a literatura técnica de arquitetura — Attention Is All You Need, RNN-com-cache, state-space. NÃO é fundamento do FI; é o pano de fundo que sustenta o agnosticismo do programa. É 'tão importante quanto', mas de outra natureza — por isso slide próprio, separado dos 3 de fundamentos diretos.</aside>
+</section>
+
+<!-- ============ 1.E.quinquies — A DIMENSÃO DO USO (ética / equidade — fontes das palestras OAB) ============ -->
+<section>
+  <h2>A dimensão do uso — como, e por quem</h2>
+  <p class="menor" style="margin-bottom:0.3em">O programa investiga <em>como</em> o humano usa a IA — não só o mecanismo. Duas fontes das palestras (OAB Santo Amaro · advocacia negra) sustentam esta camada:</p>
+  <table style="font-size:0.66em">
+    <tr><th>Obra</th><th>O que mostra</th><th>No programa</th></tr>
+    <tr><td class="destaque">Wang &amp; Zhang (2026)<br><em>Parcerias pedagógicas com IA generativa</em></td><td>via dupla — <em>vigilância</em> (β=0,335) e <em>delegação</em> (β=0,351); benefício só após um limiar de engajamento (curva em J)</td><td>não usar · usar errado · usar certo</td></tr>
+    <tr><td class="destaque">Iacono (2026)<br><em>Hybrid Horizons</em></td><td>o mapa colonial da IA: 87% dos modelos notáveis vêm de países com 17% da população; a <em>IA pequena</em> (Small AI) e o salto de etapa na África e Ásia</td><td>a equidade no acesso ao ofício</td></tr>
+  </table>
+  <p class="grande" style="margin-top:0.35em; font-size:1.02em">A ferramenta certa, usada do jeito certo, por mais gente. <span class="destaque">O ofício como ponte de equidade.</span></p>
+  <p class="fonte">Wang &amp; Zhang (2026), IJETHE, n=912 (China/Europa/EUA), DOI 10.1186/s41239-026-00585-x — a curva do uso (J): o ganho aparece após o engajamento, não no uso passivo. Iacono (2026), <em>Hybrid Horizons</em> — adoção de IA no Sul Global.</p>
+  <aside class="notes">Fontes das palestras OAB Santo Amaro / advocacia negra. Wang & Zhang é VERIFICADO (G6 — o veredito 'fantasma' foi retratado em 31-mai; é paper real, open-access, DOI confere). A curva: o handoff registra como quadrática/U (β²=0,102, benefício após limiar); o Renato a lembra como J — apresentei como 'curva em J' (J é um U assimétrico) com o mecanismo de limiar fiel à fonte. Iacono = a dimensão de equidade (Small AI/IA pequena, África e Ásia, mapa colonial). Esta camada é a ÉTICA DO USO — distinta dos fundamentos do FI e da literatura de arquitetura.</aside>
+</section>
+
+<!-- ============ 1.E.sexies — CORPUS PUBLICADO (Zenodo, linha FI/Artesanato) ============ -->
+<section>
+  <h2>O corpus já publicado</h2>
+  <p class="menor" style="margin-bottom:0.25em">A linha de Framework Injection e Artesanato Digital, registrada publicamente no Zenodo:</p>
+  <table style="font-size:0.58em">
+    <tr><th>Artigo (EN) · tradução</th><th>Do que trata</th><th>DOI (10.5281/zenodo.)</th></tr>
+    <tr><td><strong>Framework Injection</strong><br><em>Injeção de Framework</em></td><td>a injeção de framework cognitivo pré-inferência</td><td>19479916</td></tr>
+    <tr><td><strong>Founding Paper</strong><br><em>Artigo Fundador</em></td><td>o aninhamento PE ⊂ CE ⊂ FI e as 5 modalidades</td><td>19344789</td></tr>
+    <tr><td><strong>Semiotic Density</strong><br><em>Densidade Semiótica</em></td><td>poder argumentativo por token; os 7 fundamentos</td><td>19645955</td></tr>
+    <tr><td><strong>SDE Encoding</strong><br><em>Codificação por Densidade Semiótica</em></td><td>as 6 operações de densificação (densify/rarefy…)</td><td>19887868</td></tr>
+    <tr><td><strong>Delivery Architecture</strong><br><em>Arquitetura de Entrega</em></td><td>como a saída é entregue, não só o quê</td><td>19939303</td></tr>
+    <tr><td><strong>Adaptive FI</strong><br><em>FI Adaptativo</em></td><td>ajustar a dose de priming ao solver</td><td>20040726</td></tr>
+  </table>
+  <p class="fonte">+ <strong>Agent-First Development</strong> (código legível por agente) e <strong>The Artisan's Paradox</strong> (o paradoxo do artesão; Polanyi) no mesmo corpus. São <strong>27 papers publicados</strong> no total — corpus completo sob solicitação.</p>
+  <aside class="notes">Corpus publicado da linha FI/Artesanato — DOIs reais do Calendário Zenodo (verificados). Título EN como publicado + tradução PT + resumo de 1 linha + DOI. Há 27 no total; aqui os 8 da linha da aula. Isto materializa que é pesquisa registrada, não improviso.</aside>
+</section>
+
+<!-- ============ 1.F — ENQUADRAMENTO: ARTESANATO DIGITAL ============ -->
+<section data-background-color="#191B20">
+  <div class="selo-wrap"><span class="kanji kanji-grande" style="font-size:1.8em">道</span><span class="selo-leg">o caminho</span></div>
+  <h2 class="brush">O FI vive dentro do Artesanato Digital</h2>
+  <p>O Framework Injection é o <strong>instrumento</strong>. O <span class="destaque">Artesanato Digital</span> é o programa que o abriga — e o objeto maior da pesquisa.</p>
+  <p style="margin-top:0.4em"><strong>Síntese:</strong> um <em>ofício</em> (gesto técnico — densificar, temperar, classificar priming e enforcement) regido por um <em>princípio</em> (dispor o vazio para a forma emergir).</p>
+  <p class="grande" style="margin-top:0.5em">Seu objeto primário: <span class="destaque">como o humano interage com a IA generativa</span> — e como essa interação se consolida em método.</p>
+  <p class="fonte">O FI é o primeiro instrumento maduro do programa; o Artesanato Digital é a moldura que dá sentido a ele.</p>
+  <aside class="notes">Reposicionar: a aula não é sobre uma técnica isolada. É a demonstração de UM instrumento (o FI) de um programa de pesquisa maior (o Artesanato Digital), cujo objeto é a própria interação humano-IA.</aside>
+</section>
+
+<!-- ============ 1.G — INTELIGÊNCIA HÍBRIDA (o telos: simbiose) ============ -->
+<section>
+  <h2>O telos: inteligência híbrida</h2>
+  <p>O que o programa persegue é uma <span class="destaque">simbiose</span> humano + IA — duas inteligências que, unidas, produzem uma força que nenhuma teria sozinha.</p>
+  <svg viewBox="0 0 520 130" style="width:72%; display:block; margin:0.4em auto;">
+    <circle cx="170" cy="65" r="48" fill="none" stroke="#9A9488" stroke-width="1.5"/>
+    <circle cx="350" cy="65" r="48" fill="none" stroke="#C9A25A" stroke-width="1.5"/>
+    <ellipse cx="260" cy="65" rx="90" ry="50" fill="none" stroke="#C8662B" stroke-width="2"/>
+    <text x="135" y="70" fill="#9A9488" font-family="Montserrat" font-size="12" text-anchor="middle">humano</text>
+    <text x="385" y="70" fill="#C9A25A" font-family="Montserrat" font-size="12" text-anchor="middle">IA</text>
+    <text x="260" y="60" fill="#E08A4A" font-family="Fraunces" font-style="italic" font-size="15" text-anchor="middle">inteligência</text>
+    <text x="260" y="80" fill="#E08A4A" font-family="Fraunces" font-style="italic" font-size="15" text-anchor="middle">híbrida</text>
+  </svg>
+  <p>A união supera o humano isolado <strong>e</strong> a IA isolada — uma inteligência exponencializada, <span class="destaque">comandada pelo humano</span>. A intenção é o recorte que não se terceiriza.</p>
+  <p class="fonte">Lastro biológico: <em>simbiose</em> mutualística; a simbiogênese de Lynn Margulis (entidades que se fundem e criam vida complexa). Precedente direto: J.C.R. Licklider, "Man-Computer Symbiosis" (1960).</p>
+  <aside class="notes">Este é o ponto que o Renato mais quer presente: o objetivo último. Simbiose = nome biológico (Margulis/simbiogênese; Licklider cunhou 'simbiose homem-computador' em 1960). A força híbrida supera ambos os isolados, mas o comando é humano — conecta de volta à intenção delegada.</aside>
+</section>
+
+<!-- ============ 2. GANCHO ============ -->
+<section>
+  <span class="ghost-num">01</span>
+  <h2>O pidgin digital</h2>
+  <p>Como você fala com a IA hoje:</p>
+  <blockquote>"analisa esse contrato"<br>"faz uma análise de risco"</blockquote>
+  <p>Telegráfico. Esperando o melhor.</p>
+  <p class="grande">Isso te custa <span class="destaque">cerca de 70% do modelo.</span></p>
+  <aside class="notes">Pidgin é a língua de contato do porto. Nenhuma civilização produziu ciência ou filosofia num pidgin — e é nesse registro que falamos com LLMs desde 2022.</aside>
+</section>
+
+<!-- ============ 3. PROMESSA ============ -->
+<section>
+  <span class="ghost-num">02</span>
+  <h2>O que você sai sabendo</h2>
+  <ul>
+    <li>por que sua IA rende a metade do que poderia</li>
+    <li>como <strong>construir</strong> o método que ela executa — ao vivo</li>
+    <li>e o nome do ofício que faz isso</li>
+  </ul>
+  <aside class="notes">Contrato com a plateia. Hoje eles saem com a ferramenta e o método, não com slides.</aside>
+</section>
+
+<!-- ============ 4. CEBOLA ANINHADA (diagrama #1) ============ -->
+<section>
+  <h2>A escada que virou cebola</h2>
+  <svg viewBox="0 0 520 300" style="width:62%; display:block; margin:0.2em auto;">
+    <ellipse cx="260" cy="150" rx="250" ry="140" fill="none" stroke="#3A3E47" stroke-width="1.2"/>
+    <ellipse cx="260" cy="150" rx="188" ry="105" fill="none" stroke="#9A9488" stroke-width="1.2"/>
+    <ellipse cx="260" cy="150" rx="124" ry="70" fill="none" stroke="#C9A25A" stroke-width="1.5"/>
+    <ellipse cx="260" cy="150" rx="62" ry="36" fill="none" stroke="#E08A4A" stroke-width="1.5"/>
+    <text x="260" y="155" fill="#E08A4A" font-family="Montserrat" font-size="13" font-weight="600" text-anchor="middle" letter-spacing="1">prompt</text>
+    <text x="260" y="100" fill="#C9A25A" font-family="Montserrat" font-size="12" text-anchor="middle" letter-spacing="1">contexto</text>
+    <text x="260" y="62" fill="#9A9488" font-family="Montserrat" font-size="12" text-anchor="middle" letter-spacing="1">harness</text>
+    <text x="260" y="28" fill="#6E6A62" font-family="Montserrat" font-size="12" text-anchor="middle" letter-spacing="1">orquestração</text>
+  </svg>
+  <p class="grande" style="text-align:center; margin-top:0.1em">Camadas <span class="destaque">aninhadas</span>, não uma escada. Nada foi aposentado.</p>
+  <p class="fonte">O campo se renomeou três vezes em três anos. A estrutura não mudou. · Karpathy (contexto) · Hashimoto (harness)</p>
+  <aside class="notes">Cozinha Feynman: prompt=receita, contexto=cozinha equipada, harness=brigada, orquestração=chef de cuisine. Cada camada CONTÉM a anterior.</aside>
+</section>
+
+<!-- ============ 5. DOIS MUNDOS ============ -->
+<section>
+  <h2>O buraco que ninguém nomeia</h2>
+  <p>Essas camadas vivem em <strong>dois mundos</strong>:</p>
+  <ul>
+    <li><strong>Linguagem</strong> (prompt e contexto) — <em>induz</em> o modelo</li>
+    <li><strong>Infraestrutura</strong> (harness e loops) — <em>constrange</em> o sistema</li>
+  </ul>
+  <p class="grande">Ninguém costura os dois.</p>
+  <aside class="notes">Prepara a entrada do FI sem ainda nomeá-lo. O FI é a única camada feita de linguagem que convoca infraestrutura.</aside>
+</section>
+
+<!-- ============ 6. AS 5 MODALIDADES (diagrama #2) ============ -->
+<section>
+  <span class="ghost-num">03</span>
+  <h2>As cinco modalidades de Framework Injection</h2>
+  <p class="menor" style="margin-bottom:0.5em">Todo FI transfere uma destas coisas. A modalidade governa o que você ancora.</p>
+  <table>
+    <tr><th>Modalidade</th><th>Transfere</th><th>Exemplo de tarefa</th></tr>
+    <tr><td class="destaque">Declarativo</td><td><em>o que saber</em> — hierarquias de fonte, ontologias</td><td>parecer com fonte ordenada</td></tr>
+    <tr><td class="destaque">Procedimental</td><td><em>como raciocinar</em> — método passo-a-passo</td><td>debugar, redigir, diagnosticar</td></tr>
+    <tr><td class="destaque">Avaliativo</td><td><em>como julgar</em> — rubricas, critérios</td><td>revisar, comparar, classificar</td></tr>
+    <tr><td class="destaque">Ético</td><td><em>o que recusar</em> — cercas, compliance</td><td>fence jurídico, anti-alucinação</td></tr>
+    <tr><td class="destaque">Composicional</td><td><em>como combinar</em> as quatro acima</td><td>tarefa real complexa</td></tr>
+  </table>
+  <p class="fonte">Fonte: injetor canônico (fi_system_prompt) · a modalidade é classificada antes de forjar (passo 3 do pipeline).</p>
+  <aside class="notes">As 4 primeiras são primitivas; a Composicional orquestra. O Ético é especial: o MetaBlock vai para a última posição (a recusa é o termo de maior carga).</aside>
+</section>
+
+<!-- ============ 7. DADO — eficácia (output) ============ -->
+<section>
+  <h2 class="brush">A estrutura domina o resultado</h2>
+  <div class="chart-box"><canvas id="chartEficacia"></canvas></div>
+  <p class="legenda-grafico">Mesma máquina, mesmo modelo. O método estruturado <span class="destaque">vence 85–92%</span> das vezes; o comando cru, <span class="destaque">0–2%</span>.</p>
+  <p class="fonte">49 tarefas · três desenhos independentes · juízes cegos de 3 famílias não-Anthropic (consenso 2 de 3) · vitória-por-comprimento apenas 4% — este número mede o RESULTADO.</p>
+</section>
+
+<!-- ============ 8. ONDE O FI MORA ============ -->
+<section>
+  <h2>Onde o Framework Injection mora</h2>
+  <p>Todos os nomes da feira operam no <strong>runtime</strong> — o enforcement físico.</p>
+  <p>Nenhum descreve a <span class="destaque">ponte</span> entre a linguagem e a infraestrutura.</p>
+  <p class="grande">O Framework Injection é a <span class="destaque">travessia</span>:<br>onde <em>induzir</em> vira <em>constranger</em>.</p>
+</section>
+
+<!-- ============ 9. EIXO PRIMING→ENFORCEMENT (diagrama #3 — assinatura) ============ -->
+<section>
+  <h2>O eixo: priming → enforcement</h2>
+  <svg viewBox="0 0 560 150" style="width:80%; display:block; margin:0.3em auto;">
+    <defs><linearGradient id="grad-eixo" x1="0" x2="1"><stop offset="0" stop-color="#9A9488"/><stop offset="0.5" stop-color="#C8662B"/><stop offset="1" stop-color="#C9A25A"/></linearGradient></defs>
+    <rect x="20" y="60" width="520" height="6" rx="3" fill="url(#grad-eixo)"/>
+    <circle cx="20" cy="63" r="7" fill="#9A9488"/><circle cx="540" cy="63" r="7" fill="#C9A25A"/>
+    <circle cx="280" cy="63" r="11" fill="#22252B" stroke="#C8662B" stroke-width="2.5"/>
+    <text x="280" y="40" fill="#E08A4A" font-family="Fraunces" font-style="italic" font-size="17" text-anchor="middle">o FI é a travessia</text>
+    <text x="20" y="92" fill="#9A9488" font-family="Montserrat" font-size="12" font-weight="600" letter-spacing="1">PRIMING</text>
+    <text x="20" y="110" fill="#6E6A62" font-family="Montserrat" font-size="10">primus · prepara</text>
+    <text x="20" y="125" fill="#6E6A62" font-family="Montserrat" font-size="10">a sinalização do metrô</text>
+    <text x="20" y="140" fill="#6E6A62" font-family="Montserrat" font-size="10">pode desobedecer ✓</text>
+    <text x="540" y="92" fill="#C9A25A" font-family="Montserrat" font-size="12" font-weight="600" letter-spacing="1" text-anchor="end">ENFORCEMENT</text>
+    <text x="540" y="110" fill="#9A9488" font-family="Montserrat" font-size="10" text-anchor="end">in-fortis · impõe</text>
+    <text x="540" y="125" fill="#9A9488" font-family="Montserrat" font-size="10" text-anchor="end">a catraca</text>
+    <text x="540" y="140" fill="#9A9488" font-family="Montserrat" font-size="10" text-anchor="end">não pode desobedecer ✗</text>
+  </svg>
+  <p class="grande" style="text-align:center; margin-top:0.2em">Estocástico <span style="color:var(--abobora)">→</span> determinístico. A sinalização vira catraca.</p>
+  <p class="fonte">Critério-mestre (a navalha não-circular): "o agente PODE desobedecer?" Sim = priming · Não = enforcement.</p>
+  <aside class="notes">Âncora única do metrô — não troque de modelo mental. Multidão = distribuição; sinalização desloca logits (continua estocástico); catraca é gate fora do modelo (nasce o determinismo).</aside>
+</section>
+
+<!-- ============ 9.bis A PONTE É O NÚCLEO (o que o programa nomeia e ninguém mais) ============ -->
+<section>
+  <h2>A ponte é o coração do programa</h2>
+  <p class="menor" style="margin-bottom:0.5em">A fronteira que define a ponte <strong>não</strong> é físico vs. linguístico. É <span class="destaque">enforcement vs. priming</span> — e isso vira operacional por um critério único:</p>
+  <div class="anatomia" style="grid-template-columns:1fr; gap:0.45em; font-size:0.64em">
+    <div class="sec"><span class="tag" style="min-width:11em">cada elemento responde:</span><span class="role"><em>induz</em> (predispõe, o modelo pode ignorar) ou <em>constrange</em> (bloqueia, não pode desobedecer)?</span></div>
+    <div class="sec"><span class="tag" style="color:var(--ouro-claro); min-width:11em">[META-RACIOCÍNIO]</span><span class="role">→ <strong>induz</strong> (priming puro)</span></div>
+    <div class="sec anchor"><span class="tag" style="min-width:11em">[VERIFICAÇÃO] c/ ASSERT</span><span class="role">→ <strong>constrange</strong> (o harness executa o <span style="font-family:var(--mono);font-size:0.85em">cmd:</span> e reprova)</span></div>
+  </div>
+  <p class="grande" style="margin-top:0.5em; font-size:1.15em">A ponte é onde a <em>sugestão</em> escala até virar <em>obrigatoriedade</em>.</p>
+  <p class="menor" style="margin-top:0.3em">Bidirecional — a assinatura de uma ponte: <span class="destaque">↓</span> a infra se exprime como raciocínio denso · <span class="destaque">↑</span> o raciocínio <em>convoca</em> a infra (o assert que vira gate).</p>
+  <p class="fonte">É o nicho que ninguém ocupa: o mainstream todo mora no enforcement (runtime). A ponte linguística↔infra é o espaço vago — e é o núcleo-duro do programa (robusto; a densidade é cinturão, condicional).</p>
+  <aside class="notes">Este é o slide-eixo. A ponte não é UM elemento — é o que o FI nomeia e os outros não. Núcleo lakatosiano: a arquitetura bidirecional é estrutural; a densidade (e sua posição) é cinturão revisável. O exemplo Prime→Ponte→Enforcement: '[OBJETIVO] denso' (prime) prepara o terreno para que '[VERIFICAÇÃO] cmd: jq...' (enforcement) não seja ignorado.</aside>
+</section>
+
+<!-- ============ 9.ter — FI OPERA A ENGENHARIA DE LOOPS (3 camadas) ============ -->
+<section>
+  <h2>O FI opera a "engenharia de loops"</h2>
+  <p class="menor" style="margin-bottom:0.5em">"Pare de fazer prompt, faça um <em>agent loop</em>" — gerar→verificar→repetir até um critério. Certíssimo <strong>onde há reward objetivo</strong> (teste verde, build compila). Mas onde <strong>não</strong> há — direito, medicina, texto — o critério de parada é o próprio modelo, que mede <span class="destaque">plausibilidade, não correção</span>.</p>
+  <p class="grande" style="text-align:center; margin:0.3em 0">O loop é o <em>motor</em>. O FI é a <span class="destaque">teoria de qualidade</span> do motor.</p>
+  <div class="anatomia" style="grid-template-columns:1fr; gap:0.4em; font-size:0.62em">
+    <div class="sec"><span class="tag" style="min-width:10em">priming</span><span class="role">geração + júri de modelos — mede <em>forma</em>. Falível em conjunto (pode errar junto).</span></div>
+    <div class="sec anchor"><span class="tag" style="min-width:10em">enforcement</span><span class="role">assert externo contra fonte primária <strong>não-LLM</strong> (lei, teste, sensor) — decide <em>verdade</em>.</span></div>
+    <div class="sec"><span class="tag" style="color:var(--ouro-claro); min-width:10em">têmpera</span><span class="role">entrega o <strong>pico</strong>, não a última rodada; para na regressão; escala ao humano.</span></div>
+  </div>
+  <p class="menor" style="margin-top:0.4em"><strong>FI age ANTES</strong> da inferência (configura o raciocínio); <strong>o loop age EM TORNO</strong> (orquestra as voltas). O FI denso vai <em>dentro</em> de cada iteração. Não competem — aninham-se.</p>
+  <p class="fonte">Regra de ouro: deixar o LLM julgar <em>verdade</em> mistura priming com enforcement numa camada só — é a fonte do erro confiante. Mantê-los separados é o blueprint. Fonte: BLUEPRINT-AGENT-LOOP-ENGINEERING (4 achados G4: convergência≠correção; júri cego por tipo de erro; ensemble tem teto; loop não-monotônico).</p>
+  <aside class="notes">Cinturão de 4 min — sacrificável sem perder o clímax (Artesanato/intenção delegada). Se a plateia for de praticantes de agent loops (provável neste Hub), este slide impede a pergunta "isso não foi superado?". Núcleo: o motor-vs-teoria-de-qualidade + as 3 camadas. Os 4 achados são prova fresca (loop-tácito, jun/2026) — citar só se houver cético. Honestidade de domínio: onde há reward barato, loop puro basta e FI é overhead; a composição brilha no tácito-sem-reward (direito/medicina).</aside>
+</section>
+
+<!-- ============ 9.quater — GRÁFICO Q×T (loop por força bruta · FI por densidade) ============ -->
+<section>
+  <h2>Os dois eixos do mesmo gráfico</h2>
+  <svg viewBox="0 0 520 230" style="width:74%; display:block; margin:0.3em auto;">
+    <!-- eixos -->
+    <line x1="60" y1="200" x2="500" y2="200" stroke="#6E6A62" stroke-width="1.5"/>
+    <line x1="60" y1="200" x2="60" y2="20" stroke="#6E6A62" stroke-width="1.5"/>
+    <text x="280" y="224" fill="#9A9488" font-family="Montserrat" font-size="12" text-anchor="middle" letter-spacing="1">TENTATIVAS (T) — força bruta do loop</text>
+    <text x="30" y="110" fill="#9A9488" font-family="Montserrat" font-size="12" text-anchor="middle" transform="rotate(-90 30 110)" letter-spacing="1">QUALIDADE (Q)</text>
+    <!-- curva loop puro: sobe gastando T -->
+    <path d="M60,195 C180,180 320,120 490,70" fill="none" stroke="#9A9488" stroke-width="2.5" stroke-dasharray="5 4"/>
+    <text x="430" y="60" fill="#9A9488" font-family="Fraunces" font-style="italic" font-size="13">loop puro</text>
+    <!-- curva loop+FI: sobe rápido com pouca T -->
+    <path d="M60,150 C130,70 230,45 490,38" fill="none" stroke="#C8662B" stroke-width="3"/>
+    <text x="300" y="40" fill="#E08A4A" font-family="Fraunces" font-style="italic" font-size="14">loop + FI denso</text>
+    <circle cx="60" cy="150" r="5" fill="#C8662B"/>
+    <text x="72" y="146" fill="#C9A25A" font-family="Montserrat" font-size="10">FI já parte de Q mais alto</text>
+  </svg>
+  <p class="grande" style="text-align:center; margin-top:0.2em">O loop sobe Q gastando <em>tentativas</em>. O FI sobe Q gastando <span class="destaque">densidade</span>.</p>
+  <p class="fonte">Não é loop <em>vs</em> FI — é loop <em>com</em> FI. Quem só tem loop paga em GPU e tempo; quem injeta FI denso em cada volta acerta com menos voltas. É onde a fronteira se move agora.</p>
+  <aside class="notes">Este é o fecho do bloco loop (Aha #3.bis). A imagem é o argumento: duas curvas, mesmo destino, custo diferente. Se cortar o bloco por tempo, este slide sozinho já carrega a tese. Não detalhar os 4 achados aqui — só a síntese Q×T.</aside>
+</section>
+
+<!-- ============ 10. NÃO É SÓ MAIS UM NOME ============ -->
+<section>
+  <h2>"Mas isso não é só mais um nome?"</h2>
+  <p class="menor">A fronteira já separa os dois lados — sem nomear a ponte:</p>
+  <table>
+    <tr><th></th><th>fazem</th><th>não fazem</th></tr>
+    <tr><td>OpenAI / Google</td><td>"não descreva o schema no prompt — use Structured Outputs"</td><td>nomear o eixo</td></tr>
+    <tr><td>Guardrails <span class="menor">(NeMo · Guardrails&nbsp;AI)</span></td><td>enforcement <em>de fora</em>, sobre a saída pronta</td><td>o priming, a travessia</td></tr>
+    <tr><td>ReAct / Reflexion</td><td><em>operam</em> a ponte (o loop)</td><td><em>teorizam</em> a ponte</td></tr>
+    <tr><td>DSPy LM Assertions</td><td>assert/suggest no pipeline</td><td>unir âncora + gate como 1 quantidade</td></tr>
+  </table>
+  <p class="grande">Nome marca território. <span class="destaque">O FI marca a travessia</span> — e a torna auditável.</p>
+</section>
+
+<!-- ============ 11. ANATOMIA DAS 8 SEÇÕES (diagrama #4) ============ -->
+<section>
+  <h2>A anatomia de um FI</h2>
+  <p class="menor" style="margin-bottom:0.3em">Oito seções. As cinco em <span style="color:var(--abobora-cl)">abóbora</span> são as âncoras de alta carga — vão nas bordas (curva-U). O miolo é conectivo.</p>
+  <div class="anatomia">
+    <div class="sec anchor"><span class="tag">[PAPEL]</span><span class="role">o expert que o modelo encarna</span></div>
+    <div class="sec anchor"><span class="tag">[OBJETIVO]</span><span class="role">a instrução-âncora (abre — instruction-first)</span></div>
+    <div class="sec anchor"><span class="tag">[MÉTODO]</span><span class="role">a sequência de raciocínio induzida</span></div>
+    <div class="sec"><span class="tag">[CONTEXTO]</span><span class="role">pano de fundo (não-acionável)</span></div>
+    <div class="sec"><span class="tag">[FONTES]</span><span class="role">hierarquia de autoridade do saber</span></div>
+    <div class="sec"><span class="tag">[OUTPUT]</span><span class="role">forma de entrega (Delivery Architecture)</span></div>
+    <div class="sec anchor"><span class="tag">[CONSTRAINTS]</span><span class="role">limites duros (enforcement)</span></div>
+    <div class="sec anchor"><span class="tag">[VERIFICAÇÃO]</span><span class="role">bicéfala: ASSERTS + CHECAGENS</span></div>
+    <div class="sec"><span class="tag" style="color:var(--ouro-claro)">+ MetaBlock</span><span class="role">metacognição (penúltima)</span></div>
+    <div class="sec"><span class="tag" style="color:var(--ouro-claro)">+ coda densa</span><span class="role">fecho que re-ancora (recency)</span></div>
+  </div>
+  <p class="fonte">"Gaste os radicais mais poderosos na abertura e no fecho." A curva-U motiva por que a ordem importaria — mas o efeito posicional é, hoje, a nossa borda viva em aberto (ver fecho).</p>
+  <aside class="notes">5 âncoras canônicas: PAPEL, OBJETIVO, MÉTODO, CONSTRAINTS, VERIFICAÇÃO. Um FI é conforme se tem ≥4 delas + (domínio HARD) ≥1 ASSERT executável.</aside>
+</section>
+
+<!-- ============ 11.bis FORMA CANÔNICA INTEGRAL (6 instrumentos × lado da ponte) ============ -->
+<section>
+  <h2>A forma canônica integral</h2>
+  <p class="menor" style="margin-bottom:0.4em">As seções são o esqueleto. Os <strong>seis instrumentos</strong> são o ofício — e cada um fica de um lado da ponte.</p>
+  <div class="anatomia" style="grid-template-columns:1fr; gap:0.4em; font-size:0.6em">
+    <div class="sec"><span class="tag" style="min-width:13em">1 · Densidade semiótica (SDE)</span><span class="role">cada palavra carrega mais método — <em>priming</em></span></div>
+    <div class="sec"><span class="tag" style="min-width:13em">2 · Poda sintática</span><span class="role">limpar a query antes de forjar — <em>priming</em></span></div>
+    <div class="sec"><span class="tag" style="min-width:13em">3 · CodePrompt</span><span class="role">encoding do método em estrutura — <em>priming</em></span></div>
+    <div class="sec"><span class="tag" style="min-width:13em">4 · Delivery Architecture</span><span class="role">abre o FI (conceito-âncora + instrução) <strong>e</strong> fecha (forma de entrega) — não é só jusante</span></div>
+    <div class="sec"><span class="tag" style="min-width:13em">5 · Agent-First</span><span class="role">superfície legível por agente — <em>priming</em></span></div>
+    <div class="sec anchor"><span class="tag" style="min-width:13em">6 · MetaBlock + coda</span><span class="role">metacognição (penúltima) → coda re-ancora o termo denso (fecho)</span></div>
+  </div>
+  <p class="grande" style="margin-top:0.45em; font-size:1.05em">A <span class="destaque">[VERIFICAÇÃO]</span> bicéfala é a travessia: CHECAGENS induzem · ASSERTS constrangem.</p>
+  <p class="fonte">Regra do fecho: o MetaBlock é penúltimo e a <strong>coda densa re-ancora o termo de domínio da abertura</strong> (recency, fecha o arco). <em>Exceção:</em> se o objetivo é cognitivo/metacognitivo (fi_type Ético/anti-alucinação), o MetaBlock <strong>encerra</strong> — é o termo de maior carga. Fonte: injetor canônico, §4.4/STEP 7.</p>
+  <aside class="notes">Aqui é onde a aula vira instrumento de verdade. Cinco instrumentos são priming; a VERIFICAÇÃO é a ponte. A regra da coda é a parte mais sutil: ou o MetaBlock encerra (metacognição = termo mais denso), ou eu reforço no fecho o conceito-âncora denso com que abri — fechar o arco do FI.</aside>
+</section>
+
+<!-- ============ 11.ter — A MEDIDA DA PONTE (exegese do bridge_width) ============ -->
+<section>
+  <h2 class="brush">Por que a ponte se mede assim</h2>
+  <p class="menor" style="margin-bottom:0.5em">A <em>largura da ponte</em> de um FI é uma razão — e cada parte dela quer dizer uma coisa precisa:</p>
+  <p class="grande" style="text-align:center; margin:0.3em 0"><span class="mono" style="font-size:0.78em; border:none; background:none; color:var(--abobora-cl)">bridge_width = asserts / (asserts + checagens)</span></p>
+  <div class="anatomia" style="grid-template-columns:1fr; gap:0.35em; font-size:0.62em; margin-top:0.4em">
+    <div class="sec"><span class="tag" style="min-width:11em; color:var(--abobora)">numerador · ASSERTS</span><span class="role">o que o harness <strong>obriga</strong> — <span class="mono" style="font-size:0.8em">test -f</span>, exit code, jq, súmula citada. Reprova igual para qualquer modelo (<em>model-invariante</em>).</span></div>
+    <div class="sec"><span class="tag" style="min-width:11em; color:var(--ouro)">denominador · TUDO</span><span class="role">asserts <strong>+</strong> checagens = toda a verificação que o FI declara. As checagens só <em>induzem</em> (o modelo observa, não é reprovado).</span></div>
+  </div>
+  <p style="margin-top:0.45em">A razão responde uma pergunta só: <span class="destaque">que fração da minha verificação o sistema pode obrigar — e não apenas sugerir?</span></p>
+  <p class="grande" style="margin-top:0.3em; font-size:1.05em">0 = puro priming (tudo é induzido). &nbsp;1 = toda a verificação atravessou para o lado executável.</p>
+  <p class="fonte">Por isso mede a <em>largura</em> da ponte priming→enforcement: quanto mais perto de 1, mais do FI vive no lado que constrange, não no que apenas convoca. Não é para inflar (assert-teatro reprova) — é o <strong>dial</strong> que se calibra ao solver: solver forte se afoga em densidade → mais enforcement; solver fraco → mais priming. Fonte: P-VEX §11.4, BLUEPRINT-FI-HARNESS-BRIDGE.</p>
+  <aside class="notes">Esta é a explicação que faltava: POR QUE a fórmula mede o que diz medir. ASSERTS são model-invariantes (test -f reprova igual p/ Opus e gemma) — é o lado determinístico/enforcement. CHECAGENS são cognitivas — lado priming. A razão é literalmente "quanto da ponte foi atravessada para o lado executável". bridge_width=0 → FI 100% priming; =1 → 100% enforçável. O empírico: sobre 300 FIs reais a razão era 0.04 (quase tudo prosa) — não porque a máquina falha, mas porque os FIs nunca foram ESCRITOS para serem enforçáveis. P-VEX corrige isso na forja. Não cravar número de bridge_width médio aqui sem o dado à mão.</aside>
+</section>
+
+<!-- ============ 12. DUALIDADE máquina/humano ============ -->
+<section>
+  <h2>O mesmo FI, em dois registros</h2>
+  <div class="crufi" style="grid-template-columns:1fr 1fr; gap:1.2em;">
+    <div class="col fi" style="border-left-color:var(--ouro)">
+      <div class="lbl">FI-máquina · vai para a LLM</div>
+      <div class="txt">Arquitete o schema de isolamento multi-tenant por schema separado: defina tenancy onde cada tenant recebe um schema dedicado… <span style="color:var(--texto-sec)">(prosa densa, instruction-first, sem rótulos)</span></div>
+    </div>
+    <div class="col cru" style="border-left-color:var(--abobora)">
+      <div class="lbl">FI-humano · vai para você</div>
+      <div class="txt"><span style="color:var(--ouro)">[PAPEL]</span> arquiteto de dados…<br><span style="color:var(--ouro)">[OBJETIVO]</span> isolar tenants…<br><span style="color:var(--ouro)">[MÉTODO]</span> 1. catálogo 2. provisionamento… <span style="color:var(--texto-sec)">(rotulado, auditável)</span></div>
+    </div>
+  </div>
+  <p class="grande" style="margin-top:0.5em">Mesma gramática. Um é otimizado para <em>eficácia</em>; o outro, para <em>compreensão</em>.</p>
+  <p class="fonte">O FI-humano é projeção determinística do FI-máquina — nunca uma segunda geração (dual-legibilidade, anti-drift).</p>
+</section>
+
+<!-- ============ 13-15. DEMO DE CONSTRUÇÃO AO VIVO (fragments + gauge) ============ -->
+<section data-auto-animate>
+  <span class="ghost-num">04</span>
+  <h2 class="brush">Construindo um FI — ao vivo</h2>
+  <p class="menor">Pegamos um pedido cru e o forjamos seção a seção. Olhem a densidade subir.</p>
+  <div class="crufi" style="grid-template-columns:1fr;">
+    <div class="col cru"><div class="lbl">o pedido cru</div><div class="txt">"faça uma análise de risco de crédito"</div></div>
+  </div>
+  <p class="ds-gauge">DS <span id="dsval1">1.3</span> <span class="ds-bar" style="width:60px"></span> <span class="menor">pidgin</span></p>
+  <p class="fragment menor" style="margin-top:0.4em">→ avance para injetar o método.</p>
+</section>
+<section data-auto-animate>
+  <h2 class="brush">Construindo um FI — ao vivo</h2>
+  <div class="anatomia" style="grid-template-columns:1fr;">
+    <div class="sec anchor"><span class="tag">[PAPEL]</span><span class="role">analista de risco de crédito sênior</span></div>
+    <div class="sec anchor"><span class="tag">[OBJETIVO]</span><span class="role">avaliar solvência com método explícito</span></div>
+    <div class="sec anchor"><span class="tag">[MÉTODO]</span><span class="role">1. liquidez 2. alavancagem 3. stress-test 3 cenários</span></div>
+  </div>
+  <p class="ds-gauge">DS <span>3.0</span> <span class="ds-bar" style="width:170px"></span> <span class="menor">o raciocínio já está disposto</span></p>
+</section>
+<section data-auto-animate>
+  <h2 class="brush">Construindo um FI — ao vivo</h2>
+  <div class="anatomia" style="grid-template-columns:1fr;">
+    <div class="sec"><span class="tag">[FONTES]</span><span class="role">balanço auditado &gt; benchmark &gt; estimativa</span></div>
+    <div class="sec anchor"><span class="tag">[CONSTRAINTS]</span><span class="role">em conflito de dado, aponte — não resolva · nunca recomende investimento</span></div>
+    <div class="sec anchor"><span class="tag">[VERIFICAÇÃO]</span><span class="role"><strong>ASSERT</strong> ≥2 fontes citadas · <strong>CHECAGEM</strong> os 3 cenários foram cobertos?</span></div>
+  </div>
+  <p class="ds-gauge">DS <span style="color:var(--abobora-cl)">4.4</span> <span class="ds-bar" style="width:255px; background:linear-gradient(90deg,var(--abobora),var(--ouro))"></span> <span class="menor">registro de especialista</span></p>
+  <p class="grande" style="margin-top:0.3em">Você não escreveu um prompt melhor. Você <span class="destaque">codificou um método.</span></p>
+  <aside class="notes">Backup: rodar o Prompt-Forge real no terminal projetado; fallback Colab se a rede cair. O slide sempre funciona.</aside>
+</section>
+
+<!-- ============ 16. PAR cru→FI — Declarativo (boas práticas) ============ -->
+<section>
+  <h2>Mesmo o pedido mais preguiçoso</h2>
+  <p style="margin-bottom:0.2em"><span class="badge">Declarativo</span> &nbsp; <span class="delta">DS 1.0 → 4.0</span></p>
+  <div class="crufi">
+    <div class="col cru"><div class="lbl">cru · 6 palavras</div><div class="txt">"o que as boas práticas recomendam?"</div></div>
+    <div class="arrow">→</div>
+    <div class="col fi"><div class="lbl">FI forjado</div><div class="txt">…<mark>primeiro fixe o referente</mark> — boas práticas sobre o quê; traga a recomendação consolidada com <mark>fundamentação</mark>; indique o <mark>trade-off</mark> e quando não se aplica… declare o referente que inferiu; sinalize inferência vs dado.</div></div>
+  </div>
+  <p class="fonte">Exemplo real de produção (carries reais, n=435). O FI força ancoragem onde o cru flutuava.</p>
+</section>
+
+<!-- ============ 17. PAR cru→FI — Composicional (status-line código) ============ -->
+<section>
+  <h2>Um pedido profissional, multifacetado</h2>
+  <p style="margin-bottom:0.2em"><span class="badge">Composicional</span> &nbsp; <span class="delta">DS 2.5 → 4.8</span> &nbsp;<span class="menor">domínio: código</span></p>
+  <div class="crufi">
+    <div class="col cru"><div class="lbl">cru · requisitos misturados</div><div class="txt">"quero a status line mais inteligente… o % de contexto está errado… saber sessão/projeto… custo de tokens… não gaste muito, regex se der…"</div></div>
+    <div class="arrow">→</div>
+    <div class="col fi"><div class="lbl">FI forjado</div><div class="txt">…requisitos <mark>em ordem de prioridade</mark> (1 primário, 3 secundário); especifique a <mark>fonte de verdade de cada métrica</mark>; declare por que o % atual erra; sinalize inferência vs verificado; reancore: a status line é <mark>instrumento de decisão</mark>.</div></div>
+  </div>
+  <p class="fonte">O FI domou um pedido com 3 eixos (funcional + estético + custo) sem perder nenhum sinal.</p>
+</section>
+
+<!-- ============ 18. ARTESANATO ============ -->
+<section data-background-color="#191B20">
+  <div class="selo-wrap" style="top:9%;"><span class="kanji kanji-grande">無為</span><span class="selo-leg">wú wéi · o não-forçar</span></div>
+  <h2 class="brush">O nome maior: Artesanato Digital</h2>
+  <p style="margin-bottom:0.5em"><strong>OFÍCIO</strong> — o gesto técnico<br><span class="menor">densificar · temperar · classificar priming e enforcement</span></p>
+  <p><strong>PRINCÍPIO</strong> — a lei invariante<br><span class="menor">dispor o vazio para a forma emergir <em>(o Cozinheiro de Zhuangzi)</em></span></p>
+  <p style="margin-top:0.4em"><strong>A COSTURA</strong> — a <span class="destaque">passividade ativa</span><br><span class="menor">o <span class="kanji">無為</span> (wú wéi) une os dois: o artífice <em>dispõe</em> a ponte — prime denso, enforcement no lugar certo — e deixa a inteligência fluir. Não empurra; constrói a travessia e deixa o modelo atravessá-la.</span></p>
+  <blockquote style="margin-top:0.5em">Michelangelo não empurrou o Davi para dentro do mármore.<br>Leu a pedra e tirou o que sobrava.</blockquote>
+  <aside class="notes">A passividade ativa NÃO é passividade: é a ação que flui de dispor o método, não de forçar o resultado. É o que costura o ofício (gesto) ao princípio (lei). Wu wei aplicado à ponte: dispor prime+enforcement e deixar atravessar.</aside>
+</section>
+
+<!-- ============ 19. INTENÇÃO DELEGADA (clímax) ============ -->
+<section>
+  <h2>A camada-raiz: a intenção delegada</h2>
+  <div class="climax">
+    <p>A IA <strong>executa</strong>; ela não <strong>pretende</strong>.</p>
+    <p>Toda intenção no que ela faz foi <span class="destaque">delegada por um humano</span>.</p>
+    <p class="menor">A intencionalidade é o <strong>recorte</strong>: é o humano que decide <em>onde</em> a indução deve escalar até virar constrangimento. O recorte é um ato de intenção — não da máquina.</p>
+    <p class="grande" style="margin-top:0.4em">A intenção é o que não se terceiriza.<br>O artífice é cada um de vocês.</p>
+  </div>
+  <p class="fonte">lastro: John Searle — intencionalidade intrínseca vs. derivada (o "as-if" do termostato que "quer 20°C"). O FI é pré-inferência: pensa o todo do espaço de raciocínio antes do raciocínio acontecer.</p>
+</section>
+
+<!-- ============ 20. DENSIDADE (input) ============ -->
+<section>
+  <h2>A demo que se mede</h2>
+  <div class="chart-box"><canvas id="chartAB"></canvas></div>
+  <p class="legenda-grafico">Densidade semiótica — quanto de método cada palavra carrega. O Prompt-Forge registrou <span class="destaque">435 transmutações reais</span>: DS média <span class="destaque">1,86 → 4,47</span> (+140%).</p>
+  <p class="fonte">Consistente em todos os domínios — código, jurídico, pesquisa, geral. Este número mede o INPUT (o que você diz).</p>
+</section>
+
+<!-- ============ 21. DOIS NÚMEROS, DUAS COISAS ============ -->
+<section>
+  <h2>Dois números — não confunda</h2>
+  <table style="font-size:0.92em">
+    <tr><th>O que se mede</th><th>Número</th><th>Amostra</th><th>O que prova</th></tr>
+    <tr><td><strong>Densidade</strong> do que <em>você diz</em></td><td class="destaque">+140%</td><td>n=435 produção</td><td>o método densifica o INPUT</td></tr>
+    <tr><td><strong>Vitória</strong> do que <em>ela devolve</em></td><td class="destaque">85–92% vs 0–2%</td><td>n=49 juiz cego</td><td>o método melhora o OUTPUT</td></tr>
+  </table>
+  <p class="grande" style="margin-top:0.6em">Densidade é o que <em>eu disse</em>. Vitória é o que <em>ele devolveu</em>. Coisas diferentes.</p>
+  <p class="fonte">Responde à objeção comum: "o 88% mede o prompt, não o output?" — não; são dois experimentos distintos.</p>
+</section>
+
+<!-- ============ 22. A BORDA VIVA (honestidade epistêmica — posicional de leve) ============ -->
+<section>
+  <h2 class="brush">A borda onde ainda trabalhamos</h2>
+  <p class="menor" style="margin-bottom:0.5em">Voltando ao mapa: o núcleo está de pé. É no <strong>cinturão</strong> e na <strong>borda</strong> que a pesquisa segue viva — e é honesto mostrar isso a pares.</p>
+  <div class="anatomia" style="grid-template-columns:1fr; gap:0.5em; font-size:0.64em">
+    <div class="sec"><span class="tag" style="color:var(--ouro-claro); min-width:11em">🔬 densidade posicional</span><span class="role">onde colocar a carga densa dentro do FI. A frente encontra paro no <em>“Lost in the Middle”</em> (pesquisa de terceiros). Seguimos medindo — não fechamos para nenhum lado.</span></div>
+    <div class="sec"><span class="tag" style="color:var(--texto-sec); min-width:11em">🜂 ajuste em runtime</span><span class="role">testamos ajustar a “força” do FI em runtime; nas premissas que usamos, não se sustentou. Mantemos em aberto — não cravamos “não funciona”.</span></div>
+    <div class="sec"><span class="tag" style="color:var(--texto-sec); min-width:11em">🜂 stack ≠ agente forte</span><span class="role">a infra automatizada de hoje ainda não substitui o forjador frontier. Resultado parcial, em análise.</span></div>
+  </div>
+  <p class="grande" style="margin-top:0.45em; font-size:1.05em">“Já testamos — nas nossas premissas, ainda inconclusivo.” Isso não é fraqueza: é o programa funcionando.</p>
+  <p class="fonte">Mostrar a borda em aberto é parte do método — expor o que segue em análise, não só os acertos. A posicional é inspirada no Lost in the Middle (Liu et al., 2023) — frente ativa, sem veredito.</p>
+  <aside class="notes">Posicional tratada DE LEVE, sem expor números mistos (3 desenhos inconclusivos vs banda 16k) — ainda dependem da comparação v1↔v2. Ancorar no Liu como motivação de terceiros. O tom é de par para par: 'é isto que pesquiso, é aqui que ainda não sei'.</aside>
+</section>
+
+<!-- ============ 22.bis VALIDAÇÃO EXTERNA (os criadores das teorias-base responderam) ============ -->
+<section>
+  <h2 class="brush">Quem já leu — e respondeu</h2>
+  <p class="menor" style="margin-bottom:0.5em">Não trabalho num vácuo. Procurei os <strong>criadores das teorias</strong> que uso como base — e dois responderam diretamente. Sou pesquisador independente, sem vínculo institucional; isto é validação por pares, no sentido literal.</p>
+  <div class="anatomia" style="grid-template-columns:1fr; gap:0.55em; font-size:0.62em">
+    <div class="sec"><span class="tag" style="min-width:12em; color:var(--ouro-claro)">Shauli Ravfogel · NYU / Bar-Ilan</span><span class="role">criador do <strong>LACE</strong> (manipulação de espaços vetoriais; publica em ACL, EMNLP, NAACL). O meu <strong>STEER</strong> estende o método dele. <strong>Aceitou endossar o paper para o arXiv</strong> — não é automático: um pesquisador estabelecido atesta o mérito.</span></div>
+    <div class="sec"><span class="tag" style="min-width:12em; color:var(--ouro-claro)">Herbert Edelsbrunner · IST Austria</span><span class="role">um dos <strong>fundadores da Persistent Homology</strong> (a matemática da “forma” dos dados; Academia Austríaca de Ciências). O meu <strong>IMI</strong> aplica a matemática que ele criou. Leu, identificou que eu enviara o paper errado, e sobre o correto: <em>“a forma como você usa topologia e persistência faz sentido para mim.”</em></span></div>
+  </div>
+  <p class="grande" style="margin-top:0.45em; font-size:1.0em">Os criadores das teorias-base confirmaram que o <span class="destaque">uso do formalismo está correto</span>.</p>
+  <p class="fonte">Honestidade do escopo: o endosso/confirmação é do <strong>STEER</strong> e do <strong>IMI</strong> — linhas do mesmo programa de pesquisa do qual o Framework Injection faz parte, não do FI em si. Edelsbrunner ressalvou não opinar sobre a interpretação cognitiva (questão empírica). É validação do <em>rigor do programa</em>, não selo de um resultado específico do FI. Fonte: validacao-pesquisadores.md · ORCID 0009-0005-7380-9876.</p>
+  <aside class="notes">Esta lâmina é o ativo de credibilidade mais forte para os pares — mas tem que ser dita com escopo honesto, senão um par técnico desmonta: a validação é de STEER (Ravfogel endossou arXiv) e IMI (Edelsbrunner confirmou a matemática), que são linhas-irmãs do programa, NÃO do FI diretamente. Dizer isso explicitamente AUMENTA a credibilidade em vez de reduzir — é exatamente a postura de honestidade epistêmica que o resto da aula prega. Posicionada depois da borda viva: 'mostro onde ainda não sei, E mostro quem já atestou o rigor do que faço'.</aside>
+</section>
+
+<!-- ============ 23. FECHO ============ -->
+<section data-background-color="#191B20">
+  <p class="menor" style="margin-bottom:0.6em">Voltando ao mapa do começo:</p>
+  <ul style="font-size:0.8em">
+    <li><strong>Núcleo</strong> — a ponte priming↔enforcement: de pé, medido.</li>
+    <li><strong>Cinturão</strong> — testado, revisado, algumas hipóteses caíram. Saudável.</li>
+    <li><strong>Borda</strong> — a densidade posicional: <em>ainda viva, é onde sigo agora.</em></li>
+  </ul>
+  <p class="grande" style="margin-top:0.7em">Você não vai <em>comandar</em> mais forte. Você vai <span class="destaque">dispor o método</span> — e deixar a inteligência fluir.</p>
+  <p style="margin-top:0.7em; font-family:var(--serif); font-style:italic; font-size:1.1em;">É isto que pesquiso. É aqui que ainda não sei.<br><strong style="font-style:normal">Perguntem — e amanhã você forja o seu.</strong></p>
+  <p class="marca" style="margin-top:1.2em">∞ &nbsp;Academia <b>Lendár[IA]</b></p>
+</section>
+
+<!-- ============ 24. PERGUNTAS ============ -->
+<section data-background-color="#191B20">
+  <h1 style="font-size:4.5em; color:var(--abobora); font-style:italic; font-weight:300;">?</h1>
+</section>
+
+</div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+  Reveal.initialize({ hash:true, slideNumber:'c/t', transition:'fade', transitionSpeed:'slow' });
+
+  const css=getComputedStyle(document.documentElement);
+  const abobora=css.getPropertyValue('--abobora').trim()||'#C8662B';
+  const aboboraC=css.getPropertyValue('--abobora-cl').trim()||'#E08A4A';
+  const ouro=css.getPropertyValue('--ouro').trim()||'#C9A25A';
+  const ouroC=css.getPropertyValue('--ouro-claro').trim()||'#E3CFA0';
+  const texto=css.getPropertyValue('--texto').trim()||'#EDEAE3';
+  const sec=css.getPropertyValue('--texto-sec').trim()||'#9A9488';
+  const filete=css.getPropertyValue('--filete').trim()||'#3A3E47';
+  Chart.defaults.font.family="'Montserrat',sans-serif"; Chart.defaults.font.size=14; Chart.defaults.color=sec;
+  const baseOpts={responsive:true,maintainAspectRatio:false,layout:{padding:{left:12,right:24,top:6,bottom:6}},
+    plugins:{legend:{labels:{color:texto}}},scales:{x:{ticks:{color:sec},grid:{color:filete}},y:{ticks:{color:sec,padding:10},grid:{color:filete}}}};
+  const titleFont={family:"'Fraunces',serif",size:18,weight:'500'};
+  // mkChart: só instancia se o canvas existir — remover um slide-gráfico nunca quebra o deck.
+  const mkChart=(id,cfg)=>{const el=document.getElementById(id); if(el) new Chart(el,cfg);};
+  Reveal.on('ready',()=>{
+    mkChart('chartEficacia',{type:'bar',
+      data:{labels:['Cru','FI'],datasets:[{data:[2,91.8],backgroundColor:[sec,abobora],borderWidth:0}]},
+      options:{...baseOpts,indexAxis:'y',scales:{x:{min:0,max:100,ticks:{color:sec},grid:{color:filete}},y:{ticks:{color:texto,font:{size:16}},grid:{display:false}}},
+        plugins:{legend:{display:false},title:{display:true,text:'Vitória às cegas, em %  ·  n=49, consenso 2 de 3',color:texto,font:titleFont}}}});
+    mkChart('chartAB',{type:'bar',
+      data:{labels:['Braço A — cru','Braço B — FI forjado'],datasets:[{data:[1.86,4.47],backgroundColor:[sec,aboboraC],borderWidth:0}]},
+      options:{...baseOpts,indexAxis:'y',scales:{x:{min:0,max:5,ticks:{color:sec},grid:{color:filete}},y:{ticks:{color:texto,font:{size:16}},grid:{display:false}}},
+        plugins:{legend:{display:false},title:{display:true,text:'Densidade semiótica média  ·  n=435 produção',color:texto,font:titleFont}}}});
+  });
+</script>
+</body>
+</html>

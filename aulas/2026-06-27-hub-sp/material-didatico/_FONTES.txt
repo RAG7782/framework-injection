@@ -1,0 +1,6 @@
+Fontes canônicas lidas para esta aula:
+- versao-portugues.md (paper-mãe FI: PE⊂CE⊂FI, 5 tipos, ATP, 6 fundamentos)
+- skills/prompt-forge/SKILL.md (SP, SDE, CodePrompt, DA, MetaBlock operacionais)
+- BLUEPRINT-FI-HARNESS-BRIDGE.md (H3: FI=ponte enforcement↔priming; benchmark n=49)
+- AFD canônico: DS-d = 1/grep_hits (Akita, falsificável)
+- prompt-forge engine.py v2 (fi_machine, voz, render posicional)
