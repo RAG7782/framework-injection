@@ -45,8 +45,46 @@ The model BLENDS these fields, producing emergent properties in neither input: t
 
 This is now the 7th theoretical foundation of Digital Craftsmanship / Framework Injection, alongside Peirce, Greenberg, Vygotsky, Sweller, Wittgenstein, and Polanyi.
 
+## Extension: DSSD Applied to Code Identifiers (2026-05-11)
+
+### Grepability as Operational Semiotic Density Metric
+
+Akita (2026) proposes an empirical rule for naming code identifiers in agent-operated codebases:
+> "If you grep the name and many irrelevant hits come back, the name is bad for the agent."
+
+This maps directly to DSSD as a **measurable, code-level metric**:
+
+```
+DS-d(identifier) = 1 / count(irrelevant_grep_hits)
+```
+
+- **High DS-d**: identifier returns <5 grep hits, all relevant → agent navigates directly
+- **Low DS-d**: identifier returns 50+ hits across unrelated modules → agent reads each, wasting tokens
+
+**Examples:**
+| Identifier | grep hits | DS-d | Assessment |
+|---|---|---|---|
+| `data` | 847 | 0.001 | Prohibited — zero density |
+| `handler` | 203 | 0.005 | Prohibited — generic frame |
+| `UserRegistrationValidator` | 3 | 0.333 | Excellent — precise frame |
+| `InvoiceLineItemTotal` | 2 | 0.500 | Excellent — domain-specific |
+| `ClaudeCodeSessionTracker` | 1 | 1.000 | Perfect — unique in codebase |
+
+### Connection to FI/SDE Operations
+
+- **Densify operation** applied to identifiers = increasing DS-d by replacing generic with domain-specific
+- **Rarefy operation** = removing overloaded terms (`Manager`, `Service`, `Helper`) that collapse DS-d
+- The STEER quantitative layer can now incorporate `grep_hit_count` as a measurable density signal
+
+### Implication for Agent-First Codebases
+
+Code written for agent consumption requires DSSD applied at the identifier level, not only at the prompt level. The codebase IS the prompt for the agent navigating it via Glob/Grep. Low DS-d identifiers = low-quality implicit prompt = degraded agent output.
+
+**Formal claim (falsifiable):** codebases with mean DS-d(identifier) > 0.10 (i.e., mean grep hits < 10 per unique identifier) will show measurably lower agent error rates in refactoring tasks than codebases with mean DS-d < 0.02.
+
 ---
 
 Author: Renato Aparecido Gomes
 ORCID: 0009-0005-7380-9876
 Date: 2026-03-31
+Extension: 2026-05-11 (DSSD → code identifiers + grepability metric)
