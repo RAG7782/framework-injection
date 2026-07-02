@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>P2-catraca-sem-codigo</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="estilo.css" />
+</head>
+<body>
+<div class='wrap'><div class='doc-nav'><b>P2 · v2 temperada</b> — Catraca sem código</div>
+<header id="title-block-header">
+<h1 class="title">P2-catraca-sem-codigo</h1>
+</header>
+<h1 id="a-catraca-sem-código--enforcement-para-quem-não-é-programador">A
+catraca sem código — enforcement para quem não é programador</h1>
+<blockquote>
+<p><strong>O que esta página resolve</strong> (apontamento do
+peer-review 2026-06-27): o <code>grep -q</code> é uma catraca perfeita
+para ensinar — mas o profissional não-dev (advogado, médico, analista)
+vê o código de terminal e <strong>fecha o PDF</strong>: "segurança é
+privilégio de programador". Falso. O <code>grep</code> é
+<strong>um</strong> ponto num espectro de catracas. Aqui estão as que
+não pedem terminal — com exemplo por profissão, um critério para
+<strong>escolher</strong> qual usar, e o limite honesto de cada uma (uma
+catraca que passou algo errado, para você sentir a fronteira antes do
+crítico).</p>
+<p><strong>Lastro:</strong> critério-mestre do
+<code>como-classificar-priming-enforcement.md</code> (enforcement =
+existe mecanismo FORA do modelo que reprova a saída). O
+<code>grep</code> é só a encarnação mais didática desse critério.
+<code>[AF]</code> a lista de catracas sem-código, a matriz de escolha e
+o critério "quando confiar no duplo-agente" são derivados do mesmo
+critério-mestre — mesma regra, outras ferramentas — e marcados como
+tal.</p>
+</blockquote>
+<hr />
+<h2 id="a-regra-continua-a-mesma">A regra continua a mesma</h2>
+<p>O que faz uma catraca <strong>não é ser código</strong> — é ser um
+<strong>mecanismo externo ao modelo que reprova a saída se a condição
+falhar</strong>. O <code>grep -q</code> só é famoso porque é o exemplo
+mais nu. Troque o <code>grep</code> por qualquer coisa que devolva
+<strong>passa / não-passa</strong> sem pedir a opinião do modelo, e você
+tem enforcement. A coercividade é um <strong>espectro</strong>, não um
+botão liga-desliga.</p>
+<pre><code>PLACA ─────────────────────────────────────────────────────► CATRACA
+(priming)                                              (enforcement)
+ prosa      &quot;deve      JSON      duplo-      structured    grep -q
+ solta      conter X&quot;  schema    agente      output API    / teste
+            ▲          no CRM    true/false                exit code
+            │
+       PRIMING DISFARÇADO (parece regra, mas nada externo reprova)</code></pre>
+<p><strong>Por que cada ponto está onde está</strong> (leia o espectro
+da esquerda para a direita — cada passo move a verificação <em>para mais
+longe da cabeça do modelo</em>):</p>
+<ul>
+<li><strong>prosa solta</strong> — "seja cuidadoso", "faça um bom
+parecer". Nada checável. Placa pura.</li>
+<li><strong>"deve conter X"</strong> — já tem uma condição (a palavra X
+aparece?), mas quem julga ainda é o próprio modelo lendo a si mesmo. É a
+<strong>catraca de papelão</strong>: forma de regra, zero braço.</li>
+<li><strong>JSON schema no CRM</strong> — aqui a verificação
+<em>sai</em> do modelo: um <strong>parser</strong> (software burro,
+determinístico) recusa o que não bate. Primeiro ponto que trava de
+verdade.</li>
+<li><strong>duplo-agente true/false</strong> — a verificação está fora
+do gerador, mas ainda é <strong>um LLM</strong> que decide. Trava mais
+que papelão, menos que aço — porque o juiz é estocástico (varia).</li>
+<li><strong>structured output API</strong> — o próprio provedor
+(OpenAI/Anthropic) <strong>força</strong> o formato na saída; o modelo
+não consegue fugir do schema. Determinístico de novo.</li>
+<li><strong>grep -q / teste / exit code</strong> — o extremo: um comando
+roda, devolve 0 ou 1, e <strong>reprova sem dó</strong>. Nenhuma
+opinião, nenhum "quase". Catraca de aço.</li>
+</ul>
+<blockquote>
+<p><strong>A régua escondida no espectro:</strong> quanto mais à
+direita, mais a decisão de aprovar/reprovar é tirada do modelo e
+entregue a algo que <strong>não tem interesse em agradar</strong>. O
+papelão está à esquerda porque o juiz é o próprio réu. O aço está à
+direita porque o juiz é um cano de ferro.</p>
+</blockquote>
+<hr />
+<h2 id="4-catracas-que-não-pedem-terminal">4 catracas que não pedem
+terminal</h2>
+<h3 id="1-structured-output--json-schema-a-catraca-é-o-parser">1.
+Structured Output / JSON Schema (a catraca é o <em>parser</em>)</h3>
+<p>Você exige que a IA devolva <strong>exatamente</strong> no formato de
+um schema (campos obrigatórios, tipos). Se ela "devanear" e não
+preencher o formulário exato, <strong>o software recusa
+automaticamente</strong> — não a IA. O parser é o muro de concreto.</p>
+<ul>
+<li><strong>Advogado:</strong> "analise o contrato e devolva
+<code>{parte, objeto, valor, riscos[], clausula_leonina: bool}</code>."
+Faltou <code>riscos</code>? O sistema rejeita. A IA não se auto-aprovou
+— o schema reprovou.</li>
+<li><strong>Médico:</strong> triagem devolve
+<code>{queixa, tempo_sintoma_h: number, red_flags[], conduta}</code>. A
+IA escreveu "há algumas horas" no campo <code>tempo_sintoma_h</code>? O
+parser exige <strong>número</strong> e barra — o campo vira input
+verificável de protocolo, não prosa vaga.</li>
+<li><strong>Analista financeiro:</strong> parecer devolve
+<code>{ativo, rating, premissas[], preco_alvo: number, cenario_stress: bool}</code>.
+Veio <code>rating</code> mas <code>cenario_stress</code> ficou
+<code>null</code>? Não salva. A ausência do stress-test é barrada na
+porta, não descoberta na reunião.</li>
+<li><strong>Consultor:</strong> diagnóstico devolve
+<code>{cliente, hipoteses[], evidencia_por_hipotese[], recomendacao, risco_execucao}</code>.
+Uma hipótese sem <code>evidencia</code>? Schema recusa — mata o slide
+bonito sem lastro.</li>
+</ul>
+<blockquote>
+<p>Ferramentas: OpenAI/Anthropic <em>structured output</em>, Pydantic,
+JSON Schema no próprio CRM/ERP.</p>
+</blockquote>
+<h3
+id="2-duplo-agente-a-catraca-é-um-segundo-agente-que-só-diz-simnão">2.
+Duplo-agente (a catraca é um <em>segundo agente que só diz
+sim/não</em>)</h3>
+<ul>
+<li><strong>Agente A</strong> = criativo (gera a resposta).</li>
+<li><strong>Agente B</strong> = a catraca. Roda um checklist binário
+sobre a resposta de A.</li>
+<li><strong>Regra de ouro:</strong> o Agente B <strong>não tem permissão
+de gerar texto novo</strong> — ele só emite <code>verdadeiro</code> ou
+<code>falso</code>. Ele não cria; ele <strong>bloqueia</strong>.</li>
+</ul>
+<p>Por que funciona: B é externo à função geradora de A. Não é "réu e
+juiz na mesma cabeça" — são duas cabeças, e a segunda não tem interesse
+em agradar a primeira.</p>
+<ul>
+<li><strong>Advogado:</strong> A minuta a petição; B recebe só a
+pergunta binária <em>"toda tese citada tem fundamento legal explícito na
+peça? (S/N)"</em>. B acha uma tese sem artigo → reprova, devolve para
+A.</li>
+<li><strong>Médico:</strong> A escreve a prescrição; B checa <em>"há
+interação medicamentosa entre os itens prescritos, conforme a lista
+fornecida? (S/N)"</em>. B não prescreve — só levanta a bandeira.</li>
+<li><strong>Analista financeiro:</strong> A gera a recomendação; B checa
+<em>"a recomendação declara horizonte temporal E cenário de baixa?
+(S/N)"</em>. Faltou o downside → bloqueia.</li>
+<li><strong>Consultor:</strong> A monta o roadmap; B checa <em>"cada
+iniciativa tem dono E prazo E métrica de sucesso? (S/N)"</em>.
+Iniciativa órfã → volta.</li>
+</ul>
+<blockquote>
+<p><em>Cuidado:</em> B ainda é um LLM (estocástico). É uma catraca
+<strong>mais forte que prosa</strong>, mas mais fraca que um parser
+determinístico. Quando confiar nele, e quando não — ver a seção
+<strong>"E o duplo-agente é confiável?"</strong>, abaixo.</p>
+</blockquote>
+<h3 id="3-formuláriocampo-obrigatório-no-sistema-que-você-já-usa">3.
+Formulário/campo obrigatório no sistema que você já usa</h3>
+<p>Seu CRM, planilha ou ERP já reprova campo vazio. Faça a saída da IA
+<strong>passar por ele</strong>. Se o campo "fundamentação" está vazio,
+o sistema não deixa salvar. Enforcement de negócio, zero código.</p>
+<ul>
+<li><strong>Advogado:</strong> o campo "fundamento legal" do sistema de
+peças é obrigatório → a saída da IA não é salva sem ele. O software do
+escritório vira a catraca.</li>
+<li><strong>Médico:</strong> o prontuário eletrônico <strong>não fecha o
+atendimento</strong> sem CID preenchido → a nota gerada pela IA que
+"esqueceu" o CID trava na tela, não vaza para o registro.</li>
+<li><strong>Analista:</strong> a planilha de comitê tem célula
+obrigatória "preço-alvo" com validação de tipo numérico → texto
+qualitativo não entra ali.</li>
+<li><strong>Consultor:</strong> o template de proposta no CRM exige o
+campo "critério de aceite" preenchido → proposta sem critério não avança
+de estágio.</li>
+</ul>
+<h3 id="4-regra-de-negócio-como-gate-lógica-não-sintaxe">4. Regra de
+negócio como gate (lógica, não sintaxe)</h3>
+<p>"Valor da causa &gt; R$ 100 mil → exige parecer sênior antes de
+sair." Isso é uma catraca de <strong>lógica de negócio</strong>: um
+<code>if</code> que você já tem no fluxo, aplicado à saída da IA.</p>
+<ul>
+<li><strong>Advogado:</strong> valor da causa &gt; R$ 100 mil → trava
+até visto do sócio.</li>
+<li><strong>Médico:</strong> paciente &gt; 65 anos <strong>e</strong>
+dor torácica → protocolo obriga ECG antes de liberar alta; a conduta da
+IA que pula o ECG é barrada pela regra, não pela IA.</li>
+<li><strong>Analista:</strong> exposição &gt; 5% da carteira → exige
+aprovação do comitê de risco antes de executar.</li>
+<li><strong>Consultor:</strong> contrato &gt; R$ 500 mil ou prazo &gt;
+12 meses → exige revisão jurídica antes do envio.</li>
+</ul>
+<hr />
+<h2 id="qual-catraca-para-qual-situação-a-matriz-de-escolha-af">Qual
+catraca para qual situação? (a matriz de escolha) <code>[AF]</code></h2>
+<p>Você não escolhe a catraca pelo que sabe programar — escolhe pela
+<strong>natureza do que precisa barrar</strong>. Três perguntas resolvem
+quase sempre:</p>
+<ol type="1">
+<li><strong>O erro é de FORMA ou de CONTEÚDO?</strong> (faltou um campo
+× o campo está errado)</li>
+<li><strong>A checagem é MECÂNICA ou precisa de JULGAMENTO?</strong>
+(existe/não-existe × "faz sentido?")</li>
+<li><strong>Você TEM um sistema no fluxo</strong> que já reprova campo
+vazio, ou está no vácuo?</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Sua situação</th>
+<th>Catraca certa</th>
+<th>Por quê</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Preciso garantir que <strong>todos os campos existem</strong> e têm
+o tipo certo</td>
+<td><strong>1. Schema/Parser</strong></td>
+<td>verificação mecânica pura, determinística, à prova de devaneio</td>
+</tr>
+<tr>
+<td>Já uso CRM/ERP/prontuário que <strong>trava campo
+vazio</strong></td>
+<td><strong>3. Campo obrigatório</strong></td>
+<td>reaproveita muro que já existe — esforço zero, confiabilidade de
+software</td>
+</tr>
+<tr>
+<td>A regra é <strong>condicional de negócio</strong> ("se X &gt;
+limite, exige Y")</td>
+<td><strong>4. Regra de negócio (gate)</strong></td>
+<td>é um <code>if</code> do seu processo, não sintaxe — determinístico e
+auditável</td>
+</tr>
+<tr>
+<td>Preciso checar algo que <strong>exige leitura/interpretação</strong>
+("toda tese tem fundamento?") e não há teste mecânico</td>
+<td><strong>2. Duplo-agente</strong></td>
+<td>única opção quando o critério é semântico; aceite que é
+aço-fraco</td>
+</tr>
+<tr>
+<td>A propriedade é <strong>binária e literal</strong> ("contém a
+palavra RATING")</td>
+<td><strong>grep / teste</strong> (o de terminal)</td>
+<td>se você topar uma linha de comando, é a catraca mais barata e mais
+dura</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Regra de desempate — sempre prefira a catraca mais à DIREITA
+do espectro que resolve o seu caso.</strong> Um schema (determinístico)
+ganha de um duplo-agente (estocástico) <em>sempre que o critério couber
+num formato</em>. Só desça para o duplo-agente quando o que você precisa
+checar <strong>não cabe</strong> num parser — quando exige de fato ler e
+entender. Não use duplo-agente para checar "o campo existe": isso é
+canhão para matar mosca, e o canhão erra às vezes.</p>
+<blockquote>
+<p><strong>Combine catracas em camadas.</strong> O mais forte na prática
+é empilhar: schema barra a forma (barato, determinístico) → duplo-agente
+barra o sentido (caro, estocástico) → campo obrigatório do CRM barra a
+entrega final. Cada camada pega o que a anterior deixou passar.</p>
+</blockquote>
+<hr />
+<h2
+id="e-o-duplo-agente-é-confiável-quando-confiar-no-juiz-estocástico-af">E
+o duplo-agente é confiável? (quando confiar no juiz estocástico)
+<code>[AF]</code></h2>
+<p>O Agente B é um LLM. Ele <strong>varia</strong>: rode a mesma
+checagem duas vezes e pode dar S numa e N noutra. Isso não o inutiliza —
+mas define <strong>onde ele serve e onde ele engana</strong>.</p>
+<p><strong>Confie no duplo-agente quando:</strong></p>
+<ul>
+<li>A checagem é <strong>binária e bem-delimitada</strong> ("existe a
+seção de riscos? S/N") — quanto mais a pergunta se aproxima de um
+"achei/não-achei", mais o LLM acerta.</li>
+<li>O custo de um <strong>falso-positivo é baixo</strong> (se ele deixar
+passar um errado de vez em quando, o dano é recuperável, não
+catastrófico).</li>
+<li>Você <strong>fecha a pergunta</strong>: B recebe <em>uma</em>
+pergunta S/N, não "avalie a qualidade". Pergunta aberta devolve prosa, e
+prosa não trava nada — vira papelão de novo.</li>
+</ul>
+<p><strong>NÃO confie — exija catraca determinística
+(schema/regra/teste) quando:</strong></p>
+<ul>
+<li>O erro é <strong>caro ou irreversível</strong> (perda financeira
+material, dano ao paciente, nulidade processual). Estocástico não guarda
+cofre.</li>
+<li>A propriedade <strong>cabe num teste mecânico</strong> ("o campo
+<code>preco_alvo</code> é número?"). Se um parser resolve, usar LLM é
+trocar aço por lata por preguiça.</li>
+<li>Você precisa de <strong>auditoria estável</strong> ("provar que 100%
+das saídas passaram na checagem X"). Um juiz que varia não dá garantia
+auditável.</li>
+</ul>
+<blockquote>
+<p><strong>O veto de eficácia-limitada</strong> (mesmo princípio da
+<code>fi-enforce</code>): não peça ao duplo-agente algo que depende de
+juízo futuro aberto — <em>"avalie se a estratégia é razoável"</em>. Isso
+é cognitivo por natureza; forçar um S/N ali é
+<strong>assert-teatro</strong>: parece catraca, mas o "sim" não
+significa nada. Mantenha o duplo-agente nas perguntas <strong>fechadas e
+verificáveis</strong>, e deixe o julgamento aberto explicitamente para o
+humano.</p>
+</blockquote>
+<p><strong>Regra de bolso do duplo-agente:</strong> ele é um
+<strong>detector de ausência</strong>, não um selo de qualidade. Ótimo
+para "faltou X?". Péssimo para "isto está bom?".</p>
+<hr />
+<h2
+id="o-que-a-catraca-não-garante-a-honestidade-que-blinda-contra-o-crítico">O
+que a catraca NÃO garante (a honestidade que blinda contra o
+crítico)</h2>
+<blockquote>
+<p><strong>Catraca prova VERIFICABILIDADE, não VERACIDADE.</strong> Um
+<code>grep -q "rating"</code> passa num rating
+<strong>alucinado</strong> — desde que a palavra "rating" apareça. O
+schema aceita um JSON <strong>bem-formado com conteúdo errado</strong>.
+A catraca garante que uma <strong>propriedade checável</strong> foi
+cumprida; ela <strong>não</strong> garante que a resposta é
+verdadeira.</p>
+<p>Por isso: escolha bem O QUE a catraca checa (uma propriedade que, se
+falha, você quer barrar), e saiba que propriedades semânticas profundas
+(é <em>correto</em>? é <em>bom</em>?) continuam exigindo julgamento
+humano. A catraca <strong>localiza e barra o erro checável</strong> —
+ela não pensa por você.</p>
+</blockquote>
+<h3 id="um-exemplo-de-falha-real-para-você-sentir-a-fronteira">Um
+exemplo de falha real (para você sentir a fronteira)</h3>
+<p>Um analista pediu à IA um parecer de crédito e colocou uma catraca de
+schema: o campo <code>rating</code> era <strong>obrigatório</strong> e o
+campo <code>fontes[]</code> exigia <strong>pelo menos 2 itens</strong>.
+A saída passou: veio <code>rating: "BBB"</code> e duas fontes na lista.
+Catraca verde, parecer salvo, enviado ao comitê.</p>
+<p>O problema: <strong>uma das duas "fontes" era um relatório que não
+existe</strong> — a IA inventou o nome e a data, e o schema, é claro, só
+contou <em>que havia dois itens na lista</em>, não <em>se os itens eram
+reais</em>. A propriedade checada era "≥ 2 fontes", e ela foi cumprida
+ao pé da letra. O rating <code>BBB</code>, por sua vez, era plausível na
+forma e furado no mérito — construído sobre a fonte fantasma.</p>
+<p><strong>A catraca não falhou — ela fez exatamente o que
+prometeu.</strong> Ela garantiu <em>verificabilidade</em> ("o formato
+tem duas fontes") e nunca prometeu <em>veracidade</em> ("as fontes
+existem e sustentam o rating"). O erro foi humano: confundir "passou na
+catraca" com "está certo". A lição:</p>
+<ul>
+<li>A catraca <strong>estreita</strong> o que pode dar errado — ela não
+<strong>elimina</strong> o erro.</li>
+<li>Toda catraca tem uma <strong>fronteira semântica</strong>: até onde
+a propriedade é literal, ela trava; além disso (o item é <em>real</em>?
+o número é <em>verdadeiro</em>?), só o humano trava.</li>
+<li>Por isso a melhor catraca é a que checa a propriedade <strong>mais
+próxima do dano que você teme</strong>. Se o dano é "fonte inventada", a
+catraca certa não é "≥ 2 fontes" — é uma que <strong>valida cada fonte
+contra uma base real</strong> (regra de negócio / lookup externo).
+Escolher a propriedade certa é metade do trabalho.</li>
+</ul>
+<hr />
+<h2 id="auto-teste--você-entendeu-a-catraca-5-min">Auto-teste — você
+entendeu a catraca? (5 min)</h2>
+<p>Pegue uma saída de IA que você usa no seu trabalho e responda por
+escrito:</p>
+<ol type="1">
+<li><strong>Qual é o UM erro</strong> que, se passar despercebido, mais
+te machuca? (dinheiro, prazo, nulidade, dano ao cliente/paciente) —
+descreva em uma frase.</li>
+<li>Esse erro é de <strong>FORMA</strong> (faltou um campo, formato
+errado) ou de <strong>CONTEÚDO</strong> (o dado está errado)? Rode as 3
+perguntas da matriz e <strong>escolha a catraca</strong>.</li>
+<li>A propriedade que sua catraca checa é <strong>literal e
+mecânica</strong> ("existe o campo") ou depende de
+<strong>julgamento</strong> ("faz sentido")? Se depende de julgamento,
+você caiu no duplo-agente — sua pergunta para o Agente B <strong>cabe
+num S/N fechado</strong>? Reescreva-a até caber.</li>
+<li>Aplique o <strong>teste da falha real</strong>: imagine a saída mais
+errada possível que <strong>ainda assim passaria</strong> na sua
+catraca. Ela existe? (Sempre existe.) Qual é? Isso te mostra a fronteira
+semântica — o pedaço que a catraca <strong>não</strong> cobre e que fica
+com você.</li>
+<li>Sua catraca está <strong>à direita possível</strong> no espectro? Se
+você escolheu duplo-agente para algo que um schema resolveria, desça
+para o schema. Se escolheu prosa ("pedi pra ela caprichar"), você não
+tem catraca nenhuma — tem papelão. Anexe um mecanismo externo.</li>
+</ol>
+<p><strong>Gabarito de raciocínio (não de resposta):</strong> se em
+qualquer passo você respondeu "a própria IA verifica" — pare. Isso é
+priming disfarçado, o réu julgando a si mesmo. Uma catraca de verdade é
+sempre algo <strong>fora do modelo</strong> que devolve passa/não-passa
+sem pedir a opinião de quem gerou.</p>
+<hr />
+<h2 id="regra-de-bolso">Regra de bolso</h2>
+<blockquote>
+<p>Não pergunte "sei programar?". Pergunte <strong>"o que, na minha
+saída, se estiver errado, eu quero que seja BARRADO antes de chegar em
+mim?"</strong> — ache o mecanismo externo mais simples que barra isso,
+escolha o ponto <strong>mais à direita do espectro</strong> que resolve
+o caso, e não confunda "passou na catraca" com "está certo". Às vezes é
+um <code>grep</code>. Muitas vezes é um campo obrigatório que você já
+tem. Sempre é algo que <strong>não é a própria IA se
+aprovando</strong>.</p>
+</blockquote>
+</div>
+</body>
+</html>

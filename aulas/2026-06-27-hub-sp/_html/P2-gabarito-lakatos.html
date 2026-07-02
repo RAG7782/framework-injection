@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>P2-gabarito-lakatos</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="estilo.css" />
+</head>
+<body>
+<div class='wrap'><div class='doc-nav'><b>P2 · v2 temperada</b> — Gabarito Lakatosiano</div>
+<header id="title-block-header">
+<h1 class="title">P2-gabarito-lakatos</h1>
+</header>
+<h1
+id="gabarito-lakatosiano--onde-cada-modalidade-mora-no-seu-fi">Gabarito
+Lakatosiano — onde cada modalidade mora no seu FI</h1>
+<blockquote>
+<p><strong>O que esta página resolve</strong> (apontamento do
+peer-review 2026-06-27): o aluno entende a epistemologia lakatosiana
+(núcleo/cinturão/borda) E entende as 5 modalidades, mas <strong>trava na
+hora de montar o prompt</strong> — não sabe onde encaixar cada
+modalidade. Este gabarito é a ponte: transforma a teoria num
+<strong>layout de FI</strong>. A teoria vira design de interface.</p>
+<p><strong>Lastro:</strong> estrutura lakatosiana do programa (núcleo
+duro / cinturão protetor / borda) + as 5 modalidades do FI.
+<code>[AF]</code> o mapeamento modalidade→zona é uma proposta didática
+derivada desse material — usar como andaime (Vygotsky), não como dogma.
+Ajuste ao seu domínio.</p>
+</blockquote>
+<hr />
+<h2 id="a-ideia-em-uma-frase">A ideia em uma frase</h2>
+<p><strong>As 5 modalidades não têm o mesmo peso.</strong> Umas são
+inegociáveis (se a IA violar, você joga a resposta fora); outras
+protegem o núcleo mas podem ser ajustadas; outras são só experimento.
+Lakatos dá o nome dessas 3 camadas. Este gabarito diz qual modalidade
+vai em qual camada — <strong>e por quê</strong>, porque um gabarito que
+só afirma o lugar de cada peça não ensina a mover a peça quando o seu
+domínio não for igual ao do exemplo.</p>
+<hr />
+<h2 id="o-gabarito-as-3-zonas--as-5-modalidades">O gabarito (as 3 zonas
+× as 5 modalidades)</h2>
+<pre><code>┌─────────────────────────────────────────────────────────────────────┐
+│  NÚCLEO DURO  ·  inegociável  ·  violou → DESCARTA a resposta inteira │
+│  ───────────────────────────────────────────────────────────────────│
+│  • DECLARATIVA  → o que a IA PODE saber (ontologia, hierarquia de     │
+│                   fontes). Fora disso = alucinação → descarte.        │
+│  • ÉTICA        → o que a IA NUNCA faz (guardrails, compliance).      │
+│                   Cruzou a cerca = descarte.                          │
+│  ▸ tende a ENFORCEMENT (precisa de gate externo que reprova)          │
+├─────────────────────────────────────────────────────────────────────┤
+│  CINTURÃO PROTETOR  ·  protege o núcleo  ·  ajustável se a IA travar  │
+│  ───────────────────────────────────────────────────────────────────│
+│  • PROCEDIMENTAL → COMO raciocinar (passo a passo, método=caminho).   │
+│  • AVALIATIVA    → como JULGAR (rubricas, critérios de qualidade).    │
+│  ▸ mistura PRIMING (o raciocínio) + ENFORCEMENT (a rubrica checável)  │
+├─────────────────────────────────────────────────────────────────────┤
+│  BORDA  ·  hipótese em teste  ·  quebrou aqui → NÃO quebra o sistema  │
+│  ───────────────────────────────────────────────────────────────────│
+│  • COMPOSICIONAL → como COMBINAR as anteriores (gradações, mix).      │
+│  ▸ tende a PRIMING (é onde você EXPERIMENTA em runtime)               │
+└─────────────────────────────────────────────────────────────────────┘</code></pre>
+<hr />
+<h2
+id="por-que-cada-modalidade-mora-onde-mora-a-defesa-do-mapeamento">Por
+que cada modalidade mora onde mora (a defesa do mapeamento)</h2>
+<p>Um gabarito que só aponta "Declarativa → núcleo" é um dogma. O que te
+deixa <strong>mover</strong> a peça no seu domínio é o
+<strong>critério</strong> que colocou ela lá. O critério é sempre o
+mesmo, e é a pergunta-teste do núcleo: <em>"se a IA violar isto, eu jogo
+a resposta inteira fora?"</em></p>
+<table>
+<thead>
+<tr>
+<th>Modalidade</th>
+<th>Zona</th>
+<th>Por que ali (a razão, não a afirmação)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Declarativa</strong></td>
+<td>Núcleo</td>
+<td>Define <strong>o universo de fatos/fontes admissíveis</strong>. Se a
+IA cita fonte fora da lista, tudo que veio depois está contaminado na
+raiz — não dá pra "ajustar", só descartar. É a ontologia; ontologia
+furada = resposta inválida, não resposta fraca.</td>
+</tr>
+<tr>
+<td><strong>Ética</strong></td>
+<td>Núcleo</td>
+<td>É a <strong>cerca de compliance/segurança</strong>. Violação não é
+erro de qualidade, é passivo (jurídico, regulatório, reputacional). Não
+existe "meio compliance". Binária por natureza → núcleo.</td>
+</tr>
+<tr>
+<td><strong>Procedimental</strong></td>
+<td>Cinturão</td>
+<td>Define o <strong>caminho do raciocínio</strong> (passo a passo). Se
+a IA pular um passo, a resposta fica pior, não inválida — e você pode
+<strong>afrouxar</strong> a ordem se ela travar, sem tocar no núcleo.
+Protege o núcleo (força o método) mas é revisável.</td>
+</tr>
+<tr>
+<td><strong>Avaliativa</strong></td>
+<td>Cinturão (com pé no núcleo)</td>
+<td>É a <strong>rubrica de qualidade</strong>. Fica no cinturão porque a
+maioria das rubricas é gradual ("quão bem cobriu?"). <strong>Mas quando
+a rubrica é binária</strong> ("toda conclusão TEM número + fonte,
+sim/não"), ela vira <code>assert</code> e <strong>sobe para o
+enforcement do núcleo</strong>. É a modalidade de fronteira.</td>
+</tr>
+<tr>
+<td><strong>Composicional</strong></td>
+<td>Borda</td>
+<td>É onde você <strong>combina</strong> as anteriores de um jeito novo
+("se faltar dado, misture setorial + histórico"). É hipótese em teste:
+se a combinação falhar, você descarta <strong>o experimento</strong>,
+não o FI. Por isso mora na borda — quebrar ali não quebra o
+sistema.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>O teste que decide a zona, sempre:</strong> não é o
+<em>nome</em> da modalidade, é a <strong>consequência da
+violação</strong>. Descarta a resposta inteira → núcleo. Piora mas salva
+→ cinturão. Só era um experimento → borda. <strong>Se você mudar de
+domínio, é este teste que reclassifica as peças</strong> — não a tabela
+acima. A tabela é o resultado do teste no caso-trilho, não uma lei
+universal.</p>
+</blockquote>
+<hr />
+<h2 id="como-usar-regra-operacional">Como usar (regra operacional)</h2>
+<ol type="1">
+<li><strong>Escreva primeiro o NÚCLEO.</strong> Declarativa + Ética.
+Pergunta-teste de cada linha: <em>"se a IA violar isto, eu jogo a
+resposta fora?"</em> Se <strong>sim</strong> → é núcleo, e precisa de um
+<strong>verificador externo</strong> (senão é só priming — ver
+<code>como-classificar-priming-enforcement.md</code>).</li>
+<li><strong>Depois o CINTURÃO.</strong> Procedimental + Avaliativa. Aqui
+você pode afrouxar se a IA travar, sem comprometer o núcleo. A rubrica
+avaliativa, se for binária, sobe para enforcement.</li>
+<li><strong>Por último a BORDA.</strong> Composicional. É onde você
+testa combinações novas em runtime. Se falhar, o núcleo continua de pé —
+você só descarta o experimento, não o FI.</li>
+</ol>
+<blockquote>
+<p><strong>Por que isto casa com o eixo priming↔︎enforcement:</strong> o
+núcleo é onde você MAIS precisa de catraca (enforcement externo); a
+borda é onde a placa (priming) basta. A coercividade não é a mesma em
+todo o FI — <strong>ela cresce do centro para fora.</strong> Núcleo =
+catraca. Borda = placa. Concretamente: uma linha do núcleo sem
+verificador externo é <strong>catraca de papelão</strong> (parece que
+barra, mas não barra — ver a matriz de 2 níveis em
+<code>como-classificar-priming-enforcement.md</code>). No núcleo,
+papelão é falha grave; na borda, papelão é aceitável (é só
+experimento).</p>
+</blockquote>
+<hr />
+<h2
+id="e-se-não-encaixar-limpo-os-casos-limite--leia-é-aqui-que-o-gabarito-ganha-músculo">E
+se não encaixar limpo? (os casos-limite — leia, é aqui que o gabarito
+ganha músculo)</h2>
+<p>Nenhum mapeamento sobrevive intacto ao contato com um domínio real.
+Quatro situações em que a peça <strong>não cai limpa numa zona</strong>
+— e o que fazer:</p>
+<p><strong>1. Uma modalidade é núcleo E cinturão ao mesmo
+tempo.</strong> Acontece o tempo todo com a <strong>Avaliativa</strong>.
+Parte dela é binária ("cita fonte da lista: sim/não") → essa parte é
+núcleo/enforcement. Parte é gradual ("a análise está aprofundada?") →
+essa parte é cinturão/priming. <strong>Não force a modalidade inteira
+numa zona: quebre-a por linha.</strong> A unidade de classificação nunca
+é a modalidade — é a <strong>cláusula</strong>. Uma modalidade pode ter
+cláusulas em duas zonas ao mesmo tempo, e isso é normal.</p>
+<p><strong>2. Você acha que é núcleo mas não tem como verificar
+externamente.</strong> Ex.: "a IA NUNCA deve ser tendenciosa". É ética
+(parece núcleo), mas não existe <code>grep</code> para "tendencioso".
+Sem verificador externo, isso é <strong>priming disfarçado de
+núcleo</strong> — uma catraca de papelão no lugar mais perigoso do FI.
+Duas saídas honestas: (a) <strong>operacionalizar</strong> — trocar o
+inverificável por um proxy checável ("não use os adjetivos X, Y, Z";
+"cite os dois lados"); ou (b) <strong>rebaixar conscientemente</strong>
+para cinturão e assumir que ali é priming, não catraca. O erro é deixar
+no núcleo fingindo que barra.</p>
+<p><strong>3. A regra do núcleo depende de julgamento do próprio
+modelo.</strong> Ex.: "só afirme o que estiver nas fontes" verificado
+por "o modelo confere se afirmou além das fontes". <strong>LLM julgando
+a si mesmo é priming fingindo enforcement</strong> (a linha 4 da matriz
+em <code>como-classificar-priming-enforcement.md</code>). Para ser
+núcleo de verdade, o verificador tem que ser <strong>outra
+coisa</strong> (um parser que extrai citações e checa contra a lista; um
+segundo modelo com o único papel de auditor). Autoavaliação nunca é
+catraca.</p>
+<p><strong>4. Nada é núcleo no seu FI.</strong> Domínios criativos
+("escreva 3 variações de headline") podem não ter nenhuma linha cuja
+violação faça você descartar a resposta. <strong>Isso é
+legítimo</strong> — um FI pode ser quase todo cinturão + borda. O
+gabarito não exige que você preencha o núcleo; exige que você
+<strong>saiba se está vazio de propósito ou por esquecimento</strong>.
+Núcleo vazio num domínio de alto risco (crédito, saúde, jurídico) é o
+esquecimento mais caro que existe.</p>
+<blockquote>
+<p><strong>Regra-mãe dos casos-limite:</strong> quando travar,
+<strong>não classifique a modalidade — classifique a linha</strong>, e
+classifique-a pela <em>consequência da violação</em> + <em>quem
+verifica</em>. Toda dúvida de zona se resolve descendo da modalidade
+para a cláusula.</p>
+</blockquote>
+<hr />
+<h2
+id="três-exemplos-contrastantes-domínios-diferentes-mesmo-gabarito">Três
+exemplos contrastantes (domínios diferentes, mesmo gabarito)</h2>
+<p>O caso-trilho (risco de crédito) mostra o gabarito num domínio. Dois
+outros mostram que o <strong>método de classificar</strong> é o que se
+transfere — não o conteúdo.</p>
+<h3 id="exemplo-a--analista-de-risco-de-crédito-o-caso-trilho">Exemplo A
+— Analista de risco de crédito (o caso-trilho)</h3>
+<ul>
+<li><strong>Núcleo/Declarativa:</strong> "fontes válidas: rating interno
++ demonstrações auditadas. Nada além." → <code>assert</code>: a saída
+cita fonte da lista.</li>
+<li><strong>Núcleo/Ética:</strong> "NUNCA recomende decisão de crédito
+final — só análise." → <code>gate</code>: reprova se contém verbo de
+recomendação.</li>
+<li><strong>Cinturão/Procedimental:</strong> "1) rating 2) stress test
+3) cobertura de juros."</li>
+<li><strong>Cinturão/Avaliativa:</strong> "toda conclusão tem número +
+fonte." → rubrica binária (vira <code>assert</code>, sobe pro
+núcleo).</li>
+<li><strong>Borda/Composicional:</strong> "se faltar dado, combine
+análise setorial + histórico." ← experimento.</li>
+</ul>
+<h3
+id="exemplo-b--assistente-de-peça-jurídica-contestação-cível">Exemplo B
+— Assistente de peça jurídica (contestação cível)</h3>
+<ul>
+<li><strong>Núcleo/Declarativa:</strong> "só cite jurisprudência que EU
+forneci no anexo. NUNCA invente número de processo, súmula ou tese." →
+<code>assert</code> <strong>externo</strong>: um parser extrai cada
+citação e confere contra a lista fornecida. (Alucinação de
+jurisprudência é o modo de falha nº1 aqui — e é fatal: petição com
+precedente inventado é sancionável.)</li>
+<li><strong>Núcleo/Ética:</strong> "NUNCA afirme fato não constante dos
+autos como se fosse provado." → <code>gate</code>: reprova se um fato
+aparece sem âncora no documento-fonte.</li>
+<li><strong>Cinturão/Procedimental:</strong> "1) preliminares 2) mérito
+3) pedidos — nessa ordem processual."</li>
+<li><strong>Cinturão/Avaliativa:</strong> "cada tese tem fundamento
+legal citado." → binária → sobe pro núcleo como
+<code>assert</code>.</li>
+<li><strong>Borda/Composicional:</strong> "se a tese principal for
+fraca, combine com tese subsidiária + distinguishing do precedente
+contrário." ← experimento de estratégia.</li>
+</ul>
+<blockquote>
+<p><strong>O contraste que ensina:</strong> aqui a <strong>Declarativa
+carrega o peso</strong> (a hierarquia de fontes é quase o FI inteiro),
+enquanto no crédito a Ética pesava tanto quanto. <strong>A mesma
+modalidade tem peso diferente por domínio</strong> — o gabarito diz a
+<em>zona</em>, o domínio diz o <em>tamanho</em>.</p>
+</blockquote>
+<h3
+id="exemplo-c--triagem-médica-assistente-de-anamnese-não-diagnóstico">Exemplo
+C — Triagem médica (assistente de anamnese, NÃO diagnóstico)</h3>
+<ul>
+<li><strong>Núcleo/Ética:</strong> "NUNCA dê diagnóstico definitivo nem
+prescreva. Só organize sintomas e sugira urgência de encaminhamento." →
+<code>gate</code> <strong>externo</strong>: reprova se a saída contém
+verbo prescritivo ou nome de diagnóstico afirmado como certeza. (Aqui a
+Ética é a modalidade dominante — a linha que, violada, é passivo
+médico-legal.)</li>
+<li><strong>Núcleo/Declarativa:</strong> "baseie-se SÓ nos sintomas
+relatados. NUNCA presuma exame não feito." → <code>assert</code>: cada
+afirmação clínica rastreia a um sintoma relatado.</li>
+<li><strong>Cinturão/Procedimental:</strong> "1) queixa principal 2)
+história 3) sinais de alarme 4) nível de urgência."</li>
+<li><strong>Cinturão/Avaliativa:</strong> "todo sinal de alarme presente
+foi explicitamente citado." → binária → <code>assert</code>.</li>
+<li><strong>Borda/Composicional:</strong> "se os sintomas forem
+ambíguos, combine dois protocolos de triagem e sinalize a divergência."
+← experimento.</li>
+</ul>
+<blockquote>
+<p><strong>O contraste que ensina:</strong> no médico, a <strong>Ética
+domina e é quase toda binária</strong> (verbos proibidos são
+<code>grep</code>-áveis) — ou seja, o núcleo aqui é fácil de virar
+catraca de verdade. No jurídico, o núcleo (não-alucinar citação) exige
+um parser mais esperto. <strong>Domínios diferentes pedem verificadores
+de complexidade diferente para o MESMO tipo de núcleo.</strong></p>
+</blockquote>
+<hr />
+<h2 id="auto-teste-agora-tente-você">Auto-teste (agora tente você)</h2>
+<p>Pegue o FI abaixo, de um domínio novo — <strong>atendimento de
+suporte técnico de um SaaS</strong>. Cinco linhas. Para cada uma:
+<strong>(a) qual modalidade? (b) qual zona? (c) tem verificador externo
+— ou é catraca de papelão?</strong></p>
+<pre><code>[L1] &quot;Você é o suporte N1 do produto X. NUNCA prometa reembolso — só o financeiro autoriza.&quot;
+[L2] &quot;Responda apenas com base na base de conhecimento anexada. Não invente funcionalidade.&quot;
+[L3] &quot;Fluxo: 1) confirme a versão do cliente 2) reproduza o passo 3) só então proponha solução.&quot;
+[L4] &quot;Toda resposta ao cliente deve conter o número do ticket.&quot;
+[L5] &quot;Se o caso for ambíguo, combine o script de billing com o de bug técnico e escale ao N2.&quot;</code></pre>
+<details>
+<summary><b>Gabarito do auto-teste (abra só depois de tentar)</b></summary>
+
+<ul>
+<li><strong>L1</strong> — <strong>Ética · Núcleo.</strong> Violação =
+passivo financeiro real → descarta. <em>Verificador:</em>
+<code>gate</code> externo — <code>grep</code> por "reembolso/refund" na
+saída reprova. <strong>É catraca de verdade</strong> (verbo é
+<code>grep</code>-ável).</li>
+<li><strong>L2</strong> — <strong>Declarativa · Núcleo.</strong> Define
+o universo de fatos admissíveis; funcionalidade inventada contamina a
+raiz. <em>Verificador:</em> precisa de parser que confere afirmações de
+feature contra a KB. Se ficar só como frase no prompt, é <strong>catraca
+de papelão</strong> — escale anexando o checador.</li>
+<li><strong>L3</strong> — <strong>Procedimental · Cinturão.</strong> É o
+caminho do raciocínio; pular um passo piora, não invalida. Ajustável se
+travar. <em>Priming</em> — nada externo reprova (e tudo bem, é
+cinturão).</li>
+<li><strong>L4</strong> — <strong>Avaliativa · sobe pro Núcleo.</strong>
+Rubrica <strong>binária</strong> ("contém número do ticket: sim/não") →
+vira <code>assert</code>: <code>grep -qE '#[0-9]+' saida.md</code>.
+<strong>É a linha que cruza a ponte</strong> — priming disfarçado que
+você escala para enforcement anexando o <code>grep</code>.</li>
+<li><strong>L5</strong> — <strong>Composicional · Borda.</strong>
+Combina dois scripts num caso novo; se falhar, descarta o experimento,
+não o FI. <em>Priming</em> — é onde você experimenta em runtime.</li>
+</ul>
+<p><strong>Se você acertou L4 como "a linha que vira enforcement" e L2
+como "núcleo que hoje é papelão", pegou o gesto central:</strong> a zona
+vem da <em>consequência da violação</em>; a catraca (vs papelão) vem de
+<em>ter ou não verificador externo</em>. Errar L4 como "só cinturão" é o
+erro clássico — parece qualidade gradual, mas é binária, então
+escala.</p>
+</details>
+
+<hr />
+<blockquote>
+<p><strong>Honestidade epistêmica (postura Lakatos):</strong> este
+gabarito é o <strong>núcleo</strong> de um programa didático, não uma
+verdade fechada. O mapeamento modalidade→zona é a hipótese central; os
+casos-limite acima são o <strong>cinturão</strong> que a protege sem
+torná-la dogma; e o seu domínio é a <strong>borda</strong> onde ela é
+testada. Se no seu caso uma peça não couber, não é o gabarito que falhou
+— é o convite para você aplicar o teste da consequência e reclassificar.
+Um gabarito bom não te dá o mapa pronto; te dá a bússola
+(<code>consequência da violação</code> + <code>quem verifica</code>)
+para desenhar o mapa do seu território.</p>
+</blockquote>
+</div>
+</body>
+</html>

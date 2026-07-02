@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>P2-teste-densificacao</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="estilo.css" />
+</head>
+<body>
+<div class='wrap'><div class='doc-nav'><b>P2 · v2 temperada</b> — Teste de densificação</div>
+<header id="title-block-header">
+<h1 class="title">P2-teste-densificacao</h1>
+</header>
+<h1
+id="teste-de-densificação--o-termo-é-denso-para-o-modelo-ou-só-para-você">Teste
+de densificação — o termo é denso PARA O MODELO, ou só para você?</h1>
+<blockquote>
+<p><strong>O que esta página resolve</strong> (apontamento do
+peer-review 2026-06-27): a poda sintática manda "não quebre o
+conceito-chave" e a densidade manda "use o termo denso" — mas
+<strong>como o aluno SABE se o termo que ele acha denso é denso de
+verdade no modelo-alvo?</strong> "Gambiarra" é densíssima para o
+brasileiro (DSc alta) e pode ser um vetor quase vazio para um modelo
+treinado na Califórnia (DSd baixa). Sem esse teste, a pessoa poda o
+entorno confiando num termo oco → o prompt colapsa. "Entra pouco, sai
+linguiça."</p>
+<p><strong>Lastro:</strong> distinção <strong>DSc (cultural) × DSd
+(distribucional)</strong> do <code>DSc-DSd-DISTINCTION.md</code> +
+<code>ds-meter</code>. <code>[AF]</code> o protocolo N-amostras abaixo é
+uma proposta para tornar o teste <strong>reprodutível</strong> — porque
+a versão ingênua ("mande o termo e veja o que acende") é ela mesma
+estocástica: roda duas vezes, dá respostas diferentes. Um teste que não
+se repete não é teste — é impressão.</p>
+</blockquote>
+<hr />
+<h2 id="a-distinção-que-o-teste-mede">A distinção que o teste mede</h2>
+<ul>
+<li><strong>DSc — densidade cultural:</strong> quanto o termo carrega
+numa comunidade humana. ("gambiarra", "jeitinho", jargão do seu
+escritório.) <strong>Você sente essa.</strong></li>
+<li><strong>DSd — densidade distribucional:</strong> quanto o termo
+carrega <strong>na representação do modelo-alvo</strong>. Depende de
+como o modelo foi treinado. <strong>É esta que importa para o
+FI.</strong></li>
+</ul>
+<p>O erro fatal: assumir que DSc alta ⇒ DSd alta. Nem sempre. E o
+inverso também existe — "leveraged buyout" tem DSc baixa para o leigo
+mas DSd <strong>altíssima</strong> no modelo (corpus financeiro
+superrepresentado). O modelo às vezes sabe mais que o informante
+cultural. <strong>O teste separa as duas densidades e diz qual é a que
+você tem na mão.</strong></p>
+<hr />
+<h2
+id="o-gancho-conceitual-o-teste-ingênuo-falha-no-próprio-critério-que-ele-impõe">O
+gancho conceitual: o teste ingênuo falha no próprio critério que ele
+impõe</h2>
+<p>Antes do protocolo, o ponto que amarra tudo. A regra de enforcement
+do FI é: <strong>prove antes de confiar.</strong> Ora — a versão ingênua
+do teste ("digita o termo isolado e vê o que acende") <strong>viola
+exatamente essa regra.</strong> Ela é <em>uma única amostra
+estocástica</em> que se auto-aprova: roda uma vez, o modelo cospe algo
+bonito, e você conclui "denso". Roda de novo, vem outra coisa. Você não
+provou densidade — você viu <strong>um sorteio</strong> e chamou de
+medida.</p>
+<p>É a mesma armadilha que o FI combate no prompt do aluno, agora
+escondida dentro da própria ferramenta de auditoria. Um teste que não se
+repete não prova nada; ele <em>performa</em> rigor. A correção é o que
+torna isto um teste de verdade: <strong>repetição (controla o acaso) +
+julgamento externo binário (controla o viés de quem olha).</strong> É
+por isso que o protocolo abaixo tem N rodadas e uma tabela de veredito —
+não por burocracia, mas porque sem os dois ele recai na impressão que
+dizia estar medindo.</p>
+<hr />
+<h2 id="o-protocolo-reprodutível--não-impressão">O protocolo
+(reprodutível — não "impressão")</h2>
+<p><strong>Passo 1 — Isolar.</strong> Envie ao modelo-alvo <strong>só o
+termo</strong>, sem prompt, sem contexto, sem "explique", sem "o que
+você sabe sobre". Só o termo, cru:</p>
+<blockquote>
+<p><code>diagnóstico clínico</code> · <code>rating interno</code> ·
+<code>gambiarra</code> · <code>stress test</code></p>
+</blockquote>
+<p>O isolamento é deliberado: com contexto, você mesmo injeta a
+densidade que queria medir (priming). Cru, só acende o que o modelo
+<strong>já carrega</strong> — que é o que você quer saber.</p>
+<p><strong>Passo 2 — Repetir N vezes</strong> (mínimo 3, ideal 5), em
+sessões limpas (sem memória entre elas — abra uma nova conversa a cada
+rodada, ou o modelo lê a própria resposta anterior e converge
+artificialmente). Isto controla a estocasticidade: um termo
+verdadeiramente denso <strong>acende a mesma galáxia toda vez</strong>;
+um termo oco varia de rodada para rodada porque o modelo está
+improvisando por cima do vazio.</p>
+<p><strong>Passo 3 — Ler a vizinhança que acende</strong> (com critério
+operável — ver seção abaixo). Em cada resposta, anote os conceitos que o
+modelo traz espontaneamente e classifique-os pelos sinais concretos.</p>
+<p><strong>Passo 4 — Veredito (o julgamento externo,
+binário):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Sinal nas N rodadas</th>
+<th>Veredito</th>
+<th>Ação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Traz método/estrutura do domínio, <strong>consistente</strong> entre
+rodadas</td>
+<td><strong>DSd ALTA</strong></td>
+<td>pode podar o entorno — o termo aguenta o peso sozinho</td>
+</tr>
+<tr>
+<td>Definição genérica, ou <strong>varia muito</strong> entre
+rodadas</td>
+<td><strong>DSd BAIXA</strong> (só DSc)</td>
+<td><strong>não pode podar</strong> — ancore com descrição explícita (as
+"muletas descritivas")</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Regra de bolso:</strong> pode com segurança só o que
+sobreviveu ao teste. Se o termo é denso só para você (DSc) e não para o
+modelo (DSd), <strong>a poda vai falhar</strong> — o modelo preenche o
+vazio com invenção. A dor de descrever o que o termo "deveria" carregar
+é o sinal de que ali há DSd baixa: é exatamente o entorno que você NÃO
+pode cortar.</p>
+</blockquote>
+<hr />
+<h2 id="como-ler-a-vizinhança-sem-chutar--o-critério-operável">Como ler
+a vizinhança sem chutar — o critério operável</h2>
+<p>"Ler o que acende" soa subjetivo. Não é, se você procurar
+<strong>sinais concretos</strong> em vez de "sentir". A pergunta
+objetiva é uma só: <em>o modelo devolveu o <strong>método do
+domínio</strong> ou a <strong>entrada de dicionário</strong>?</em></p>
+<p><strong>Sinais de DSd ALTA (método do domínio acendeu) — conte
+quantos aparecem:</strong></p>
+<ul class="task-list">
+<li><label><input type="checkbox" /><strong>Passos ou sequência de
+trabalho</strong> — o modelo lista <em>o que o especialista faz, em
+ordem</em> (não o que a coisa <em>é</em>). Ex.: anamnese → exame físico
+→ hipótese → exames complementares.</label></li>
+<li><label><input type="checkbox" /><strong>Ferramentas/instrumentos
+nomeados</strong> do ofício (não genéricos): "current ratio", "súmula
+vinculante", "diagnóstico diferencial", "cobertura de
+juros".</label></li>
+<li><label><input type="checkbox" /><strong>Critérios de decisão /
+trade-offs</strong> — quando usar X e não Y, o que conta como
+bom/ruim.</label></li>
+<li><label><input type="checkbox" /><strong>Vocabulário que puxa mais
+vocabulário</strong> — um termo técnico acende três outros do mesmo
+campo (spreading activation). A galáxia tem estrutura, não é uma nuvem
+solta.</label></li>
+<li><label><input type="checkbox" /><strong>Consistência entre as N
+rodadas</strong> — o mesmo núcleo reaparece; muda a redação, não o
+conteúdo.</label></li>
+</ul>
+<p><strong>Sinais de DSd BAIXA (só acendeu o verbete) — bandeiras
+vermelhas:</strong></p>
+<ul class="task-list">
+<li><label><input type="checkbox" /><strong>Paráfrase de
+dicionário</strong> e ponto: "solução improvisada", "análise de uma
+situação".</label></li>
+<li><label><input type="checkbox" /><strong>Hedging genérico</strong>:
+"depende do contexto", "existem várias abordagens" — o modelo tapa
+buraco.</label></li>
+<li><label><input type="checkbox" /><strong>Deriva entre
+rodadas</strong>: rodada 1 fala de uma coisa, rodada 3 de outra sem
+núcleo comum.</label></li>
+<li><label><input type="checkbox" /><strong>Sinônimos laterais em vez de
+método</strong>: "gambiarra" → "hack", "workaround", "puxadinho" — troca
+a palavra, não entrega a prática.</label></li>
+</ul>
+<p><strong>A régua binária:</strong> <strong>≥ 3 sinais verdes
+consistentes → DSd ALTA.</strong> Predominância de bandeiras vermelhas,
+ou verde que não se repete → <strong>DSd BAIXA.</strong> Não é nota de 0
+a 10; é passou/não-passou, porque a decisão que ele alimenta também é
+binária: <em>podo ou não podo o entorno?</em></p>
+<hr />
+<h2
+id="exemplo-trabalhado-ponta-a-ponta--anamnese-passa-vs-sinergia-operacional-falha">Exemplo
+trabalhado ponta a ponta — "anamnese" (passa) vs "sinergia operacional"
+(falha)</h2>
+<p>Duas rodadas completas, lado a lado, para você ver o veredito nascer
+dos sinais — não de opinião. <em>(Respostas abreviadas e
+representativas; o padrão é o que importa, não a redação exata do seu
+modelo.)</em></p>
+<h3 id="termo-a--anamnese-candidato-a-dsd-alta">Termo A —
+<code>anamnese</code> (candidato a DSd ALTA)</h3>
+<table>
+<thead>
+<tr>
+<th>Rodada</th>
+<th>O que o modelo trouxe (espontâneo, termo isolado)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>"Entrevista clínica inicial: queixa principal, história da doença
+atual (HDA), antecedentes pessoais e familiares, revisão de sistemas,
+hábitos de vida. Precede o exame físico."</td>
+</tr>
+<tr>
+<td>2</td>
+<td>"Coleta estruturada da história do paciente — identificação, QP,
+HDA, história patológica pregressa, medicações em uso. Base para a
+hipótese diagnóstica."</td>
+</tr>
+<tr>
+<td>3</td>
+<td>"Primeira etapa da consulta: escuta e interrogatório dirigido;
+alimenta o raciocínio clínico e o diagnóstico diferencial."</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Leitura pelos sinais:</strong> passos em ordem ✓ ·
+instrumentos nomeados (QP, HDA, revisão de sistemas) ✓ · vocabulário que
+puxa vocabulário (diagnóstico diferencial, raciocínio clínico) ✓ ·
+núcleo estável nas 3 rodadas ✓. <strong>4 sinais verdes
+consistentes.</strong> <strong>Veredito: DSd ALTA.</strong> → Você
+<strong>pode podar</strong>: escreva <code>faça a anamnese</code> e o
+modelo reconstrói a cena inteira sozinho. Não precisa listar "pergunte a
+queixa principal, depois o histórico…" — isso já está dentro do termo,
+para o modelo.</p>
+<h3
+id="termo-b--sinergia-operacional-candidato-a-dsd-baixa--jargão-de-powerpoint-corporativo">Termo
+B — <code>sinergia operacional</code> (candidato a DSd BAIXA — jargão de
+PowerPoint corporativo)</h3>
+<table>
+<thead>
+<tr>
+<th>Rodada</th>
+<th>O que o modelo trouxe (espontâneo, termo isolado)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>"Ganhos de eficiência quando áreas ou empresas trabalham juntas; o
+todo rende mais que a soma das partes."</td>
+</tr>
+<tr>
+<td>2</td>
+<td>"Integração de processos para reduzir custos e evitar redundâncias.
+Comum em fusões e aquisições."</td>
+</tr>
+<tr>
+<td>3</td>
+<td>"Colaboração entre equipes que gera valor adicional; depende do
+contexto do negócio."</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Leitura pelos sinais:</strong> paráfrase de dicionário ✗ ·
+hedging ("depende do contexto") ✗ · deriva (rodada 1 = eficiência
+abstrata, rodada 2 = M&amp;A, rodada 3 = colaboração de equipes — sem
+núcleo metodológico comum) ✗ · <strong>nenhum passo, nenhuma ferramenta,
+nenhum critério de decisão.</strong> Zero sinais verdes estáveis.
+<strong>Veredito: DSd BAIXA (é DSc — vive nos slides, não no
+método).</strong> → Você <strong>NÃO pode podar</strong>. Se escrever só
+<code>avalie a sinergia operacional</code>, o modelo preenche o vazio
+com generalidade plausível (exatamente a alucinação que o teste existe
+para pegar). <strong>Ancore:</strong> troque por um frame que o modelo
+represente de fato —
+<code>quantifique a redução de custos por eliminação de funções redundantes e consolidação de fornecedores pós-fusão</code>
+— ou mantenha as muletas descritivas ao redor do termo.</p>
+<blockquote>
+<p><strong>O contraste em uma frase:</strong> "anamnese" carrega o
+<strong>método</strong> dentro de si na representação do modelo;
+"sinergia operacional" carrega só um <strong>rótulo</strong> — brilha na
+sala de reunião (DSc), apaga no vetor (DSd). Mesma aparência de "termo
+técnico"; densidade distribucional oposta. <strong>Só o teste das N
+rodadas distingue os dois — o olho, não.</strong></p>
+</blockquote>
+<hr />
+<h2
+id="o-teste-multi-modelo--a-dsd-muda-de-modelo-para-modelo-e-como-provar-isso">O
+teste multi-modelo — a DSd muda de modelo para modelo (e como provar
+isso)</h2>
+<p>DSd não é propriedade do termo; é propriedade do <strong>par (termo,
+modelo)</strong>. Um modelo americano e um modelo chinês têm DSd
+diferente para "gambiarra"; um modelo grande tem DSd mais alta que um
+pequeno para <em>quase tudo</em> (representações mais profundas). Se
+você troca de modelo-alvo, <strong>o teste precisa ser refeito</strong>
+— o resultado de um não transfere para o outro. Isto é a <em>cross-model
+variance</em> do <code>DSc-DSd-DISTINCTION.md</code>, feita à mão.</p>
+<p><strong>Protocolo multi-modelo (variação do de cima):</strong></p>
+<ol type="1">
+<li>Escolha <strong>o mesmo termo</strong> e <strong>2 modelos</strong>
+(ex.: um frontier de fronteira e um modelo pequeno/local; ou um treinado
+majoritariamente em inglês vs um multilíngue).</li>
+<li>Rode as <strong>N rodadas em cada modelo</strong>, sessões limpas,
+termo isolado — exatamente igual.</li>
+<li>Preencha a mesma grade de sinais para cada modelo,
+separadamente.</li>
+<li>Compare os vereditos.</li>
+</ol>
+<p><strong>Grade de comparação (exemplo — termo
+<code>jeitinho</code>):</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Modelo A (frontier, multilíngue)</th>
+<th>Modelo B (pequeno, EN-dominante)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sinais verdes</td>
+<td>traz o frame cultural brasileiro: informalidade, contorno de regra,
+negociação social ✓✓✓</td>
+<td>mapeia para "workaround"/"little way", perde a camada social ✗</td>
+</tr>
+<tr>
+<td>Consistência N rodadas</td>
+<td>estável</td>
+<td>deriva</td>
+</tr>
+<tr>
+<td><strong>Veredito</strong></td>
+<td><strong>DSd média-alta</strong></td>
+<td><strong>DSd baixa</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Leitura da divergência:</strong></p>
+<ul>
+<li><strong>Vereditos iguais e altos</strong> → termo robusto; a poda é
+segura em ambos.</li>
+<li><strong>Vereditos divergentes</strong> (passa num, falha no outro) →
+<strong>a DSd é instável para esse termo</strong> — trate como DSd baixa
+por precaução e ancore, <em>a menos que você fixe o modelo-alvo</em> e
+teste só nele.</li>
+<li><strong>Regra operacional:</strong> você não poda para "um modelo
+genérico". Você poda para <strong>o modelo que vai rodar em
+produção.</strong> Teste nesse. A densidade é dele, não da média.</li>
+</ul>
+<hr />
+<h2 id="atalho-com-ferramenta">Atalho com ferramenta</h2>
+<p>O <code>/ds-meter</code> já distingue DSc de DSd e dá o score
+(1.0–5.0) com justificativa — use-o para uma <strong>primeira leitura
+rápida</strong> e para pegar o alerta <code>dsc×dsd</code> (termo
+culturalmente rico mas distribucionalmente raro). O teste manual das N
+rodadas é a <strong>prova empírica</strong> quando (a) o score do
+<code>ds-meter</code> cai na fronteira (perto de 3.0), (b) você troca de
+modelo-alvo, ou (c) o termo é jargão local/regional/de escritório — os
+casos onde a estimativa do medidor é menos confiável.</p>
+<blockquote>
+<p><strong>Honestidade (G6):</strong> nem o <code>ds-meter</code> nem
+este teste provam que o <strong>output</strong> vai ficar melhor. Eles
+medem o <strong>input</strong> — se o termo ativa o frame no modelo.
+Densidade ≠ eficácia. O teste responde "posso podar o entorno sem o
+prompt colapsar?", não "esse prompt é bom".</p>
+</blockquote>
+<hr />
+<h2 id="exercício-final-faça-agora-antes-de-fechar-a-página">Exercício
+final (faça agora, antes de fechar a página)</h2>
+<p>Pegue <strong>dois termos do seu próprio domínio</strong>: um que
+você <em>aposta</em> que é método puro, e um que você <em>suspeita</em>
+que é só jargão bonito da sua bolha. Sugestões para calibrar a intuição
+antes de escolher os seus:</p>
+<ul>
+<li><strong>Aposte em passar (DSd alta):</strong>
+<code>due diligence</code> · <code>conciliação bancária</code> ·
+<code>revisão por pares</code> · <code>teste A/B</code></li>
+<li><strong>Aposte em falhar (DSc alta, DSd baixa):</strong> a sigla
+interna do seu setor · <code>entregável</code> ·
+<code>alinhamento estratégico</code> · o apelido que só sua equipe usa
+para um processo</li>
+</ul>
+<p><strong>Roteiro (10 minutos):</strong></p>
+<ol type="1">
+<li>Rode o protocolo das N rodadas (mín. 3, sessões limpas) para
+<strong>cada</strong> termo, no modelo que você usa de verdade.</li>
+<li>Preencha a grade de sinais verdes/vermelhos de cada um.</li>
+<li>Dê o veredito binário (DSd ALTA / BAIXA) por termo.</li>
+<li><strong>Para o que falhou:</strong> reescreva-o em um frame que o
+modelo represente de fato (traduza para alto-DSd) OU escreva as muletas
+descritivas que você teria que manter ao redor dele.</li>
+<li><strong>Bônus multi-modelo:</strong> rode o termo que passou em um
+segundo modelo (menor, ou de outra língua). Ele ainda passa? Se não —
+você acabou de ver a DSd mudar de dono na sua frente.</li>
+</ol>
+<p><strong>Gabarito de raciocínio (não de resposta — a sua depende do
+seu modelo):</strong> se o termo que você jurava ser denso derivou entre
+rodadas ou só devolveu dicionário, ele era <strong>DSc, não DSd</strong>
+— você o sentia denso, o modelo não. Esse é o achado que salva o prompt:
+você ia podar o entorno de um termo oco. Agora não vai.</p>
+<hr />
+<h2 id="a-armadilha-final-ilusão-de-conhecimento">A armadilha final
+(ilusão de conhecimento)</h2>
+<p>Assumir cegamente que o jargão ultra-específico do seu escritório se
+traduz em DSd na máquina é <strong>a receita pronta para a
+alucinação</strong>: você usa uma sigla complexa, a IA não a tem
+representada, e — para não deixar em branco — preenche o vazio com
+informação inventada, fluente e errada. O teste de densificação é o
+antídoto, e o gancho fecha o círculo: o FI exige <em>prove antes de
+confiar</em>; este teste é você aplicando essa mesma exigência à sua
+própria matéria-prima. <strong>Prove a densidade antes de podar em cima
+dela.</strong></p>
+</div>
+</body>
+</html>
