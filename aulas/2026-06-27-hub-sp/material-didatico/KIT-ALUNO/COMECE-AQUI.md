@@ -19,6 +19,9 @@ KIT-ALUNO/
 ├── referencia/             ← a teoria, para consultar
 │   ├── glossario-FI-completo.md       os 7 instrumentos + conceitos (Definição→Feynman→Exemplo)
 │   ├── como-classificar-priming-enforcement.md  o critério sem achismo
+│   ├── GABARITO-lakatos-modalidades.md   onde cada modalidade mora (núcleo/cinturão/borda)
+│   ├── CATRACA-sem-codigo.md             enforcement sem terminal (schema, duplo-agente)
+│   ├── TESTE-densificacao.md             o termo é denso p/ o MODELO ou só p/ você?
 │   ├── CONCEITO — Priming e Enforcement (método Feynman).md
 │   └── CONCEITO — Artesanato Digital (ofício e princípio).md
 ├── backend-opcional/       ← só se você usa Python (não é obrigatório)
